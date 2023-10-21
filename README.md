@@ -1,5 +1,7 @@
-# flengine
-A chess engine
+![Flengine Logo](docs/flengine.png)
+
+# Flengine
+A chess engine.
 
 ## contribute
 To add a feature:
