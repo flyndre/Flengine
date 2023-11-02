@@ -1,9 +1,20 @@
 package org.flyndre.DataModel;
 
-import org.flyndre.DataModel.Figure;
-
-import java.util.ArrayList;
-
+/**
+ * @author Lukas
+ * This class represents the chess board in the game logic.
+ */
 public class Board {
-    ArrayList<Figure> figures;
+    /**
+     * Represents the chess board with all figures on it.
+     */
+    private Figure[][] figures = new Figure[8][8];
+
+    public Figure[][] getFigures() {
+        return figures;
+    }
+
+    public void setFigures(Figure[][] figures) {
+        this.figures = figures;
+    }
 }
