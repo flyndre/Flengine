@@ -8,13 +8,13 @@ public class Board {
     /**
      * Represents the chess board with all figures on it.
      */
-    private Figure[][] figures = new Figure[8][8];
+    private Piece[][] pieces = new Piece[8][8];
 
-    public Figure[][] getFigures() {
-        return figures;
+    public Piece[][] getFigures() {
+        return pieces;
     }
 
-    public void setFigures(Figure[][] figures) {
-        this.figures = figures;
+    public void setFigures(Piece[][] pieces) {
+        this.pieces = pieces;
     }
 }

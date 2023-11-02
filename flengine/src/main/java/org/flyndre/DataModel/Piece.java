@@ -5,25 +5,25 @@ import org.flyndre.DataModel.EnumTypes.Color;
 import org.flyndre.DataModel.EnumTypes.Type;
 
 /**
- * Represents a chess figure.
+ * Represents a chess piece.
  * @author Ruben
  */
-public class Figure {
+public class Piece {
     /**
-     * The color of the figure
+     * The color of the piece
      */
     private Color color;
     /**
-     * The type of the figure and its role.
+     * The type of the piece and its role.
      */
     private Type typeOfFigure;
 
     /**
-     * Creates a new instance of the Figure.
-     * @param type the type of the chess figure.
+     * Creates a new instance of the piece.
+     * @param type the type of the chess piece.
      * @param color the color of the team.
      */
-    public Figure(Type type, Color color){
+    public Piece(Type type, Color color){
         this.typeOfFigure=type;
         this.color=color;
     }
