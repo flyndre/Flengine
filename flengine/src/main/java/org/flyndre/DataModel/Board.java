@@ -7,14 +7,25 @@ package org.flyndre.DataModel;
 public class Board {
     /**
      * Represents the chess board with all figures on it.
+     * First line second row
      */
     private Piece[][] pieces = new Piece[8][8];
 
-    public Piece[][] getFigures() {
-        return pieces;
+    /**
+     * Returns the piece from the given field
+     * @param field the field to get the piece from
+     * @return the piece chosen by the field
+     */
+    public Piece getPiece(Field field) {
+        return pieces[field.getLine()][field.getRow()];
     }
 
-    public void setFigures(Piece[][] pieces) {
-        this.pieces = pieces;
+    /**
+     * Sets the specified piece on the specified field of the internal board (pieces)
+     * @param piece the piece to be set
+     * @param field the field to set the piece on
+     */
+    public void setPiece(Piece piece, Field field) {
+        pieces[field.getLine()][field.getRow()] = piece;
     }
 }
