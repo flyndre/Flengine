@@ -1,8 +1,6 @@
-package org.flyndre.Umwandler;
+package de.flyndre.flengine.converter;
 
-import java.util.Scanner;
-
-public class AnfrageHandler {
+public class RequestHandler {
 
     public void handle(String anfrage){
         if(anfrage.contains("mov")){

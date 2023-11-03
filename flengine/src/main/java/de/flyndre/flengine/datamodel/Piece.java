@@ -1,8 +1,8 @@
-package org.flyndre.DataModel;
+package de.flyndre.flengine.datamodel;
 
 
-import org.flyndre.DataModel.EnumTypes.Color;
-import org.flyndre.DataModel.EnumTypes.Type;
+import de.flyndre.flengine.datamodel.enums.Color;
+import de.flyndre.flengine.datamodel.enums.Type;
 
 /**
  * Represents a chess piece.

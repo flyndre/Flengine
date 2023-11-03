@@ -1,8 +1,8 @@
-package org.flyndre.Rules;
+package de.flyndre.flengine.rules;
 
-import org.flyndre.DataModel.Board;
-import org.flyndre.DataModel.Field;
-import org.flyndre.DataModel.Move;
+import de.flyndre.flengine.datamodel.Board;
+import de.flyndre.flengine.datamodel.Field;
+import de.flyndre.flengine.datamodel.Move;
 
 import java.util.ArrayList;
 import java.util.List;

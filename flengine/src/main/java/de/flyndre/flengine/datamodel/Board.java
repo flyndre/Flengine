@@ -1,4 +1,4 @@
-package org.flyndre.DataModel;
+package de.flyndre.flengine.datamodel;
 
 /**
  * @author Lukas

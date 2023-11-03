@@ -1,14 +1,14 @@
-package org.flyndre.Zuggeber;
+package de.flyndre.flengine.moveprovider;
 
-import org.flyndre.DataModel.Board;
-import org.flyndre.DataModel.EnumTypes.Color;
-import org.flyndre.DataModel.Move;
+import de.flyndre.flengine.datamodel.Board;
+import de.flyndre.flengine.datamodel.enums.Color;
+import de.flyndre.flengine.datamodel.Move;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.List;
 
-public class EndspielZuggeber implements Zuggeber{
+public class Endgame implements MoveProvider {
     Jsonb jsonb = JsonbBuilder.create();
     @Override
     public List<Move> getRecommendedMoves(Board board, Color color) {

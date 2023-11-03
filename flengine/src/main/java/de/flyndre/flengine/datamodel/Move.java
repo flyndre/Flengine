@@ -1,6 +1,6 @@
-package org.flyndre.DataModel;
+package de.flyndre.flengine.datamodel;
 
-import org.flyndre.DataModel.EnumTypes.Type;
+import de.flyndre.flengine.datamodel.enums.Type;
 
 /**
  * This class represents a single move of a figure from one field to another.

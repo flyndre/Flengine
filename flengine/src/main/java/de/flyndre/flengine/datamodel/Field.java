@@ -1,7 +1,7 @@
-package org.flyndre.DataModel;
+package de.flyndre.flengine.datamodel;
 
-import org.flyndre.DataModel.EnumTypes.Line;
-import org.flyndre.DataModel.EnumTypes.Row;
+import de.flyndre.flengine.datamodel.enums.Line;
+import de.flyndre.flengine.datamodel.enums.Row;
 
 /**
  * This class represents a field on the chess board.

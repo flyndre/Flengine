@@ -1,4 +1,4 @@
-package org.flyndre.DataModel.EnumTypes;
+package de.flyndre.flengine.datamodel.enums;
 
 public enum Line {
     ONE,
