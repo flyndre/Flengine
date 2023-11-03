@@ -1,4 +1,4 @@
 package de.flyndre.flengine.converter;
 
-public class Organisator {
+public class Organizer {
 }
