@@ -17,7 +17,7 @@ public class Board {
      * @return the piece chosen by the field
      */
     public Piece getPiece(Field field) {
-        return pieces[field.getLine()][field.getRow()];
+        return pieces[field.getLine().ordinal()][field.getRow().ordinal()];
     }
 
     /**
@@ -26,6 +26,6 @@ public class Board {
      * @param field the field to set the piece on
      */
     public void setPiece(Piece piece, Field field) {
-        pieces[field.getLine()][field.getRow()] = piece;
+        pieces[field.getLine().ordinal()][field.getRow().ordinal()] = piece;
     }
 }
