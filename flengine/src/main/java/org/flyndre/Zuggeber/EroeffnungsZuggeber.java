@@ -4,9 +4,14 @@ import org.flyndre.DataModel.Board;
 import org.flyndre.DataModel.EnumTypes.Color;
 import org.flyndre.DataModel.Move;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import java.util.List;
 
 public class EroeffnungsZuggeber implements Zuggeber{
+
+    Jsonb jsonb = JsonbBuilder.create();
+
     @Override
     public List<Move> getRecommendedMoves(Board board, Color color) {
         return null;
