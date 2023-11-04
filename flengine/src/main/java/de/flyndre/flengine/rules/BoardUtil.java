@@ -2,9 +2,19 @@ package de.flyndre.flengine.rules;
 
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
+import de.flyndre.flengine.datamodel.Field;
 
 public class BoardUtil {
 
+    public static Field toField(int line, int row) {
+        return new Field(toLine(line), toRow(row));
+    }
+
+    /**
+     * Converts a line object to integer index.
+     * @param line
+     * @return int value
+     */
     public static int toInt(Line line) {
 
         return switch (line) {
@@ -22,6 +32,11 @@ public class BoardUtil {
         };
     }
 
+    /**
+     * Converts a row object to integer index.
+     * @param row
+     * @return int value
+     */
     public static int toInt(Row row) {
 
         return switch (row) {
@@ -39,6 +54,11 @@ public class BoardUtil {
         };
     }
 
+    /**
+     * Converts a integer index to line object.
+     * @param line
+     * @return line object
+     */
     public static Line toLine(int line) {
 
         return switch (line) {
@@ -51,11 +71,16 @@ public class BoardUtil {
             case 6 -> Line.SEVEN;
             case 7 -> Line.EIGHT;
             default -> throw new IllegalArgumentException(String.format(
-                "Couldn't convert line %s to integer", line
+                "Couldn't convert integer %s to line", line
             ));
         };
     }
 
+    /**
+     * Converts a integer index to row object
+     * @param line
+     * @return int value
+     */
     public static Row toRow(int row) {
 
         return switch (row) {
