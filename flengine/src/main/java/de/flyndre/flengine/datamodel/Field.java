@@ -28,17 +28,6 @@ public class Field {
         setRow(row);
     }
 
-    /**
-     * Creates a new instance of a field with the given int parameters.
-     * @param line the int value of the line index of the field
-     * @param row the int value of the row char of the field
-     * @throws IllegalArgumentException if an argument is out of bounce.
-     */
-    public Field(int line, int row) {
-        setLine(BoardUtil.toLine(line));
-        setRow(BoardUtil.toRow(row));
-    }
-
 
     public Line getLine() {
         return line;

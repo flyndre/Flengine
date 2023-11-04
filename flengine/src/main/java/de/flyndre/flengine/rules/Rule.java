@@ -17,7 +17,7 @@ public class Rule extends PieceRule {
         for (int line = 0; line < 8; line++) {
             for (int row = 0; row < 8; row++) {
                 if (board.getPieces()[line][row].getColor().equals(color)) {
-                    moves.addAll(getLegalMoves(board, new Field(line, row)));
+                    moves.addAll(getLegalMoves(board, BoardUtil.toField(line, row)));
                 }
             }
         }
