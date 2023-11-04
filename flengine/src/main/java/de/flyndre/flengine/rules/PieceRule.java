@@ -214,7 +214,7 @@ public class PieceRule {
 
                 // field has to be unoccupied or occupied by an opponent
                 if (line+i >= 0 && line+i < 8 && row+j >= 0 && row+j < 8 &&
-                        pieces[line+i][row+j] == null || pieces[line+i][row+j].getColor().equals(pieces[line][row].getColor())) {
+                        pieces[line+i][row+j] == null || !pieces[line+i][row+j].getColor().equals(pieces[line][row].getColor())) {
                     moves.add(new Move(BoardUtil.toField(line, row), BoardUtil.toField(line+i, row+j)));
                 }
             }
