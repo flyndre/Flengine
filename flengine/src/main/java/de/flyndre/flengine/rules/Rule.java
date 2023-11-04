@@ -10,9 +10,19 @@ import java.util.List;
 
 public class Rule extends PieceRule {
 
-    public List<Move> getLegalMoves(Board board, Color color) { return new ArrayList<>(); }
+    public List<Move> getLegalMoves(Board board, Color color) {
 
-    public List<Move> getLegalMoves(Board board, Field field) { return new ArrayList<>(); }
+        List<Move> moves = new ArrayList<>();
+
+        for (int line = 0; line < 8; line++) {
+            for (int row = 0; row < 8; row++) {
+                if (board.getPieces()[line][row].getColor().equals(color)) {
+                    moves.addAll(getLegalMoves(board, new Field(line, row)));
+                }
+            }
+        }
+        return moves;
+    }
 
     public boolean isLegalMove(Board board, Move move) { return false; }
 
