@@ -68,9 +68,4 @@ public class Board {
     public void setNextColor(Color nextColor) {
         this.nextColor = nextColor;
     }
-
-    /**
-     * @return the Piece array matrix
-     */
-    public Piece[][] getPieces() { return pieces; }
 }
