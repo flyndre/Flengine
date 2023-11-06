@@ -24,3 +24,5 @@ hs_err_pid*
 replay_pid*
 /.idea/jpa-buddy.xml
 /.idea/misc.xml
+/.idea/encodings.xml
+/.idea/jarRepositories.xml
