@@ -52,4 +52,15 @@ public class Move {
     public void setChangeTo(Type changeTo) {
         this.changeTo = changeTo;
     }
+
+    public boolean equals(Object obj) {
+
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        Move move = (Move) obj;
+        if (move.getFrom() == null || move.getTo() == null) return false;
+        return from.equals(move.getFrom()) && to.equals(move.getTo());
+    }
+
+    public String toString() { return from.toString() + "-" + to.toString(); }
 }
