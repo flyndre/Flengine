@@ -18,8 +18,8 @@ public class RulesTest {
 
     private final Line[] LINES = Line.values();
     private final Row[] ROWS = Row.values();
-
     private PieceRule pieceRule = new PieceRule();
+
     // https://www.dailychess.com/chess/chess-fen-viewer.php
 
     @Test
