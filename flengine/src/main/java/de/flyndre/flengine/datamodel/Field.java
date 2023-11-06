@@ -2,7 +2,6 @@ package de.flyndre.flengine.datamodel;
 
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
-import de.flyndre.flengine.rules.BoardUtil;
 
 /**
  * This class represents a field on the chess board.
@@ -27,7 +26,6 @@ public class Field {
         setLine(line);
         setRow(row);
     }
-
 
     public Line getLine() {
         return line;

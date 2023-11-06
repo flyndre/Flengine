@@ -4,11 +4,16 @@ import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.enums.Color;
+import de.flyndre.flengine.datamodel.enums.Line;
+import de.flyndre.flengine.datamodel.enums.Row;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Rule extends PieceRule {
+
+    private final Line[] LINES = Line.values();
+    private final Row[] ROWS = Row.values();
 
     public List<Move> getLegalMoves(Board board, Color color) {
 
@@ -16,8 +21,8 @@ public class Rule extends PieceRule {
 
         for (int line = 0; line < 8; line++) {
             for (int row = 0; row < 8; row++) {
-                if (board.getPieces()[line][row].getColor().equals(color)) {
-                    moves.addAll(getLegalMoves(board, BoardUtil.toField(line, row)));
+                if (board.getPiece(new Field(LINES[line], ROWS[row])).getColor().equals(color)) {
+                    moves.addAll(getLegalMoves(board, new Field(LINES[line], ROWS[row])));
                 }
             }
         }
