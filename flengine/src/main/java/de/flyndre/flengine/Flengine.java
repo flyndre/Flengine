@@ -1,17 +1,15 @@
 package de.flyndre.flengine;
 
-import java.util.Scanner;
+import de.flyndre.flengine.converter.RequestHandler;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+/**
+ * Flengine chess engine by Team Flyndre @ DHBW Stuttgart Campus Horb
+ * @author Team Flyndre
+ * @see <a href="https://github.com/L4kiLuk/Flengine">Project Repository</a>
+ */
 public class Flengine {
     public static void main(String[] args) {
-
-        while(true){
-            Scanner sc = new Scanner(System.in);
-        }
-
-
-
+        var handler = new RequestHandler();
+        handler.startUp();
     }
 }
