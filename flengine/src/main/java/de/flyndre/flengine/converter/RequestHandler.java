@@ -22,8 +22,9 @@ public class RequestHandler {
     public void startUp(){
         systemInScanner = new Scanner(System.in);
         String input = "";
+        boolean isRunning = true;
 
-        while(true){
+        while(isRunning){
             input = systemInScanner.nextLine();
 
             String[] splittedInput = input.split(" ");
@@ -72,6 +73,10 @@ public class RequestHandler {
                     case "stop":
                         //ignore as no infinite search is supported at the moment
 
+                        break;
+                    case "quit":
+                        //shutdown engine
+                        isRunning = false;
                         break;
                     default:
                         if(splittedInput.length > 1){
