@@ -26,7 +26,7 @@ public class Controller {
     public static Move giveMove(Board board, Options options) {
         for (var moveProvider : moveProviderHierarchy) {
             var moves = moveProvider.getRecommendedMoves(board, board.getNextColor());
-            if (!moves.isEmpty()) return moves.get(0);
+            if (!moves.isEmpty()) return moves.get((int) Math.floor(Math.random() * moves.size()));
         }
         return null;
     }
