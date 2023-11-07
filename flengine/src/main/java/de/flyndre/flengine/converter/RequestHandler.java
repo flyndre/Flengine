@@ -1,16 +1,26 @@
 package de.flyndre.flengine.converter;
 
+import de.flyndre.flengine.datamodel.Options;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 public class RequestHandler {
     private String engineName = "Flengine";
     private String engineAuthor = "TeamFlyndre";
     private String position = "";
     private String[] moves = {""};
+    private Scanner systemInScanner;
+    private Organizer organizer;
 
+    /**
+     * Startup for the chess engine
+     */
     public void startUp(){
-        Scanner systemInScanner = new Scanner(System.in);
+        systemInScanner = new Scanner(System.in);
         String input = "";
 
         while(true){
@@ -22,19 +32,19 @@ public class RequestHandler {
                 switch(splittedInput[0].toLowerCase()){
                     case "uci":
                         //engine name and author
-                        System.out.println("id name " + engineName);
-                        System.out.println("id author " + engineAuthor);
+                        printStdout("id name " + engineName);
+                        printStdout("id author " + engineAuthor);
                         //options if there were any
 
                         //uciok
-                        System.out.println("uciok");
+                        printStdout("uciok");
                         break;
                     case "setoption":
                         //ignore for the moment
                         break;
                     case "isready":
                         //no initialization needed here at the moment so indicate engine is ready
-                        System.out.println("readyok");
+                        printStdout("readyok");
                         break;
                     case "ucinewgame":
                         //ignore
@@ -55,11 +65,12 @@ public class RequestHandler {
                         break;
                     case "go":
                         //ignore params for the moment, start computing async by creating organizer with given values
-
+                        organizer = new Organizer(new Options(), position, new ArrayList<String>(List.of(moves)));
+                        CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
+                        futureMove.thenAccept(s -> printStdout(s));
                         break;
                     case "stop":
-                        //return bestmove to gui
-                        //System.out.println("bestmove ");
+                        //ignore as no infinite search is supported at the moment
 
                         break;
                     default:
@@ -73,6 +84,10 @@ public class RequestHandler {
             }
 
         }
+    }
+
+    public static synchronized void printStdout(String message){
+        System.out.println(message);
     }
 
 }
