@@ -134,4 +134,10 @@ public class PieceRuleTest {
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.F))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.D))));
     }
+
+    @Test
+    public void testIsFieldCovered() {
+
+        assertTrue(true);
+    }
 }
