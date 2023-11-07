@@ -59,7 +59,8 @@ public class Move {
         if (obj.getClass() != this.getClass()) return false;
         Move move = (Move) obj;
         if (move.getFrom() == null || move.getTo() == null) return false;
-        return from.equals(move.getFrom()) && to.equals(move.getTo());
+        return from.equals(move.getFrom()) && to.equals(move.getTo()) &&
+            (changeTo == null ? changeTo == move.getChangeTo() : changeTo.equals(move.getChangeTo()));
     }
 
     public String toString() { return from.toString() + "-" + to.toString(); }
