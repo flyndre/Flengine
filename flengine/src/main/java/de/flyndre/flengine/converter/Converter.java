@@ -141,20 +141,24 @@ public class Converter {
 
         Move move = null;
         if(input.length() == 4){//move
-            move = new Move(new Field(convertIntToLine(input.charAt(1)),convertCharToRow(input.charAt(0))), new Field(convertIntToLine(input.charAt(3)),convertCharToRow(input.charAt(2))));
+            move = new Move(new Field(convertIntToLine(input.charAt(1) - '0'),convertCharToRow(input.charAt(0))), new Field(convertIntToLine(input.charAt(3) - '0'),convertCharToRow(input.charAt(2))));
         }else{//promotion length 5
             Type type = null;
             switch(input.charAt(4)){
                 case 'q':
                     type = Type.QUEEN;
+                    break;
                 case 'b':
                     type = Type.BISHOP;
+                    break;
                 case 'n':
                     type = Type.KNIGHT;
+                    break;
                 case 'r':
                     type = Type.ROOK;
+                    break;
             }
-            move = new Move(new Field(convertIntToLine(input.charAt(1)),convertCharToRow(input.charAt(0))), new Field(convertIntToLine(input.charAt(3)),convertCharToRow(input.charAt(2))), type);
+            move = new Move(new Field(convertIntToLine(input.charAt(1) - '0'),convertCharToRow(input.charAt(0))), new Field(convertIntToLine(input.charAt(3) - '0'),convertCharToRow(input.charAt(2))), type);
         }
 
         return move;
