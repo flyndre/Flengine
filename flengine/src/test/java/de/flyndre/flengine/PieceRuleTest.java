@@ -4,6 +4,7 @@ import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
 import de.flyndre.flengine.datamodel.enums.Type;
@@ -12,8 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceRuleTest {
 
@@ -138,6 +138,82 @@ public class PieceRuleTest {
     @Test
     public void testIsFieldCovered() {
 
-        assertTrue(true);
+        Board board = Converter.convertStringToBoard("rbrQkb1n/R1p1p2p/2ppp1p1/p4K2/8/PNP5/RBPPP1P1/PN4B1 w KQkq - 0 1");
+        Color color = Color.WHITE;
+
+        Line[] LINES = Line.values();
+        Row[] ROWS = Row.values();
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[0]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[1]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[2]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[3]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[4]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[0], ROWS[7]), color));
+
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[0]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[1]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[2]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[3]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[4]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[6]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[1], ROWS[7]), color));
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[0]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[1]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[2]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[3]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[4]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[6]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[2], ROWS[7]), color));
+
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[0]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[1]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[2]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[3]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[4]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[5]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[3], ROWS[7]), color));
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[0]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[1]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[2]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[3]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[4]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[5]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[4], ROWS[7]), color));
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[0]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[1]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[2]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[3]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[4]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[5], ROWS[7]), color));
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[0]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[1]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[2]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[3]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[4]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[6], ROWS[7]), color));
+
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[0]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[1]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[2]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[3]), color));
+        assertTrue(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[4]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[5]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[6]), color));
+        assertFalse(PIECERULE.isFieldCovered(board, new Field(LINES[7], ROWS[7]), color));
     }
 }

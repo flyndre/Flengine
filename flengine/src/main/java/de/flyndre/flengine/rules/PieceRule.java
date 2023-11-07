@@ -319,7 +319,7 @@ public class PieceRule {
                     {
                         return true;
                     }
-                    else break;
+                    break;
                 }
                 l += rookDirection[0];
                 r += rookDirection[1];
@@ -341,7 +341,7 @@ public class PieceRule {
                     {
                         return true;
                     }
-                    else break;
+                    break;
                 }
                 l += bishopDirection[0];
                 r += bishopDirection[1];
@@ -358,7 +358,7 @@ public class PieceRule {
                     board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
                     board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getTypeOfFigure().equals(Type.KING) &&
                     board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color) &&
-                    !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE)) // TODO mögliche endlosschleife?
+                    !isFieldCovered(board, new Field(LINES[fieldLine], ROWS[fieldRow]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE)) // TODO mögliche endlosschleife?
                 {
                     return true;
                 }
