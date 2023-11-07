@@ -37,7 +37,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${project.artifactId}-${project.version}.jar</jar>
-                            <outfile>${project.build.directory}/app.exe</outfile>
+                            <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>software.orphan.launch4j.App</mainClass>
@@ -45,7 +45,7 @@
                             </classPath>
                             <jre>
                                 <path>%JAVA_HOME%;%PATH%</path>
-                                <minVersion>1.8</minVersion>
+                                <minVersion>21</minVersion>
                                 <bundledJreAsFallback>true</bundledJreAsFallback>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <requiresJdk>true</requiresJdk>
@@ -62,14 +62,14 @@
                                 <fileVersion>1.0.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>Launch4j Demo App</fileDescription>
-                                <copyright>Lukasz Lenart</copyright>
+                                <copyright>Flyndre</copyright>
                                 <productVersion>1.0.0.0</productVersion>
                                 <txtProductVersion>1.0.0.0</txtProductVersion>
-                                <productName>App</productName>
-                                <companyName>Lukasz Lenart</companyName>
-                                <internalName>app</internalName>
-                                <originalFilename>app.exe</originalFilename>
-                                <trademarks>Luk ™</trademarks>
+                                <productName>Flengine</productName>
+                                <companyName>Flyndre</companyName>
+                                <internalName>flengine</internalName>
+                                <originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
+                                <trademarks>Flyndre ™</trademarks>
                             </versionInfo>
                         </configuration>
                     </execution>
