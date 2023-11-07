@@ -20,11 +20,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1
                
-      #Set up JDK 20
+      #Set up JDK 21
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '20'
+          java-version: '21'
       #Set up Maven cache
       - name: Cache Maven packages
         #This action allows caching dependencies and build outputs to improve workflow execution time.
@@ -73,3 +73,9 @@ jobs:
         with:
           name: flengine
           path: flengine/target/*.jar
+      - name: Upload EXE
+        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+        uses: actions/upload-artifact@v2
+        with:
+          name: flengine_exe
+          path: flengine/target/*.exe
