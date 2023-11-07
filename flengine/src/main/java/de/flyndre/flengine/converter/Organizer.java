@@ -29,7 +29,7 @@ public class Organizer {
      * @param board a fence string that represents a chess board.
      * @param moves a list of moves to be played on the board to update it.
      */
-    public  Organizer(Options options, String board, List moves){
+    public  Organizer(Options options, String board, List<String> moves){
         this.options = options;
         this.boardString = board;
         this.moveStrings = moves;
