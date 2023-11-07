@@ -38,22 +38,22 @@ public class Converter {
             board.setPiece(new Piece(Type.PAWN, Color.WHITE), new Field(Line.TWO, Row.H));
 
             //setup black color
-            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.SEVEN, Row.A));
-            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.SEVEN, Row.B));
-            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.SEVEN, Row.C));
-            board.setPiece(new Piece(Type.QUEEN, Color.BLACK), new Field(Line.SEVEN, Row.D));
-            board.setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.SEVEN, Row.E));
-            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.SEVEN, Row.F));
-            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.SEVEN, Row.G));
-            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.SEVEN, Row.H));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.A));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.B));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.C));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.D));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.E));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.F));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.G));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.H));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.A));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.B));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.C));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.D));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.E));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.F));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.G));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.H));
+            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.A));
+            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.EIGHT, Row.B));
+            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.EIGHT, Row.C));
+            board.setPiece(new Piece(Type.QUEEN, Color.BLACK), new Field(Line.EIGHT, Row.D));
+            board.setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.E));
+            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.EIGHT, Row.F));
+            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.EIGHT, Row.G));
+            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.H));
         }else{//fenstring
             String[] split = input.split(" ");
             String pos = split[0];
