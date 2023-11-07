@@ -89,9 +89,9 @@ public class Rule extends PieceRule {
      * <li>a few more...</li>
      * </ul>
      *
-     * https://de.wikipedia.org/wiki/Remis#Remis_im_Schach
-     * https://de.wikipedia.org/wiki/Positionelles_Remis
-     * https://de.wikipedia.org/wiki/Tote_Stellung
+     * @see <a href="https://de.wikipedia.org/wiki/Remis#Remis_im_Schach">Remis im Schach</a>
+     * @see <a href="https://de.wikipedia.org/wiki/Positionelles_Remis">Positionelles Remis</a>
+     * @see <a href="https://de.wikipedia.org/wiki/Tote_Stellung">Tote Stellung</a>
      *
      * @param board current chess board
      * @return true if the game ends in a draw

@@ -29,7 +29,7 @@ public class PieceRule {
      * @param board current chessboard
      * @param field given field of piece
      * @return list of possible moves
-     */
+     */  // TODO ist hier protected sinnvoller?
     public List<Move> getLegalMoves(Board board, Field field) {
 
         List<Move> moves;
