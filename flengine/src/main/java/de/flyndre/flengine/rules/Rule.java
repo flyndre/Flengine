@@ -11,10 +11,11 @@ import de.flyndre.flengine.datamodel.enums.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Tobias
+ * Implementation of all chess board rules.
+ */
 public class Rule extends PieceRule {
-
-    private final Line[] LINES = Line.values();
-    private final Row[] ROWS = Row.values();
 
     /**
      * Returns all possible moves of a given color.
@@ -39,8 +40,13 @@ public class Rule extends PieceRule {
         return moves;
     }
 
-    public boolean isLegalMove(Board board, Move move) { return false; }
-
+    /**
+     * Returns if the given color is in check. <br>
+     * A check occurs if the current field of the king is covered by a piece of the opponent.
+     * @param board current chess board
+     * @param color player color to check
+     * @return true if the king is in check
+     */
     public boolean isChecked(Board board, Color color) {
 
         Color opponentColor = color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
@@ -50,7 +56,7 @@ public class Rule extends PieceRule {
 
                 Field field = new Field(LINES[line], ROWS[row]);
 
-                if (board.getPiece(field).getTypeOfFigure().equals(Type.KING) &&
+                if (board.getPiece(field) != null && board.getPiece(field).getTypeOfFigure().equals(Type.KING) &&
                         board.getPiece(field).getColor().equals(color))
                 {
                     return isFieldCovered(board, field, opponentColor);
@@ -60,7 +66,40 @@ public class Rule extends PieceRule {
         throw new RuntimeException(String.format("King of %s couldn't be found on the board", color));
     }
 
-    public boolean isCheckmated(Board board, Color color) { return false; }
+    /**
+     * Returns if the given color is in checkmate. <br>
+     * A checkmate occurs if the king can be captured in the current or next move with no possibility to escape. <br>
+     * If a king is in checkmate, the game is over.
+     * @param board current chess board
+     * @param color player color to check
+     * @return true if the king is in check
+     */
+    public boolean isCheckmated(Board board, Color color) {
 
-    public boolean isRemis(Board board) { return false; }
+        return false;
+    }
+
+    /**
+     * Returns if the current chess board ends in a draw. <br>
+     * A remis occurs when:
+     * <ul>
+     * <li>a player is unable to move but is not in check</li>
+     * <li>a checkmate is impossible (king vs king, king vs king & knight, king vs king & bishop)</li>
+     * <li>both players agree on a remis</li>
+     * <li>a few more...</li>
+     * </ul>
+     *
+     * https://de.wikipedia.org/wiki/Remis#Remis_im_Schach
+     * https://de.wikipedia.org/wiki/Positionelles_Remis
+     * https://de.wikipedia.org/wiki/Tote_Stellung
+     *
+     * @param board current chess board
+     * @return true if the game ends in a draw
+     */
+    public boolean isRemis(Board board) {
+
+        // TODO weitere remis-regeln implementieren
+
+        return (getLegalMoves(board, Color.WHITE).isEmpty() || getLegalMoves(board, Color.BLACK).isEmpty());
+    }
 }
