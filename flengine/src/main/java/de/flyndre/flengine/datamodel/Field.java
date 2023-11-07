@@ -42,4 +42,15 @@ public class Field {
     public void setRow(Row row) {
             this.row = row;
     }
+
+    public boolean equals(Object obj) {
+
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        Field field = (Field) obj;
+        if (field.getLine() == null || field.getRow() == null) return false;
+        return line.equals(field.getLine()) && row.equals(field.getRow());
+    }
+
+    public String toString() { return Character.toString((char) ((int) 'a' + row.ordinal())) + Integer.toString(line.ordinal()+1); }
 }
