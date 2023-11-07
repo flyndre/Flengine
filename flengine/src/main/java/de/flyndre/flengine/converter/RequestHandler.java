@@ -12,7 +12,7 @@ public class RequestHandler {
     private String engineName = "Flengine";
     private String engineAuthor = "TeamFlyndre";
     private String position = "";
-    private String[] moves = {""};
+    private String[] moves = {};
     private Scanner systemInScanner;
     private Organizer organizer;
 
