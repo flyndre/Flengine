@@ -84,18 +84,54 @@ public class PieceRuleTest {
     @Test
     public void testBishopRules() {
 
-        assertTrue(true);
+        Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/4p3/8/2B5/3P4/PPP1PPPP/RN1QKBNR w KQkq - 0 1");
+        Field field = new Field(Line.FOUR, Row.C);
+
+        List<Move> moves = PIECERULE.getLegalMoves(board, field);
+
+        assertEquals(5, moves.size());
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.B))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.A))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.E))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.B))));
     }
 
     @Test
     public void testQueenRules() {
 
-        assertTrue(true);
+        Board board = Converter.convertStringToBoard("rnbqkbnr/p1p1pppp/1p1p4/8/1Q2P3/2P5/PP1P1PPP/RNB1KBNR w KQkq - 0 1");
+        Field field = new Field(Line.FOUR, Row.B);
+
+        List<Move> moves = PIECERULE.getLegalMoves(board, field);
+
+        assertEquals(10, moves.size());
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.A))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.A))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.A))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.B))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.B))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.B))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.C))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.C))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
     }
 
     @Test
     public void testKingRules() {
 
-        assertTrue(true);
+        Board board = Converter.convertStringToBoard("rnbqkbnr/ppp2ppp/8/3pp3/4K3/4PP2/PPPP2PP/RNBQ1BNR w KQkq - 0 1");
+        Field field = new Field(Line.FOUR, Row.E);
+
+        List<Move> moves = PIECERULE.getLegalMoves(board, field);
+
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.E))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.F))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.F))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.D))));
     }
 }
