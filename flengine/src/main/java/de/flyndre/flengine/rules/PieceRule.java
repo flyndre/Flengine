@@ -17,10 +17,10 @@ public class PieceRule {
     private final Line[] LINES = Line.values();
     private final Row[] ROWS = Row.values();
 
-    // TODO was soll diese methode machen??
+    /* TODO was soll diese methode machen??
     public List<Move> getLegalMoves(Board board){
         return new ArrayList<>();
-    }
+    }*/
 
     /**
      * Returns all possible moves of a piece on the given field.
@@ -40,8 +40,7 @@ public class PieceRule {
             case QUEEN -> moves = getLegalMovesQueen(board, field);
             case KING -> moves = getLegalMovesKing(board, field);
             default -> throw new IllegalArgumentException(String.format(
-                "Couldn't read field %s with piece of type %s", field, board.getPiece(field).getTypeOfFigure()
-            ));
+                "Couldn't read field %s with piece of type %s", field, board.getPiece(field).getTypeOfFigure()));
         }
         return moves;
     }
@@ -162,8 +161,7 @@ public class PieceRule {
         for (int[] direction : directions) {
 
             // field has to be unoccupied or occupied by an opponent
-            if (fieldLine + direction[0] >= 0 && fieldLine + direction[0] < 8 &&
-                    fieldRow + direction[1] >= 0 && fieldRow + direction[1] < 8 &&
+            if (fieldLine + direction[0] >= 0 && fieldLine + direction[0] < 8 && fieldRow + direction[1] >= 0 && fieldRow + direction[1] < 8 &&
                     (board.getPiece(new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])) == null ||
                     !board.getPiece(new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])).getColor().equals(board.getPiece(field).getColor())))
             {
@@ -260,5 +258,112 @@ public class PieceRule {
             }
         }
         return moves;
+    }
+
+    /**
+     * Returns if the given field is covered by a piece of the given color.
+     * @param board current chess board
+     * @param field field that's checked
+     * @param color color of player that covers the field
+     * @return true if a piece of the player covers that field
+     */
+    public boolean isFieldCovered(Board board, Field field, Color color) {
+
+        int[][] rookDirections = {{0,1},{0,-1},{1,0},{-1,0}};
+        int[][] bishopDirections = {{1,1},{-1,-1},{1,-1},{-1,1}};
+        int[][] knightMoves = {{-2,-1},{-2,1},{2,-1},{2,1},{-1,-2},{-1,2},{1,-2},{1,2}};
+        int pawnDirection = color.equals(Color.WHITE) ? -1 : 1;
+
+        int fieldLine = field.getLine().ordinal();
+        int fieldRow = field.getRow().ordinal();
+
+        // field is covered by pawn
+        if (color.equals(Color.WHITE) && fieldLine > 0 || color.equals(Color.BLACK) && fieldLine < 7) {
+            if (fieldRow > 0 && board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])) != null &&
+                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getColor().equals(color))
+            {
+                return true;
+            }
+            if (fieldRow < 7 && board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])) != null &&
+                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getColor().equals(color))
+            {
+                return true;
+            }
+        }
+
+        // field is covered by knight
+        for (int[] knightMove : knightMoves) {
+            if (fieldLine + knightMove[0] >= 0 && fieldLine + knightMove[0] < 8 && fieldRow + knightMove[1] >= 0 && fieldRow + knightMove[1] < 8 &&
+                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])) != null &&
+                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getTypeOfFigure().equals(Type.KNIGHT) &&
+                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getColor().equals(color))
+            {
+                return true;
+            }
+        }
+
+        // field is covered by rook or queen
+        for (int[] rookDirection : rookDirections) {
+
+            int l = fieldLine + rookDirection[0];
+            int r = fieldRow + rookDirection[1];
+
+            while (l >= 0 && l < 8 && r >= 0 && r < 8)
+            {
+                if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
+                    if ((board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.ROOK) ||
+                        board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                        board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
+                    {
+                        return true;
+                    }
+                    else break;
+                }
+                l += rookDirection[0];
+                r += rookDirection[1];
+            }
+        }
+
+        // field is covered by bishop or queen
+        for (int[] bishopDirection : bishopDirections) {
+
+            int l = fieldLine + bishopDirection[0];
+            int r = fieldRow + bishopDirection[1];
+
+            while (l >= 0 && l < 8 && r >= 0 && r < 8)
+            {
+                if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
+                    if ((board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.BISHOP) ||
+                        board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                        board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
+                    {
+                        return true;
+                    }
+                    else break;
+                }
+                l += bishopDirection[0];
+                r += bishopDirection[1];
+            }
+        }
+
+        // field is covered by king
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+
+                if (i == 0 && j == 0) continue;
+
+                if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
+                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
+                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getTypeOfFigure().equals(Type.KING) &&
+                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color) &&
+                    !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE)) // TODO mögliche endlosschleife?
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
