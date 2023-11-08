@@ -1,15 +1,11 @@
 package de.flyndre.flengine.util;
 
-import de.flyndre.flengine.Flengine;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.io.File;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class FlengineLogger extends Logger{
+public class FileLogger extends Logger{
 
     private final static String pathToFile = "flengine\\src\\main\\java\\de\\flyndre\\flengine\\log.log";
 
@@ -18,7 +14,7 @@ public class FlengineLogger extends Logger{
         Logger logger = Logger.getLogger(name);
 
         try {
-            FileHandler fh = new FileHandler(pathToFile);
+            FileHandler fh = new FileHandler(new File(pathToFile).getAbsolutePath());
             logger.addHandler(fh);
 
             SimpleFormatter formatter = new SimpleFormatter();
@@ -26,7 +22,7 @@ public class FlengineLogger extends Logger{
 
             return logger;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return Logger.getLogger("DefaultLogger");
         }
     }
@@ -45,7 +41,7 @@ public class FlengineLogger extends Logger{
      *                           messages for this logger.  May be null if none
      *                           of the messages require localization.
      */
-    protected FlengineLogger(String name, String resourceBundleName) {
+    protected FileLogger(String name, String resourceBundleName) {
         super(name, resourceBundleName);
     }
 
