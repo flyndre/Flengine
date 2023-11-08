@@ -22,7 +22,7 @@ public class PieceRule {
     protected final Line[] LINES = Line.values();
     protected final Row[] ROWS = Row.values();
 
-    protected List<Field> criticalFields = new ArrayList<>();
+    protected Field kingField = null;
 
     // TODO eine Figur darf sich nicht bewegen, wenn der König dadurch im Schach stehen würde
 
@@ -257,7 +257,8 @@ public class PieceRule {
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
 
-        criticalFields = getCriticalFields(board, field);
+        // set the field of the king for future calculations
+        kingField = field;
 
         // castle/rochade TODO echte werte für rochade einbinden
         moves.addAll(getCastleMoves(board, field, true, true));
@@ -332,7 +333,7 @@ public class PieceRule {
                 !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
                 !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.A)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.A))); // TODO move muss auch turm bewegen
             }
             // king-side castle
             // there is a rook on row H in the same line of the same color, kingside castle is possible
@@ -348,16 +349,10 @@ public class PieceRule {
                 !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
                 !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.H)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.H))); // TODO move muss auch turm bewegen
             }
         }
         return moves;
-    }
-
-
-    private List<Field> getCriticalFields(Board board, Field field) {
-
-
     }
 
     /**

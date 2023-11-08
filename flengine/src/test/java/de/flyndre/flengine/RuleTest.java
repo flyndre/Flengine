@@ -38,7 +38,6 @@ public class RuleTest {
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
-        assertEquals(12, moves.size());
         assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.TWO, Row.A))));
         assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.ONE, Row.B))));
         assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.B), new Field(Line.TWO, Row.B))));
@@ -51,6 +50,7 @@ public class RuleTest {
         assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.G), new Field(Line.SEVEN, Row.G))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.SEVEN, Row.G))));
+        assertEquals(12, moves.size());
     }
 
     @Test
@@ -60,7 +60,6 @@ public class RuleTest {
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
-        assertEquals(7, moves.size());
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.F))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FIVE, Row.D))));
@@ -68,5 +67,6 @@ public class RuleTest {
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.SIX, Row.F))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.SEVEN, Row.C))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.EIGHT, Row.B))));
+        assertEquals(7, moves.size());
     }
 }
