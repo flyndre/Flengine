@@ -17,10 +17,6 @@ public class RequestHandler {
     private String[] moves = {};
     private Scanner systemInScanner;
     private Organizer organizer;
-    //attributes for synchronising the print of the calculated move with the gui's stop command
-    private AtomicBoolean isStopped = new AtomicBoolean(false);
-    private AtomicBoolean isCalculated = new AtomicBoolean(false);
-    private String calculatedMove;
 
     /**
      * Startup for the chess engine
@@ -68,9 +64,6 @@ public class RequestHandler {
                                 }
                             }
                         }
-                        //reset all values needed for the calculation
-                        isStopped.set(false);
-                        isCalculated.set(false);
                         //computing is started with the go command
                         break;
                     case "go":
@@ -79,22 +72,12 @@ public class RequestHandler {
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
                         futureMove.thenAccept(s ->
                         {
-                            //if(isStopped.get()){//if calculations were stopped by the engine print the move directly
                                 printStdout("bestmove " + s);
-                            //}else{//else save the move and indicate calcualtion is finished
-                                //calculatedMove = s;
-                                //isCalculated.set(true);
-                            //}
                         });
                         break;
                     case "stop":
                         //indicate gui asked to send the move
-                        isStopped.set(true);
-
-                        //if move is calculated print it
-                        if(isCalculated.get()){
-                            printStdout("bestmove " + calculatedMove);
-                        }
+                        //not used yet
                         break;
                     case "quit":
                         //shutdown engine
