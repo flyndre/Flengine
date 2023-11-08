@@ -56,16 +56,17 @@ public class RuleTest {
     @Test
     void testMovesWhenPinned() {
 
-        Board board = Converter.convertStringToBoard("7b/2b1r1R1/3PB3/rB2Kp2/4P3/8/4q3/3k4 b - - 0 1");
+        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 b - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
-        assertEquals(6, moves.size());
+        assertEquals(7, moves.size());
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.F))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FIVE, Row.D))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FIVE, Row.F))));
         assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.SIX, Row.F))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.SEVEN, Row.C))));
+        assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.EIGHT, Row.B))));
     }
 }

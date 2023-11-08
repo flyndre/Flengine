@@ -24,28 +24,27 @@ public class PieceRuleTest {
     @Test
     void testPawnMoves() {
 
-        Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/2P1p3/8/8/8/PP1PPPPP/RNBQKBNR w KQkq - 0 1");
-        Field field = new Field(Line.SEVEN, Row.D);
+        Board board = Converter.convertStringToBoard("4k3/8/8/8/8/3p1P2/4P3/4K3 w - - 0 1");
+        Field field = new Field(Line.TWO, Row.E);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
         assertEquals(3, moves.size());
-        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.C))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.E))));
     }
 
     @Test
     void testPawnPromotion() {
 
-        Board board = Converter.convertStringToBoard("r1bqkbnr/pPpppppp/2n5/8/8/8/PP1PPPPP/RNBQKBNR w KQkq - 0 1");
-        Field field = new Field(Line.SEVEN, Row.B);
+        Board board = Converter.convertStringToBoard("1n2k3/2P5/8/8/8/8/8/4K3 w - - 0 1");
+        Field field = new Field(Line.SEVEN, Row.C);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(3, moves.size());
+        assertEquals(2, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.B), Type.QUEEN)));
-        assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.A), Type.QUEEN)));
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.C), Type.QUEEN)));
     }
 
@@ -65,7 +64,7 @@ public class PieceRuleTest {
     @Test
     void testRookMoves() {
 
-        Board board = Converter.convertStringToBoard("r1bqkbnr/p1pppppp/1p6/8/1R1P4/1n6/PPPP1PPP/1NBQKBNR w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/1p6/8/1R1P4/1p6/8/4K3 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
@@ -81,22 +80,23 @@ public class PieceRuleTest {
     @Test
     void testKnightMoves() {
 
-        Board board = Converter.convertStringToBoard("r1bqkbnr/ppp1pppp/8/2n5/3p4/1N6/PPPPPPPP/RB1QKBNR w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/8/2n5/3p4/1N6/8/R3K3 w - - 0 1");
         Field field = new Field(Line.THREE, Row.B);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(4, moves.size());
+        assertEquals(5, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.ONE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.A))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.TWO, Row.D))));
     }
 
     @Test
     void testBishopMoves() {
 
-        Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/4p3/8/2B5/3P4/PPP1PPPP/RN1QKBNR w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/4p3/8/2B5/3P4/P7/4K3 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.C);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
@@ -112,12 +112,12 @@ public class PieceRuleTest {
     @Test
     void testQueenMoves() {
 
-        Board board = Converter.convertStringToBoard("rnbqkbnr/p1p1pppp/1p1p4/8/1Q2P3/2P5/PP1P1PPP/RNB1KBNR w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/1p6/2p5/1Q2P3/2P5/1P6/4K3 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(10, moves.size());
+        assertEquals(9, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.A))));
@@ -127,7 +127,6 @@ public class PieceRuleTest {
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
     }
 
     @Test
@@ -148,7 +147,7 @@ public class PieceRuleTest {
     @Test
     void testKingMovesWhenCovered() {
 
-        Board board = Converter.convertStringToBoard("3qk3/8/6p1/3rpn2/4K3/5P2/8/8 b - - 0 1");
+        Board board = Converter.convertStringToBoard("3qk3/8/6p1/3rpn2/4K3/5P2/8/8 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.E);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
@@ -173,7 +172,7 @@ public class PieceRuleTest {
     @Test
     void testIsFieldCovered() {
 
-        Board board = Converter.convertStringToBoard("rbrQkb1n/R1p1p2p/2ppp1p1/p4K2/8/PNP5/RBPPP1P1/PN4B1 w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("rbrQkb1n/R1p1p2p/2ppp1p1/p4K2/8/PNP5/RBPPP1P1/PN4B1 w - - 0 1");
         Color color = Color.WHITE;
 
         Line[] LINES = Line.values();
