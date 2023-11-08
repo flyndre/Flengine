@@ -79,12 +79,12 @@ public class RequestHandler {
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
                         futureMove.thenAccept(s ->
                         {
-                            if(isStopped.get()){//if calculations were stopped by the engine print the move directly
+                            //if(isStopped.get()){//if calculations were stopped by the engine print the move directly
                                 printStdout("bestmove " + s);
-                            }else{//else save the move and indicate calcualtion is finished
-                                calculatedMove = s;
-                                isCalculated.set(true);
-                            }
+                            //}else{//else save the move and indicate calcualtion is finished
+                                //calculatedMove = s;
+                                //isCalculated.set(true);
+                            //}
                         });
                         break;
                     case "stop":
