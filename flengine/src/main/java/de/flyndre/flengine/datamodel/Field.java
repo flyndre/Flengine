@@ -43,6 +43,7 @@ public class Field {
             this.row = row;
     }
 
+    @Override
     public boolean equals(Object obj) {
 
         if (obj == null) return false;
@@ -52,5 +53,9 @@ public class Field {
         return line.equals(field.getLine()) && row.equals(field.getRow());
     }
 
+    @Override
+    public int hashCode() { return line.ordinal() * 8 + row.ordinal(); }
+
+    @Override
     public String toString() { return Character.toString((char) ((int) 'a' + row.ordinal())) + Integer.toString(line.ordinal()+1); }
 }

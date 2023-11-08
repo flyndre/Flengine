@@ -53,6 +53,7 @@ public class Move {
         this.changeTo = changeTo;
     }
 
+    @Override
     public boolean equals(Object obj) {
 
         if (obj == null) return false;
@@ -63,5 +64,9 @@ public class Move {
             (changeTo == null ? changeTo == move.getChangeTo() : changeTo.equals(move.getChangeTo()));
     }
 
+    @Override
+    public int hashCode() { return from.hashCode() * 64 + to.hashCode(); }
+
+    @Override
     public String toString() { return from.toString() + "-" + to.toString(); }
 }

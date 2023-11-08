@@ -7,7 +7,9 @@ import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tobias
@@ -37,13 +39,33 @@ public class Rule extends PieceRule {
         }
 
         List<Field> checkedFields = getCheckedFields(board, kingField);
+        Map<Field, List<Field>> pinnedFields = getPinnedFields(board, kingField);
 
-        // if checked fields exist, the king is in check and all moves must save the king
-        if (!checkedFields.isEmpty()) {
+
+        //  TODO 2x über move liste iterieren kann man verbessern
+        // there exists at least one pinned piece
+        if (!pinnedFields.isEmpty()) {
 
             List<Move> allMoves = new ArrayList<>(moves);
             moves.clear();
 
+            for (Move move : allMoves) {
+                // if a move with toField is in the pinnedFields list, add it to the moves list
+                if (pinnedFields.containsKey(move.getFrom())) {
+                    if (pinnedFields.get(move.getFrom()).contains(move.getTo())) {
+                        moves.add(move);
+                    }
+                }
+                else moves.add(move);
+            }
+        }
+
+        // there is a piece that puts the king in check
+        if (!checkedFields.isEmpty()) {
+
+            List<Move> allMoves = new ArrayList<>(moves);
+            moves.clear();
+            // if a move with toField is in the checkedFields list or the king can move, add it to the moves list
             for (Move move : allMoves) {
                 if (checkedFields.contains(move.getTo()) || move.getFrom().equals(kingField)) {
                     moves.add(move);
@@ -220,8 +242,106 @@ public class Rule extends PieceRule {
             }
         }
 
-        // king cannot be covered by other king, so no check needed
+        // king cannot attack other king, so no check needed
 
         return checkedFields;
+    }
+
+    // TODO getCheckedFields & getPinnedFields in eine methode zusammenfassen
+
+    /**
+     * TODO getPinnedFields methoden javadoc dies das
+     * @param board
+     * @param kingField
+     * @return
+     */
+    private Map<Field, List<Field>> getPinnedFields(Board board, Field kingField) {
+
+        Map<Field, List<Field>> pinnedFields = new HashMap<>();
+        Color opponentColor = board.getPiece(kingField).getColor().equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+        int[][] rookDirections = {{0,1},{0,-1},{1,0},{-1,0}};
+        int[][] bishopDirections = {{1,1},{-1,-1},{1,-1},{-1,1}};
+
+        int fieldLine = kingField.getLine().ordinal();
+        int fieldRow = kingField.getRow().ordinal();
+
+        // piece is pinned by rook or queen
+        for (int[] rookDirection : rookDirections) {
+
+            int l = fieldLine + rookDirection[0];
+            int r = fieldRow + rookDirection[1];
+            Field pinnedField = null;
+
+            while (l >= 0 && l < 8 && r >= 0 && r < 8)
+            {
+                if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
+                    // found own piece
+                    if (!board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(opponentColor)) {
+                        // already found own piece before
+                        if (pinnedField != null) {
+                            break;
+                        }
+                        else pinnedField = new Field(LINES[l], ROWS[r]);
+                    }
+                    // found opponent rook or queen that pins the own piece
+                    else if (pinnedField != null && (board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.ROOK) ||
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(opponentColor))
+                    {
+                        pinnedFields.put(pinnedField, new ArrayList<>());
+                        pinnedFields.get(pinnedField).add(new Field(LINES[l], ROWS[r]));
+                        while (!new Field(LINES[l - rookDirection[0]], ROWS[r - rookDirection[1]]).equals(kingField))
+                        {
+                            l -= rookDirection[0];
+                            r -= rookDirection[1];
+                            pinnedFields.get(pinnedField).add(new Field(LINES[l], ROWS[r]));
+                        }
+                        break;
+                    }
+                }
+                l += rookDirection[0];
+                r += rookDirection[1];
+            }
+        }
+
+        // piece is pinned by bishop or queen
+        for (int[] bishopDirection : bishopDirections) {
+
+            int l = fieldLine + bishopDirection[0];
+            int r = fieldRow + bishopDirection[1];
+            Field pinnedField = null;
+
+            while (l >= 0 && l < 8 && r >= 0 && r < 8)
+            {
+                if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
+                    // found own piece
+                    if (!board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(opponentColor)) {
+                        // already found own piece before
+                        if (pinnedField != null) {
+                            break;
+                        }
+                        else pinnedField = new Field(LINES[l], ROWS[r]);
+                    }
+                    // found opponent bishop or queen that pins the own piece
+                    else if (pinnedField != null && (board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.BISHOP) ||
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(opponentColor))
+                    {
+                        pinnedFields.put(pinnedField, new ArrayList<>());
+                        pinnedFields.get(pinnedField).add(new Field(LINES[l], ROWS[r]));
+                        while (!new Field(LINES[l - bishopDirection[0]], ROWS[r - bishopDirection[1]]).equals(kingField))
+                        {
+                            l -= bishopDirection[0];
+                            r -= bishopDirection[1];
+                            pinnedFields.get(pinnedField).add(new Field(LINES[l], ROWS[r]));
+                        }
+                        break;
+                    }
+                }
+                l += bishopDirection[0];
+                r += bishopDirection[1];
+            }
+        }
+        return pinnedFields;
     }
 }
