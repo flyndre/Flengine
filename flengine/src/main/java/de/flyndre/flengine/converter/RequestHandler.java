@@ -1,5 +1,6 @@
 package de.flyndre.flengine.converter;
 
+import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
 import de.flyndre.flengine.util.FlengineLogger;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RequestHandler {
 
@@ -73,11 +75,14 @@ public class RequestHandler {
                         //ignore params for the moment, start computing async by creating organizer with given values
                         organizer = new Organizer(new Options(), position, new ArrayList<String>(List.of(moves)));
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
-                        futureMove.thenAccept(s -> printStdout(s));
+                        futureMove.thenAccept(s ->
+                        {
+                                printStdout("bestmove " + s);
+                        });
                         break;
                     case "stop":
-                        //ignore as no infinite search is supported at the moment
-
+                        //indicate gui asked to send the move
+                        //not used yet
                         break;
                     case "quit":
                         //shutdown engine
