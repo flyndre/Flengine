@@ -237,6 +237,9 @@ public class PieceRule {
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
 
+        // castle/rochade TODO echte werte für rochade einbinden
+        moves.addAll(getCastleMoves(board, field, true, true));
+
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
 
@@ -244,18 +247,86 @@ public class PieceRule {
 
                 // TODO steht der König im Schach, muss der nächste Zug das ändern
 
-                // TODO rochade implementieren, benötigt ein flag dass sich der König noch nicht bewegt hat
-
                 // field has to be unoccupied or occupied by an opponent
                 if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
                         (board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) == null ||
                         !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(board.getPiece(field).getColor())) &&
                         // field must not be covered by opponent
-                        isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
+                        !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
                 {
                     moves.add(new Move(
                         new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + i], ROWS[fieldRow + j])));
                 }
+            }
+        }
+        return moves;
+    }
+
+    /**
+     * Returns the possible castle moves of a king. <br>
+     * A castle move is only possible if:
+     * <ul>
+     *     <li>Neither king nor rook have moved</li>
+     *     <li>There are no pieces between king and rook</li>
+     *     <li>Neither king nor rook are currently in check</li>
+     *     <li>None of the fields between is covered by an opponents piece</li>
+     * </ul>
+     *
+     * @see <a href="https://de.wikipedia.org/wiki/Rochade#Voraussetzungen">Voraussetzungen Rochade</a>
+     *
+     * @param board current chess board
+     * @param field current field of a king
+     * @param canQueensideCastle boolean flag if a queenside castle of the given field color is possible
+     * @param canKingsideCastle boolean flag if a kingside castle of the given field color is possible
+     * @return list of 0 to 2 possible castle moves
+     */
+    private List<Move> getCastleMoves(Board board, Field field, boolean canQueensideCastle, boolean canKingsideCastle) {
+
+        List<Move> moves = new ArrayList<>();
+        Color opponentColor = board.getPiece(field).getColor().equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+
+        // king is on its original field
+        if (field.getRow().equals(Row.E) && (field.getLine().equals(Line.ONE) &&
+            board.getPiece(field).getColor().equals(Color.WHITE) || field.getLine().equals(Line.EIGHT) &&
+            board.getPiece(field).getColor().equals(Color.BLACK)) &&
+            // king is not in check
+            !isFieldCovered(board, field, opponentColor) &&
+            // king- or queenside castle is possible
+            (canQueensideCastle || canKingsideCastle))
+        {
+            // queen-side castle
+            // there is a rook on row A in the same line of the same color, queenside castle is possible
+            if (canQueensideCastle && board.getPiece(new Field(field.getLine(), Row.A)) != null &&
+                board.getPiece(new Field(field.getLine(), Row.A)).getTypeOfFigure().equals(Type.ROOK) &&
+                board.getPiece(new Field(field.getLine(), Row.A)).getColor().equals(board.getPiece(field).getColor()) &&
+                // the rook is not covered by an opponents piece
+                !isFieldCovered(board, new Field(field.getLine(), Row.A), opponentColor) &&
+                // there are no pieces between
+                board.getPiece(new Field(field.getLine(), Row.B)) == null &&
+                board.getPiece(new Field(field.getLine(), Row.C)) == null &&
+                board.getPiece(new Field(field.getLine(), Row.D)) == null &&
+                // there are no field covered by the opponent between
+                !isFieldCovered(board, new Field(field.getLine(), Row.D), opponentColor) &&
+                !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
+                !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
+            {
+                moves.add(new Move(field, new Field(field.getLine(), Row.A)));
+            }
+            // king-side castle
+            // there is a rook on row H in the same line of the same color, kingside castle is possible
+            if (canKingsideCastle && board.getPiece(new Field(field.getLine(), Row.H)) != null &&
+                board.getPiece(new Field(field.getLine(), Row.H)).getTypeOfFigure().equals(Type.ROOK) &&
+                board.getPiece(new Field(field.getLine(), Row.H)).getColor().equals(board.getPiece(field).getColor()) &&
+                // the rook is not covered by an opponents piece
+                !isFieldCovered(board, new Field(field.getLine(), Row.H), opponentColor) &&
+                // there are no pieces between
+                board.getPiece(new Field(field.getLine(), Row.F)) == null &&
+                board.getPiece(new Field(field.getLine(), Row.G)) == null &&
+                // there are no field covered by the opponent between
+                !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
+                !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
+            {
+                moves.add(new Move(field, new Field(field.getLine(), Row.H)));
             }
         }
         return moves;

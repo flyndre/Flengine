@@ -83,10 +83,10 @@ public class Rule extends PieceRule {
      * Returns if the current chess board ends in a draw. <br>
      * A remis occurs when:
      * <ul>
-     * <li>a player is unable to move but is not in check</li>
-     * <li>a checkmate is impossible (king vs king, king vs king & knight, king vs king & bishop)</li>
-     * <li>both players agree on a remis</li>
-     * <li>a few more...</li>
+     *     <li>a player is unable to move but is not in check</li>
+     *     <li>a checkmate is impossible (king vs king, king vs king & knight, king vs king & bishop)</li>
+     *     <li>both players agree on a remis</li>
+     *     <li>a few more...</li>
      * </ul>
      *
      * @see <a href="https://de.wikipedia.org/wiki/Remis#Remis_im_Schach">Remis im Schach</a>

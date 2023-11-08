@@ -20,10 +20,9 @@ public class PieceRuleTest {
     private final PieceRule PIECERULE = new PieceRule();
 
     // https://www.dailychess.com/chess/chess-fen-viewer.php
-    // alternativ: http://www.netreal.de/Forsyth-Edwards-Notation/index.php
 
     @Test
-    public void testPawnRules() {
+    public void testPawnMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/2P1p3/8/8/8/PP1PPPPP/RNBQKBNR w KQkq - 0 1");
         Field field = new Field(Line.SEVEN, Row.D);
@@ -51,7 +50,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testRookRules() {
+    public void testRookMoves() {
 
         Board board = Converter.convertStringToBoard("r1bqkbnr/p1pppppp/1p6/8/1R1P4/1n6/PPPP1PPP/1NBQKBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
@@ -67,7 +66,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testKnightRules() {
+    public void testKnightMoves() {
 
         Board board = Converter.convertStringToBoard("r1bqkbnr/ppp1pppp/8/2n5/3p4/1N6/PPPPPPPP/RB1QKBNR w KQkq - 0 1");
         Field field = new Field(Line.THREE, Row.B);
@@ -82,7 +81,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testBishopRules() {
+    public void testBishopMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/4p3/8/2B5/3P4/PPP1PPPP/RN1QKBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.C);
@@ -98,7 +97,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testQueenRules() {
+    public void testQueenMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/p1p1pppp/1p1p4/8/1Q2P3/2P5/PP1P1PPP/RNB1KBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
@@ -119,20 +118,43 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testKingRules() {
+    public void testKingMoves() {
 
-        Board board = Converter.convertStringToBoard("rnbqkbnr/ppp2ppp/8/3pp3/4K3/4PP2/PPPP2PP/RNBQ1BNR w KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/8/4pP2/4K3/3P1p2/8/8 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.E);
 
         List<Move> moves = PIECERULE.getLegalMoves(board, field);
 
-        assertEquals(6, moves.size());
+        assertEquals(4, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.E))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.F))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.F))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.F))));
+    }
+
+    @Test
+    public void testKingMovesWhenCovered() {
+
+        Board board = Converter.convertStringToBoard("3qk3/8/6p1/3rpn2/4K3/5P2/8/8 b - - 0 1");
+        Field field = new Field(Line.FOUR, Row.E);
+
+        List<Move> moves = PIECERULE.getLegalMoves(board, field);
+
+        assertTrue(moves.isEmpty());
+    }
+
+    @Test
+    public void testCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
+
+        List<Move> movesWhite = PIECERULE.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = PIECERULE.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.A))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.H))));
     }
 
     @Test
