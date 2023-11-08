@@ -80,7 +80,7 @@ public class RequestHandler {
                         futureMove.thenAccept(s ->
                         {
                             if(isStopped.get()){//if calculations were stopped by the engine print the move directly
-                                printStdout(s);
+                                printStdout("bestmove " + s);
                             }else{//else save the move and indicate calcualtion is finished
                                 calculatedMove = s;
                                 isCalculated.set(true);
@@ -93,7 +93,7 @@ public class RequestHandler {
 
                         //if move is calculated print it
                         if(isCalculated.get()){
-                            printStdout(calculatedMove);
+                            printStdout("bestmove " + calculatedMove);
                         }
                         break;
                     case "quit":
