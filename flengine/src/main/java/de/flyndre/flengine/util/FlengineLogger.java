@@ -11,19 +11,23 @@ import java.util.logging.SimpleFormatter;
 
 public class FlengineLogger extends Logger{
 
+    private final static String pathToFile = "flengine\\src\\main\\java\\de\\flyndre\\flengine\\log.log";
 
+    public static Logger getLogger(String name) {
 
-    public static Logger getLogger(String pathToFile) {
+        Logger logger = Logger.getLogger(name);
+
         try {
             FileHandler fh = new FileHandler(pathToFile);
-            Logger logger = Logger.getLogger("FlengineLogger");
             logger.addHandler(fh);
+
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
+
             return logger;
 
         }catch (Exception e){
-            return Logger.getLogger("FlengineLogger");
+            return Logger.getLogger("DefaultLogger");
         }
     }
     /**

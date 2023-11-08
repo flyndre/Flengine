@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class RequestHandler {
 
-    private Logger logger = FlengineLogger.getLogger("C:\\code\\flengine\\flengine\\src\\main\\java\\de\\flyndre\\flengine\\log.log");
+    private Logger logger = FlengineLogger.getLogger("RequestHandlerLogger");
     private String engineName = "Flengine";
     private String engineAuthor = "TeamFlyndre";
     private String position = "";
