@@ -1,5 +1,6 @@
 package de.flyndre.flengine.converter;
 
+import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RequestHandler {
     private String engineName = "Flengine";
@@ -15,6 +17,10 @@ public class RequestHandler {
     private String[] moves = {};
     private Scanner systemInScanner;
     private Organizer organizer;
+    //attributes for synchronising the print of the calculated move with the gui's stop command
+    private AtomicBoolean isStopped = new AtomicBoolean(false);
+    private AtomicBoolean isCalculated = new AtomicBoolean(false);
+    private String calculatedMove;
 
     /**
      * Startup for the chess engine
@@ -62,17 +68,33 @@ public class RequestHandler {
                                 }
                             }
                         }
+                        //reset all values needed for the calculation
+                        isStopped.set(false);
+                        isCalculated.set(false);
                         //computing is started with the go command
                         break;
                     case "go":
                         //ignore params for the moment, start computing async by creating organizer with given values
                         organizer = new Organizer(new Options(), position, new ArrayList<String>(List.of(moves)));
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
-                        futureMove.thenAccept(s -> printStdout(s));
+                        futureMove.thenAccept(s ->
+                        {
+                            if(isStopped.get()){//if calculations were stopped by the engine print the move directly
+                                printStdout(s);
+                            }else{//else save the move and indicate calcualtion is finished
+                                calculatedMove = s;
+                                isCalculated.set(true);
+                            }
+                        });
                         break;
                     case "stop":
-                        //ignore as no infinite search is supported at the moment
+                        //indicate gui asked to send the move
+                        isStopped.set(true);
 
+                        //if move is calculated print it
+                        if(isCalculated.get()){
+                            printStdout(calculatedMove);
+                        }
                         break;
                     case "quit":
                         //shutdown engine
