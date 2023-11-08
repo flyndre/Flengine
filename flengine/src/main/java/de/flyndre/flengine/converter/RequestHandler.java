@@ -1,14 +1,18 @@
 package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
+import de.flyndre.flengine.util.FlengineLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public class RequestHandler {
+
+    private Logger logger = FlengineLogger.getLogger("C:\\code\\flengine\\flengine\\src\\main\\java\\de\\flyndre\\flengine\\log.log");
     private String engineName = "Flengine";
     private String engineAuthor = "TeamFlyndre";
     private String position = "";
@@ -23,10 +27,11 @@ public class RequestHandler {
         systemInScanner = new Scanner(System.in);
         String input = "";
         boolean isRunning = true;
+        logger.info("Engine initialised and ready.");
 
         while(isRunning){
             input = systemInScanner.nextLine();
-
+            logger.info("Recieved Inputstring: [" + input + "]");
             String[] splittedInput = input.split(" ");
 
             while(true){
@@ -84,6 +89,8 @@ public class RequestHandler {
                             continue;
                         }
                 }
+
+                logger.warning("The Input [" + input + "] is not a command.");
                 //leave the loop if input is recognized
                 break;
             }
