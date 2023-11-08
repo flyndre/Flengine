@@ -22,6 +22,8 @@ public class PieceRule {
     protected final Line[] LINES = Line.values();
     protected final Row[] ROWS = Row.values();
 
+    protected List<Field> criticalFields = new ArrayList<>();
+
     // TODO eine Figur darf sich nicht bewegen, wenn der König dadurch im Schach stehen würde
 
     /**
@@ -255,6 +257,8 @@ public class PieceRule {
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
 
+        criticalFields = getCriticalFields(board, field);
+
         // castle/rochade TODO echte werte für rochade einbinden
         moves.addAll(getCastleMoves(board, field, true, true));
 
@@ -348,6 +352,12 @@ public class PieceRule {
             }
         }
         return moves;
+    }
+
+
+    private List<Field> getCriticalFields(Board board, Field field) {
+
+
     }
 
     /**
