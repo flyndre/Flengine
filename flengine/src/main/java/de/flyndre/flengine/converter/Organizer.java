@@ -43,6 +43,7 @@ public class Organizer {
     public CompletableFuture<String> calculateNextMoveAsync() {
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
         executor.submit(()->completableFuture.complete(calculateNextMove()));
+        completableFuture.whenCompleteAsync((a, b) -> this.executor.close());
         return completableFuture;
     }
     private String calculateNextMove(){
