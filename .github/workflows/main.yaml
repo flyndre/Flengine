@@ -2,9 +2,8 @@ name: MainWorkflow
 
 on:
   push:
-    branches: [dev,prod,test/workflow]
+    branches: [main,dev,prod,test/workflow]
   workflow_dispatch:    
-
 
 jobs:
   unittest:
@@ -43,6 +42,10 @@ jobs:
   build_backend:
     name: Build Artifact
     needs: unittest
+    if: contains('
+      refs/heads/dev
+      refs/heads/main
+      ', github.ref)
     continue-on-error: true
     runs-on: ubuntu-latest
     permissions:
