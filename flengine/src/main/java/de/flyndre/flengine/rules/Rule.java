@@ -15,9 +15,6 @@ import java.util.List;
  */
 public class Rule extends PieceRule {
 
-    private List<Field> checkedFields = new ArrayList<>();
-    private List<Field> criticalFields = new ArrayList<>();
-
     /**
      * Returns all possible moves of a given color.
      * @param board current chess board
@@ -39,24 +36,7 @@ public class Rule extends PieceRule {
             }
         }
 
-        if (isChecked(board, color)) {
-
-            Field kingField = null;
-
-            for (int line = 0; line < 8; line++) {
-                for (int row = 0; row < 8; row++) {
-                    if (board.getPiece(new Field(LINES[line], ROWS[row])) != null &&
-                        board.getPiece(new Field(LINES[line], ROWS[row])).getColor().equals(color) &&
-                        board.getPiece(new Field(LINES[line], ROWS[row])).getTypeOfFigure().equals(Type.KING))
-                    {
-                        kingField = new Field(LINES[line], ROWS[row]);
-                        break;
-                    }
-                }
-            }
-
-            List<Field> checkedFields = getCheckedFields(board, kingField);
-        }
+        // TODO eine Figur darf sich nicht bewegen, wenn der König dadurch im Schach stehen würde
 
         return moves;
     }
@@ -122,10 +102,5 @@ public class Rule extends PieceRule {
         // TODO weitere remis-regeln implementieren
 
         return (getLegalMoves(board, Color.WHITE).isEmpty() || getLegalMoves(board, Color.BLACK).isEmpty());
-    }
-
-    private List<Field> getCheckedFields(Board board, Field field) {
-
-        return new ArrayList<>();
     }
 }

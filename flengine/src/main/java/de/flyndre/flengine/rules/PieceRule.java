@@ -22,10 +22,6 @@ public class PieceRule {
     protected final Line[] LINES = Line.values();
     protected final Row[] ROWS = Row.values();
 
-    protected List<Field> criticalFields = new ArrayList<>();
-
-    // TODO eine Figur darf sich nicht bewegen, wenn der König dadurch im Schach stehen würde
-
     /**
      * Returns all possible moves of a piece on the given field.
      * @param board current chessboard
@@ -98,27 +94,6 @@ public class PieceRule {
             moves.add(new Move(
                 new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])));
         }
-
-        boolean canEnPassant = true; // TODO echte werte für en passant einbinden
-
-        // en passant
-        if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
-                field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
-        {
-            if (canEnPassant && fieldRow > 0 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])) != null &&
-                board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                !board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getColor().equals(color))
-            {
-                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]))); // TODO move muss bauern schmeissen
-            }
-            if (canEnPassant && fieldRow < 8 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])) != null &&
-                board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                !board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getColor().equals(color))
-            {
-                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
-            }
-        }
-
         return moves;
     }
 
@@ -257,11 +232,6 @@ public class PieceRule {
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
 
-        criticalFields = getCriticalFields(board, field);
-
-        // castle/rochade TODO echte werte für rochade einbinden
-        moves.addAll(getCastleMoves(board, field, true, true));
-
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
 
@@ -352,12 +322,6 @@ public class PieceRule {
             }
         }
         return moves;
-    }
-
-
-    private List<Field> getCriticalFields(Board board, Field field) {
-
-
     }
 
     /**

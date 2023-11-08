@@ -30,43 +30,4 @@ public class RuleTest {
 
         assertEquals(20, moves.size());
     }
-
-    @Test
-    void testMovesInCheck() {
-
-        Board board = Converter.convertStringToBoard("6k1/6b1/4N3/2B5/8/1R4Q1/2PPP3/K7 w - - 0 1");
-
-        List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
-
-        assertEquals(12, moves.size());
-        assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.TWO, Row.A))));
-        assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.ONE, Row.B))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.B), new Field(Line.TWO, Row.B))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.B), new Field(Line.THREE, Row.C))));
-        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.C), new Field(Line.THREE, Row.C))));
-        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.D), new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.C), new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.G), new Field(Line.THREE, Row.C))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.G), new Field(Line.FIVE, Row.E))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.G), new Field(Line.SEVEN, Row.G))));
-        assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.SEVEN, Row.G))));
-    }
-
-    @Test
-    void testMovesWhenPinned() {
-
-        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 b - - 0 1");
-
-        List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
-
-        assertEquals(7, moves.size());
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.D))));
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FOUR, Row.F))));
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FIVE, Row.D))));
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.FIVE, Row.F))));
-        assertTrue(moves.contains(new Move(new Field(Line.FIVE, Row.E), new Field(Line.SIX, Row.F))));
-        assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.SEVEN, Row.C))));
-        assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.EIGHT, Row.B))));
-    }
 }
