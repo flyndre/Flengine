@@ -94,8 +94,6 @@ public class RequestHandler {
                             continue;
                         }
                 }
-
-                logger.warning("The Input [" + input + "] is not a command.");
                 //leave the loop if input is recognized
                 break;
             }
