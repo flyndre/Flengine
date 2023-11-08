@@ -22,7 +22,7 @@ public class PieceRuleTest {
     // https://www.dailychess.com/chess/chess-fen-viewer.php
 
     @Test
-    public void testPawnMoves() {
+    void testPawnMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/2P1p3/8/8/8/PP1PPPPP/RNBQKBNR w KQkq - 0 1");
         Field field = new Field(Line.SEVEN, Row.D);
@@ -36,7 +36,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testPawnPromotion() {
+    void testPawnPromotion() {
 
         Board board = Converter.convertStringToBoard("r1bqkbnr/pPpppppp/2n5/8/8/8/PP1PPPPP/RNBQKBNR w KQkq - 0 1");
         Field field = new Field(Line.SEVEN, Row.B);
@@ -50,7 +50,20 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testRookMoves() {
+    void testEnPassant() {
+
+        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
+        Field field = new Field(Line.FIVE, Row.E);
+
+        List<Move> moves = pieceRule.getLegalMoves(board, field);
+
+        // TODO zwei en passants sind nicht möglich
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.F))));
+    }
+
+    @Test
+    void testRookMoves() {
 
         Board board = Converter.convertStringToBoard("r1bqkbnr/p1pppppp/1p6/8/1R1P4/1n6/PPPP1PPP/1NBQKBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
@@ -66,7 +79,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testKnightMoves() {
+    void testKnightMoves() {
 
         Board board = Converter.convertStringToBoard("r1bqkbnr/ppp1pppp/8/2n5/3p4/1N6/PPPPPPPP/RB1QKBNR w KQkq - 0 1");
         Field field = new Field(Line.THREE, Row.B);
@@ -81,7 +94,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testBishopMoves() {
+    void testBishopMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/pppp1ppp/4p3/8/2B5/3P4/PPP1PPPP/RN1QKBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.C);
@@ -97,7 +110,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testQueenMoves() {
+    void testQueenMoves() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/p1p1pppp/1p1p4/8/1Q2P3/2P5/PP1P1PPP/RNB1KBNR w KQkq - 0 1");
         Field field = new Field(Line.FOUR, Row.B);
@@ -118,7 +131,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testKingMoves() {
+    void testKingMoves() {
 
         Board board = Converter.convertStringToBoard("4k3/8/8/4pP2/4K3/3P1p2/8/8 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.E);
@@ -133,7 +146,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testKingMovesWhenCovered() {
+    void testKingMovesWhenCovered() {
 
         Board board = Converter.convertStringToBoard("3qk3/8/6p1/3rpn2/4K3/5P2/8/8 b - - 0 1");
         Field field = new Field(Line.FOUR, Row.E);
@@ -144,7 +157,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testCastleMoves() {
+    void testCastleMoves() {
 
         Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
 
@@ -158,7 +171,7 @@ public class PieceRuleTest {
     }
 
     @Test
-    public void testIsFieldCovered() {
+    void testIsFieldCovered() {
 
         Board board = Converter.convertStringToBoard("rbrQkb1n/R1p1p2p/2ppp1p1/p4K2/8/PNP5/RBPPP1P1/PN4B1 w KQkq - 0 1");
         Color color = Color.WHITE;

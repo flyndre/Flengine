@@ -22,7 +22,7 @@ public class RuleTest {
     // https://www.dailychess.com/chess/chess-fen-viewer.php
 
     @Test
-    public void testMovesAtStart() {
+    void testMovesAtStart() {
 
         Board board = Converter.convertStringToBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
@@ -32,7 +32,7 @@ public class RuleTest {
     }
 
     @Test
-    public void testMovesInCheck() {
+    void testMovesInCheck() {
 
         Board board = Converter.convertStringToBoard("6k1/6b1/4N3/2B5/8/1R4Q1/2PPP3/K7 w - - 0 1");
 
@@ -54,7 +54,7 @@ public class RuleTest {
     }
 
     @Test
-    public void testMovesWhenPinned() {
+    void testMovesWhenPinned() {
 
         Board board = Converter.convertStringToBoard("7b/2b1r1R1/3PB3/rB2Kp2/4P3/8/4q3/3k4 b - - 0 1");
 

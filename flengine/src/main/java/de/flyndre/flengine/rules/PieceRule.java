@@ -29,7 +29,7 @@ public class PieceRule {
      * @param board current chessboard
      * @param field given field of piece
      * @return list of possible moves
-     */  // TODO ist hier protected sinnvoller?
+     */
     public List<Move> getLegalMoves(Board board, Field field) {
 
         List<Move> moves;
@@ -97,7 +97,25 @@ public class PieceRule {
                 new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])));
         }
 
-        // TODO en passant implementieren, braucht vorherigen Zug des Gegners
+        boolean canEnPassant = true; // TODO echte werte für en passant einbinden
+
+        // en passant
+        if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
+                field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
+        {
+            if (canEnPassant && fieldRow > 0 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])) != null &&
+                board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                !board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getColor().equals(color))
+            {
+                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]))); // TODO move muss bauern schmeissen
+            }
+            if (canEnPassant && fieldRow < 8 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])) != null &&
+                board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                !board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getColor().equals(color))
+            {
+                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
+            }
+        }
 
         return moves;
     }
