@@ -2,7 +2,7 @@ name: MainWorkflow
 
 on:
   push:
-    branches: [main,dev,prod,test/workflow]
+    branches: [main, dev,prod,test/workflow]
   workflow_dispatch:    
 
 jobs:
@@ -42,15 +42,16 @@ jobs:
   build_backend:
     name: Build Artifact
     needs: unittest
-    if: contains('
-      refs/heads/dev
-      refs/heads/main
-      ', github.ref)
-    continue-on-error: true
+    continue-on-error: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    if: contains('
+      refs/heads/dev
+      refs/heads/main
+      ', github.ref)
+    
 
     steps:
         #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
@@ -76,9 +77,5 @@ jobs:
         with:
           name: flengine
           path: flengine/target/*.jar
-      - name: Upload EXE
-        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
-        uses: actions/upload-artifact@v2
-        with:
-          name: flengine_exe
-          path: flengine/target/*.exe
+  
+   
