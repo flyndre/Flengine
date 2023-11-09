@@ -1,14 +1,18 @@
 package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
+import de.flyndre.flengine.util.FileLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public class RequestHandler {
+
+    private Logger logger = FileLogger.getLogger("RequestHandlerLogger");
     private String engineName = "Flengine";
     private String engineAuthor = "TeamFlyndre";
     private String position = "";
@@ -23,10 +27,11 @@ public class RequestHandler {
         systemInScanner = new Scanner(System.in);
         String input = "";
         boolean isRunning = true;
+        logger.info("Engine initialised and ready.");
 
         while(isRunning){
             input = systemInScanner.nextLine();
-
+            logger.info("Recieved Inputstring: [" + input + "]");
             String[] splittedInput = input.split(" ");
 
             while(true){
@@ -68,11 +73,14 @@ public class RequestHandler {
                         //ignore params for the moment, start computing async by creating organizer with given values
                         organizer = new Organizer(new Options(), position, new ArrayList<String>(List.of(moves)));
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
-                        futureMove.thenAccept(s -> printStdout(s));
+                        futureMove.thenAccept(s ->
+                        {
+                                printStdout("bestmove " + s);
+                        });
                         break;
                     case "stop":
-                        //ignore as no infinite search is supported at the moment
-
+                        //indicate gui asked to send the move
+                        //not used yet
                         break;
                     case "quit":
                         //shutdown engine

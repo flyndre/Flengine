@@ -179,8 +179,8 @@ public class Converter {
         move += convertRowToChar(to.getRow());
         move += convertLineToInt(to.getLine());
 
-        if(input.getChangeTo() != null){
-            switch (input.getChangeTo()){
+        if(input.getPromoteTo() != null){
+            switch (input.getPromoteTo()){
                 case QUEEN -> move += 'q';
                 case BISHOP -> move += 'b';
                 case KNIGHT -> move += 'n';
