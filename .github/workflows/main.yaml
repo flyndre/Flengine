@@ -2,7 +2,7 @@ name: MainWorkflow
 
 on:
   push:
-    branches: [main, dev,prod,test/workflow]
+    branches: [main, develop,prod,test/workflow]
   workflow_dispatch:    
 
 jobs:
