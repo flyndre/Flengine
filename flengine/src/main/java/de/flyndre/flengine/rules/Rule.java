@@ -4,6 +4,7 @@ import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.enums.Color;
+import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Type;
 
 import java.util.ArrayList;
@@ -41,33 +42,25 @@ public class Rule extends PieceRule {
         List<Field> checkedFields = getCheckedFields(board, kingField);
         Map<Field, List<Field>> pinnedFields = getPinnedFields(board, kingField);
 
-
-        //  TODO 2x über move liste iterieren kann man verbessern
-        // there exists at least one pinned piece
-        if (!pinnedFields.isEmpty()) {
+        // if there are pinned or checked fields, not all available moves are legal
+        // filter out all moves that are in conflict with pinnedFields or checkedFields
+        if (!pinnedFields.isEmpty() || !checkedFields.isEmpty()) {
 
             List<Move> allMoves = new ArrayList<>(moves);
             moves.clear();
 
             for (Move move : allMoves) {
-                // if a move with toField is in the pinnedFields list, add it to the moves list
+                // if fromField of field is in pinnedFields hashmap
                 if (pinnedFields.containsKey(move.getFrom())) {
-                    if (pinnedFields.get(move.getFrom()).contains(move.getTo())) {
+                    // if toField is in the pinnedFields hashmap, checkedFields are empty or contain toField
+                    if (pinnedFields.get(move.getFrom()).contains(move.getTo()) && (checkedFields.isEmpty() ||
+                            checkedFields.contains(move.getTo()))) {
                         moves.add(move);
                     }
                 }
-                else moves.add(move);
-            }
-        }
-
-        // there is a piece that puts the king in check
-        if (!checkedFields.isEmpty()) {
-
-            List<Move> allMoves = new ArrayList<>(moves);
-            moves.clear();
-            // if a move with toField is in the checkedFields list or the king can move, add it to the moves list
-            for (Move move : allMoves) {
-                if (checkedFields.contains(move.getTo()) || move.getFrom().equals(kingField)) {
+                // if unchecked, or toField is field in checkedFields list and king can move
+                else if (checkedFields.isEmpty() || checkedFields.contains(move.getTo()) || move.getFrom().equals(kingField))
+                {
                     moves.add(move);
                 }
             }
@@ -136,6 +129,40 @@ public class Rule extends PieceRule {
         // TODO weitere remis-regeln implementieren
 
         return (getLegalMoves(board, Color.WHITE).isEmpty() || getLegalMoves(board, Color.BLACK).isEmpty());
+    }
+
+    /**
+     * Returns if the given move is legal.
+     * @param board current chess board
+     * @param move move to check
+     * @return true if the given move is legal
+     */
+    public boolean isLegalMove(Board board, Move move) {
+
+        // move object contains null attributes
+        if (move.getFrom() == null || move.getTo() == null || move.getFrom().getLine() == null ||
+                move.getFrom().getRow() == null || move.getTo().getLine() == null || move.getTo().getRow() == null)
+        {
+            return false;
+        }
+
+        // from field is empty / has no type
+        if (board.getPiece(move.getFrom()) == null || board.getPiece(move.getFrom()).getTypeOfFigure() == null) return false;
+
+        // from & to field are the same color
+        if (board.getPiece(move.getFrom()).getColor().equals(board.getPiece(move.getTo()).getColor())) return false;
+
+        // pawn move from the second to last line has to be promoted
+        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.PAWN) &&
+                (board.getPiece(move.getFrom()).getColor().equals(Color.WHITE) && move.getFrom().getLine().equals(Line.SEVEN) ||
+                board.getPiece(move.getFrom()).getColor().equals(Color.BLACK) && move.getFrom().getLine().equals(Line.TWO)))
+        {
+            if (move.getChangeTo() == null) return false;
+        }
+        else if (move.getChangeTo() != null) return false;
+
+        // move is not in list of legal moves
+        return getLegalMoves(board, move.getFrom()).contains(move);
     }
 
     /**
@@ -247,13 +274,14 @@ public class Rule extends PieceRule {
         return checkedFields;
     }
 
-    // TODO getCheckedFields & getPinnedFields in eine methode zusammenfassen
-
     /**
-     * TODO getPinnedFields methoden javadoc dies das
-     * @param board
-     * @param kingField
-     * @return
+     * Returns a hashmap of all pinned fields with a list of corresponding fields they can move to. <br>
+     * The list of moveable fields of the pinned piece contains all moves to theoretically move to.
+     * It does not consider piece type, so the corresponding field list may contain illegal moves. <br>
+     * If the hashmap is empty, no pieces are pinned.
+     * @param board current chess board
+     * @param kingField field of the king
+     * @return hashmap of pinned fields with list of fields to move to
      */
     private Map<Field, List<Field>> getPinnedFields(Board board, Field kingField) {
 
