@@ -457,9 +457,9 @@ public class PieceRule {
                 (board.getPiece(move.getFrom()).getColor().equals(Color.WHITE) && move.getFrom().getLine().equals(Line.SEVEN) ||
                 board.getPiece(move.getFrom()).getColor().equals(Color.BLACK) && move.getFrom().getLine().equals(Line.TWO)))
         {
-            if (move.getChangeTo() == null) return false;
+            if (move.getPromoteTo() == null) return false;
         }
-        else if (move.getChangeTo() != null) return false;
+        else if (move.getPromoteTo() != null) return false;
 
         // move does not equal to figure type of the chess piece
         switch (board.getPiece(move.getFrom()).getTypeOfFigure()) {
@@ -487,9 +487,4 @@ public class PieceRule {
         }
         return true;
     }
-
-    /* TODO was soll diese methode machen??
-    public List<Move> getLegalMoves(Board board){
-        return new ArrayList<>();
-    }*/
 }
