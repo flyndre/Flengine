@@ -69,4 +69,14 @@ public class RuleTest {
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.D), new Field(Line.EIGHT, Row.B))));
         assertEquals(7, moves.size());
     }
+
+    @Test
+    void testMovesWhenPinnedInCheck() {
+
+        Board board = Converter.convertStringToBoard("3rkr2/4q3/8/8/1b5b/2B3B1/2p3p1/4K3 w - - 0 1");
+
+        List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
+
+        assertTrue(moves.isEmpty());
+    }
 }
