@@ -1,0 +1,81 @@
+name: MainWorkflow
+
+on:
+  push:
+    branches: [main, dev,prod,test/workflow]
+  workflow_dispatch:    
+
+jobs:
+  unittest:
+    name: Unittest
+    continue-on-error: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+        #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      - name: checkout
+        uses: actions/checkout@v1
+               
+      #Set up JDK 21
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '21'
+      #Set up Maven cache
+      - name: Cache Maven packages
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/flengine/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      #Test the application using Maven
+      #- name: Test with Maven
+       # run: mvn -Dtest=FleventsBackendApplicationTests test --file flengine/pom.xml
+      #Test the application using Maven - all Tests
+      - name: Test with Maven - all
+        run: mvn test --file flengine/pom.xml
+
+  build_backend:
+    name: Build Artifact
+    needs: unittest
+    continue-on-error: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    if: contains('
+      refs/heads/dev
+      refs/heads/main
+      ', github.ref)
+    
+
+    steps:
+        #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      - uses: actions/checkout@v1
+      #Set up JDK 20
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '20'
+      #Set up Maven cache
+      - name: Cache Maven packages
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/flengine/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build with Maven
+        run: mvn -B package -DskipTests --file flengine/pom.xml
+      - name: Upload JAR
+        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+        uses: actions/upload-artifact@v2
+        with:
+          name: flengine
+          path: flengine/target/*.jar
+  
+   
