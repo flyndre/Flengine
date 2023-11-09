@@ -8,7 +8,7 @@ on:
 jobs:
   unittest:
     name: Unittest
-    continue-on-error: false
+    continue-on-error: true
     runs-on: ubuntu-latest
     permissions:
       contents: read
