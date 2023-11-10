@@ -3,6 +3,7 @@ package de.flyndre.flengine.rules;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
@@ -250,6 +251,9 @@ public class PieceRule {
         // castle/rochade TODO echte werte für rochade einbinden
         moves.addAll(getCastleMoves(board, field, true, true));
 
+        // set field of king to null
+        board.setPiece(null, field);
+
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
 
@@ -258,7 +262,7 @@ public class PieceRule {
                 // field has to be unoccupied or occupied by an opponent
                 if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
                         (board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) == null ||
-                        !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(board.getPiece(field).getColor())) &&
+                        !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color)) &&
                         // field must not be covered by opponent
                         !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
                 {
@@ -266,6 +270,10 @@ public class PieceRule {
                 }
             }
         }
+
+        // re-set king field of the chess board
+        board.setPiece(new Piece(Type.KING, color), field);
+
         return moves;
     }
 
