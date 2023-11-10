@@ -18,9 +18,6 @@ import java.util.Map;
  */
 public class Rule extends PieceRule {
 
-    private List<Field> checkedFields = new ArrayList<>();
-    private List<Field> criticalFields = new ArrayList<>();
-
     /**
      * Returns all possible moves of a given color.
      * @param board current chess board
