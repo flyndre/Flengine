@@ -34,13 +34,14 @@ public class RuleTest {
     @Test
     void testMovesInCheck() {
 
-        Board board = Converter.convertStringToBoard("6k1/6b1/4N3/2B5/8/1R4Q1/2PPP3/K7 w - - 0 1");
+        Board board = Converter.convertStringToBoard("6k1/R5b1/4N3/2B5/8/1R4Q1/1KPPP3/8 b - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
-        assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.TWO, Row.A))));
-        assertTrue(moves.contains(new Move(new Field(Line.ONE, Row.A), new Field(Line.ONE, Row.B))));
-        assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.B), new Field(Line.TWO, Row.B))));
+        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.B), new Field(Line.TWO, Row.A))));
+        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.B), new Field(Line.THREE, Row.A))));
+        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.B), new Field(Line.ONE, Row.B))));
+        assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.B), new Field(Line.ONE, Row.C))));
         assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.B), new Field(Line.THREE, Row.C))));
         assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.C), new Field(Line.THREE, Row.C))));
         assertTrue(moves.contains(new Move(new Field(Line.TWO, Row.D), new Field(Line.FOUR, Row.D))));
@@ -50,7 +51,8 @@ public class RuleTest {
         assertTrue(moves.contains(new Move(new Field(Line.THREE, Row.G), new Field(Line.SEVEN, Row.G))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(new Field(Line.SIX, Row.E), new Field(Line.SEVEN, Row.G))));
-        assertEquals(12, moves.size());
+        assertTrue(moves.contains(new Move(new Field(Line.SEVEN, Row.A), new Field(Line.SEVEN, Row.G))));
+        assertEquals(14, moves.size());
     }
 
     @Test
