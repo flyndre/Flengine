@@ -6,10 +6,14 @@ import de.flyndre.flengine.datamodel.Options;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.moveprovider.Stub;
 import de.flyndre.flengine.rules.Rule;
-
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The centerpiece of Flengine.
+ * Orchestrates the move-determination-process by retrieving moves from a list of {@code MoveProviders}.
+ * @author David
+ */
 public class Controller {
 
     private final static List<MoveProvider> moveProviderHierarchy = Arrays.asList(
@@ -18,9 +22,9 @@ public class Controller {
     );
 
     /**
-     *
-     * @param board The current Board.
-     * @param options An Object containing options about the move obtainment process.
+     * Determines the best move based on the given {@code Board} and {@code Options}.
+     * @param board The current board.
+     * @param options An object containing options about the move obtainment process.
      * @return A single {@code Move}, which the engine determined as best possible move or {@code null}, if no move was found.
      */
     public static Move giveMove(Board board, Options options) {
