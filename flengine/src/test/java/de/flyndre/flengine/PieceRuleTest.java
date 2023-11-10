@@ -29,10 +29,10 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(3, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.E))));
+        assertEquals(3, moves.size());
     }
 
     @Test
@@ -43,9 +43,9 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(2, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.B), Type.QUEEN)));
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.C), Type.QUEEN)));
+        assertEquals(2, moves.size());
     }
 
     @Test
@@ -56,12 +56,12 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(5, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.B))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.B))));
         assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.B))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.C))));
+        assertEquals(5, moves.size());
     }
 
     @Test
@@ -72,12 +72,12 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(5, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.ONE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.TWO, Row.D))));
+        assertEquals(5, moves.size());
     }
 
     @Test
@@ -88,12 +88,12 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(5, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.B))));
         assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.B))));
+        assertEquals(5, moves.size());
     }
 
     @Test
@@ -104,7 +104,6 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(9, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.A))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.A))));
@@ -114,6 +113,7 @@ public class PieceRuleTest {
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.C))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FOUR, Row.D))));
+        assertEquals(9, moves.size());
     }
 
     @Test
@@ -124,11 +124,11 @@ public class PieceRuleTest {
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertEquals(4, moves.size());
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.F))));
+        assertEquals(4, moves.size());
     }
 
     @Test
