@@ -7,14 +7,14 @@ import java.util.logging.SimpleFormatter;
 
 public class FileLogger extends Logger{
 
-    private final static String pathToFile = "flengine\\src\\main\\java\\de\\flyndre\\flengine\\log.log";
+    private final static String pathToFile = ".\\log.log";
 
     public static Logger getLogger(String name) {
 
         Logger logger = Logger.getLogger(name);
 
         try {
-            FileHandler fh = new FileHandler(new File(pathToFile).getAbsolutePath());
+            FileHandler fh = new FileHandler(new File(pathToFile).getAbsolutePath(), true);
             logger.addHandler(fh);
 
             SimpleFormatter formatter = new SimpleFormatter();
