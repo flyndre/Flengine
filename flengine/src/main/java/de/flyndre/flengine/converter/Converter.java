@@ -78,47 +78,25 @@ public class Converter {
                         rowCount = rowCount + (c - '0');
                     }else{//field is not empty
                         if(Character.isUpperCase(c)){
-                            switch(Character.toLowerCase(c)){//white
-                                case 'r':
-                                    piece = new Piece(Type.ROOK, Color.WHITE);
-                                    break;
-                                case 'n':
-                                    piece = new Piece(Type.KNIGHT, Color.WHITE);
-                                    break;
-                                case 'b':
-                                    piece = new Piece(Type.BISHOP, Color.WHITE);
-                                    break;
-                                case 'q':
-                                    piece = new Piece(Type.QUEEN, Color.WHITE);
-                                    break;
-                                case 'k':
-                                    piece = new Piece(Type.KING, Color.WHITE);
-                                    break;
-                                case 'p':
-                                    piece = new Piece(Type.PAWN, Color.WHITE);
-                                    break;
-                            }
+                            piece = switch (Character.toLowerCase(c)) {//white
+                                case 'r' -> new Piece(Type.ROOK, Color.WHITE);
+                                case 'n' -> new Piece(Type.KNIGHT, Color.WHITE);
+                                case 'b' -> new Piece(Type.BISHOP, Color.WHITE);
+                                case 'q' -> new Piece(Type.QUEEN, Color.WHITE);
+                                case 'k' -> new Piece(Type.KING, Color.WHITE);
+                                case 'p' -> new Piece(Type.PAWN, Color.WHITE);
+                                default -> piece;
+                            };
                         }else{
-                            switch(Character.toLowerCase(c)){//black
-                                case 'r':
-                                    piece = new Piece(Type.ROOK, Color.BLACK);
-                                    break;
-                                case 'n':
-                                    piece = new Piece(Type.KNIGHT, Color.BLACK);
-                                    break;
-                                case 'b':
-                                    piece = new Piece(Type.BISHOP, Color.BLACK);
-                                    break;
-                                case 'q':
-                                    piece = new Piece(Type.QUEEN, Color.BLACK);
-                                    break;
-                                case 'k':
-                                    piece = new Piece(Type.KING, Color.BLACK);
-                                    break;
-                                case 'p':
-                                    piece = new Piece(Type.PAWN, Color.BLACK);
-                                    break;
-                            }
+                            piece = switch (Character.toLowerCase(c)) {//black
+                                case 'r' -> new Piece(Type.ROOK, Color.BLACK);
+                                case 'n' -> new Piece(Type.KNIGHT, Color.BLACK);
+                                case 'b' -> new Piece(Type.BISHOP, Color.BLACK);
+                                case 'q' -> new Piece(Type.QUEEN, Color.BLACK);
+                                case 'k' -> new Piece(Type.KING, Color.BLACK);
+                                case 'p' -> new Piece(Type.PAWN, Color.BLACK);
+                                default -> piece;
+                            };
                         }
                         board.setPiece(piece, new Field(Line.values()[lineCount],Row.values()[rowCount]));
                         rowCount++;
@@ -129,6 +107,102 @@ public class Converter {
             }
         }
         return board;
+    }
+
+    public static String convertBoardToString(Board board){
+        String fen = "";
+        int emptyFieldCounter = 0;
+        boolean isCastlingPossible = false;
+
+        //get pieces
+        for(int a = 7; a >= 0; a--){
+            for(int b = 0; b < 8; b++){
+                Piece currentPiece = board.getPiece(new Field(Line.values()[a], Row.values()[b]));
+
+                if(currentPiece != null){//check for empty field
+                    String currentPieceFenRepresentation = "";
+
+                    switch (currentPiece.getTypeOfFigure()){//get piece
+                        case ROOK -> currentPieceFenRepresentation = "r";
+                        case KNIGHT -> currentPieceFenRepresentation = "n";
+                        case BISHOP -> currentPieceFenRepresentation = "b";
+                        case QUEEN -> currentPieceFenRepresentation = "q";
+                        case KING -> currentPieceFenRepresentation = "k";
+                        case PAWN -> currentPieceFenRepresentation = "p";
+                    }
+                    if(currentPiece.getColor() == Color.WHITE){//set piece color
+                        currentPieceFenRepresentation = currentPieceFenRepresentation.toUpperCase();
+                    }
+
+                    //add piece to fen string
+                    if(emptyFieldCounter > 0){
+                        fen += emptyFieldCounter;
+                        fen += currentPieceFenRepresentation;
+
+                        emptyFieldCounter = 0;
+                    }else{
+                        fen += currentPieceFenRepresentation;
+                    }
+                }else{
+                    emptyFieldCounter++;
+                }
+            }
+            //after row is finished
+            if(emptyFieldCounter > 0){
+                fen += emptyFieldCounter;
+                emptyFieldCounter = 0;
+            }
+
+            fen += "/";
+        }
+
+        //get next move color
+        if(board.getNextColor() == Color.WHITE){
+            fen += " w";
+        }else{
+            fen += " b";
+        }
+
+        //get castling information
+        fen += " ";
+
+        if(board.getWhiteShortCastling()){
+            isCastlingPossible = true;
+            fen += "K";
+        }
+
+        if(board.getWhiteLongCastling()){
+            isCastlingPossible = true;
+            fen += "Q";
+        }
+
+        if(board.getBlackShortCastling()){
+            isCastlingPossible = true;
+            fen += "k";
+        }
+
+        if(board.getBlackLongCastling()){
+            isCastlingPossible = true;
+            fen += "q";
+        }
+        //check whether no castling is possible
+        if(!isCastlingPossible){
+            fen += "-";
+        }
+
+        //get en passant information
+        //not implemented yet, hardcoded dummy value
+        fen += " -";
+
+        //get half moves information
+        //not implemented yet, hardcoded dummy value
+        fen += " 0";
+
+        //get number of move
+        //not implemented yet, hardcoded dummy value
+        fen += " 1";
+
+        return fen;
     }
 
     /**
