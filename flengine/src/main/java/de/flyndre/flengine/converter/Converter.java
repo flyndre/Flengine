@@ -128,6 +128,8 @@ public class Converter {
             //decode half moves
 
             //decode move number
+            String moveNumber = split[5];
+            board.setMoveCounter(Integer.getInteger(moveNumber));
         }
         return board;
     }
@@ -228,7 +230,7 @@ public class Converter {
 
         //get number of move
         //not implemented yet, hardcoded dummy value
-        fen += " 1";
+        fen += (" " + board.getMoveCounter());
 
         return fen;
     }

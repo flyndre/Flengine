@@ -20,6 +20,10 @@ public class Board {
      */
     private Color nextColor = Color.WHITE;
     /**
+     * Number of the next move to be done on the board. This is important for fen string support.
+     */
+    private int moveCounter = 1;
+    /**
      * Indicates whether white can do short castling
      */
     private boolean whiteShortCastling = true;
@@ -124,6 +128,8 @@ public class Board {
         }else {
             this.nextColor = Color.BLACK;
         }
+
+        moveCounter++;
     }
 
     /**
@@ -197,5 +203,13 @@ public class Board {
 
     public void setBlackLongCastling(boolean blackLongCastling){
         this.blackLongCastling = blackLongCastling;
+    }
+
+    public int getMoveCounter(){
+        return  this.moveCounter;
+    }
+
+    public void setMoveCounter(int moveCounter){
+        this.moveCounter = moveCounter;
     }
 }
