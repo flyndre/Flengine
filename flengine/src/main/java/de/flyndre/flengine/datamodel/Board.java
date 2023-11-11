@@ -114,6 +114,10 @@ public class Board {
             }
         }
 
+        //check whether move is a promotion
+        if(move.getPromoteTo() != null){
+            setPiece(new Piece(move.getPromoteTo(), getPiece(move.getFrom()).getColor()), move.getTo());
+        }
 
         if(this.nextColor==Color.BLACK){
             this.nextColor = Color.WHITE;

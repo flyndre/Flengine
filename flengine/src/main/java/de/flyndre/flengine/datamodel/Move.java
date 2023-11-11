@@ -10,7 +10,7 @@ public class Move {
     private Field from;
     private Field to;
     /**
-     * Contains the type to switch to if a change should be performed.
+     * Contains the type to switch to if a change should be performed. If this move is no promotion the value is null.
      */
     private Type promoteTo;
 
