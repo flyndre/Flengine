@@ -55,8 +55,8 @@ public class Endgame implements MoveProvider {
      */
     @Override
     public List<Move> getRecommendedMoves(Board board) {
-        // TODO: replace with FEN creation method of Converter
-        var fenString = "4k1K1/7P/8/8/8/8/7p/8 b - - 0 1";
+        //var fenString = "4k1K1/7P/8/8/8/8/7p/8 b - - 0 1"; // for endgame position
+        var fenString = Converter.convertBoardToString(board);
         var request = new Request.Builder()
                 .url("https://tablebase.lichess.ovh/standard?fen=" + fenString)
                 .build();
