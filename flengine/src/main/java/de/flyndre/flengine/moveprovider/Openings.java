@@ -43,8 +43,8 @@ public class Openings implements MoveProvider {
      */
     @Override
     public List<Move> getRecommendedMoves(Board board) {
-        // TODO: replace with FEN creation method of Converter
-        var fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        //var fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // for start position
+        var fenString = Converter.convertBoardToString(board);
         var request = new Request.Builder()
                 .url("https://explorer.lichess.ovh/masters?fen=" + fenString + "&topGames=0")
                 .build();
