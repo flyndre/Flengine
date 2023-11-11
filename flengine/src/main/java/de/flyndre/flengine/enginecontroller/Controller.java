@@ -22,6 +22,13 @@ public class Controller {
 
     private static final Logger logger = FileLogger.getLogger("Controller");
 
+    /**
+     * This number is used to tweak the difficulty of the engine.
+     * A lower number makes it less difficult, a higher one more difficult.
+     * The value 1 gives all moves the same probability.
+     */
+    private static final double DIFFICULTY = 2;
+
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
             new Endgame(),
@@ -40,7 +47,12 @@ public class Controller {
             var moves = moveProvider.getRecommendedMoves(board);
             if (moves != null && !moves.isEmpty()){
                 logger.info("Received: [" + moves.size() + " moves]");
-                return moves.get((int) Math.floor(Math.random() * moves.size()));
+                return moves.get((int) Math.floor(
+                        // Squaring the random number to control which items are more probable.
+                        // A higher exponent makes the front items of the list more probable.
+                        // Because the front moves should be the better ones, this makes the engine more difficult.
+                        Math.pow(Math.random(), DIFFICULTY) * moves.size())
+                );
             }
         }
         logger.warning("No possible moves were found.");
