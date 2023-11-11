@@ -159,31 +159,43 @@ public class Board {
         this.nextColor = nextColor;
     }
 
-    /**
-     * @return indicating whether white is allowed to do short castling
-     */
+
     public boolean getWhiteShortCastling(){
         return this.whiteShortCastling;
     }
 
-    /**
-     * @return indicating whether white is allowed to do long castling
-     */
+
     public boolean getWhiteLongCastling(){
         return this.whiteLongCastling;
     }
 
-    /**
-     * @return indicating whether black is allowed to do short castling
-     */
+
     public boolean getBlackShortCastling(){
         return this.blackShortCastling;
     }
 
-    /**
-     * @return indicating whether black is allowed to do long castling
-     */
+
     public boolean getBlackLongCastling(){
         return this.blackLongCastling;
+    }
+
+
+    public void setWhiteShortCastling(boolean whiteShortCastling){
+        this.whiteShortCastling = whiteShortCastling;
+    }
+
+
+    public void setWhiteLongCastling(boolean whiteLongCastling){
+        this.whiteLongCastling = whiteLongCastling;
+    }
+
+
+    public void setBlackShortCastling(boolean blackShortCastling){
+        this.blackShortCastling = blackShortCastling;
+    }
+
+
+    public void setBlackLongCastling(boolean blackLongCastling){
+        this.blackLongCastling = blackLongCastling;
     }
 }

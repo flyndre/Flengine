@@ -58,13 +58,6 @@ public class Converter {
             String[] split = input.split(" ");
             String pos = split[0];
 
-            //decode next move color
-            if(split[1].equals("w")){
-                board.setNextColor(Color.WHITE);
-            }else{
-                board.setNextColor(Color.BLACK);
-            }
-
             //decode position
             int lineCount = 7;
             split = pos.split("/");
@@ -105,10 +98,45 @@ public class Converter {
                 }
                 lineCount--;
             }
+
+            //decode next move color
+            if(split[1].equals("w")){
+                board.setNextColor(Color.WHITE);
+            }else{
+                board.setNextColor(Color.BLACK);
+            }
+
+            //decode castling
+            String castling = split[2];
+
+            board.setWhiteShortCastling(false);
+            board.setWhiteLongCastling(false);
+            board.setBlackShortCastling(false);
+            board.setBlackLongCastling(false);
+
+            for(int i = 0; i < castling.length(); i++){
+                switch(castling.charAt(i)){
+                    case 'K' -> board.setWhiteShortCastling(true);
+                    case 'Q' -> board.setWhiteLongCastling(true);
+                    case 'k' -> board.setBlackShortCastling(true);
+                    case 'q' -> board.setBlackLongCastling(true);
+                }
+            }
+
+            //decode en passant
+
+            //decode half moves
+
+            //decode move number
         }
         return board;
     }
 
+    /**
+     * converts the given board object into a fen string
+     * @param board the board object to be converted
+     * @return the fen string
+     */
     public static String convertBoardToString(Board board){
         String fen = "";
         int emptyFieldCounter = 0;
