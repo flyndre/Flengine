@@ -50,6 +50,22 @@ public class PieceRuleTest {
     }
 
     @Test
+    void testEnPassant() {
+
+        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
+        Field field = new Field(Line.FIVE, Row.E);
+
+        List<Move> moves = pieceRule.getLegalMoves(board, field);
+        board.playMove(new Move(field, new Field(Line.SIX, Row.F)));
+
+        assertFalse(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.F))));
+        assertNull(board.getPiece(field));
+        assertNull(board.getPiece(new Field(Line.FIVE, Row.F)));
+        assertEquals(new Piece(Type.PAWN, Color.WHITE), board.getPiece(new Field(Line.SIX, Row.F)));
+    }
+
+    @Test
     void testRookMoves() {
 
         Board board = Converter.convertStringToBoard("4k3/8/1p6/8/1R1P4/1p6/8/4K3 w - - 0 1");
@@ -128,6 +144,56 @@ public class PieceRuleTest {
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
         assertEquals(2, moves.size());
+    }
+
+    @Test
+    void testKingsideCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
+
+        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G)));
+
+        assertTrue(board.getWhiteLongCastling());
+        assertTrue(board.getWhiteShortCastling());
+        assertTrue(board.getBlackLongCastling());
+        assertTrue(board.getBlackShortCastling());
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+
+        assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.H)));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.F)), new Piece(Type.ROOK, Color.WHITE));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.G)), new Piece(Type.KING, Color.WHITE));
+    }
+
+    @Test
+    void testQueensideCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k3/p6r/7p/8/8/8/P6P/R3K2R w KQ - 0 1");
+
+        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C)));
+
+        assertTrue(board.getWhiteLongCastling());
+        assertTrue(board.getWhiteShortCastling());
+        assertFalse(board.getBlackLongCastling());
+        assertFalse(board.getBlackShortCastling());
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+
+        assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.A)));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.C)), new Piece(Type.KING, Color.WHITE));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.D)), new Piece(Type.ROOK, Color.WHITE));
     }
 
     @Test
