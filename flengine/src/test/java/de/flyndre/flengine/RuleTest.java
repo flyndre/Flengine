@@ -4,16 +4,18 @@ import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
+import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.rules.Rule;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class RuleTest {
 
@@ -29,6 +31,60 @@ public class RuleTest {
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
         assertEquals(20, moves.size());
+    }
+
+    @Test
+    void testEnPassant() {
+
+        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
+        Field field = new Field(Line.FIVE, Row.E);
+
+        List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
+        board.playMove(new Move(field, new Field(Line.SIX, Row.F)));
+
+        assertFalse(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.F))));
+        assertNull(board.getPiece(field));
+        assertNull(board.getPiece(new Field(Line.FIVE, Row.F)));
+        assertEquals(new Piece(Type.PAWN, Color.WHITE), board.getPiece(new Field(Line.SIX, Row.F)));
+    }
+
+    @Test
+    void testKingsideCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
+
+        List<Move> movesWhite = rule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = rule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G)));
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.H)));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.F)), new Piece(Type.ROOK, Color.WHITE));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.G)), new Piece(Type.KING, Color.WHITE));
+    }
+
+    @Test
+    void testQueensideCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k3/p6r/7p/8/8/8/P6P/R3K2R w KQ - 0 1");
+
+        List<Move> movesWhite = rule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = rule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C)));
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
+        assertNull(board.getPiece(new Field(Line.ONE, Row.A)));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.C)), new Piece(Type.KING, Color.WHITE));
+        assertEquals(board.getPiece(new Field(Line.ONE, Row.D)), new Piece(Type.ROOK, Color.WHITE));
     }
 
     @Test

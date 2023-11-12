@@ -4,6 +4,7 @@ import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
@@ -46,19 +47,6 @@ public class PieceRuleTest {
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.B), Type.QUEEN)));
         assertTrue(moves.contains(new Move(field, new Field(Line.EIGHT, Row.C), Type.QUEEN)));
         assertEquals(2, moves.size());
-    }
-
-    @Test
-    void testEnPassant() {
-
-        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
-        Field field = new Field(Line.FIVE, Row.E);
-
-        List<Move> moves = pieceRule.getLegalMoves(board, field);
-
-        // TODO zwei en passants sind nicht möglich
-        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.F))));
     }
 
     @Test
@@ -132,41 +120,14 @@ public class PieceRuleTest {
     @Test
     void testKingMoves() {
 
-        Board board = Converter.convertStringToBoard("4k3/8/8/4pP2/4K3/3P1p2/8/8 w - - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/4b3/4pP2/4K3/3P1p2/8/3b4 w - - 0 1");
         Field field = new Field(Line.FOUR, Row.E);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
-        assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.D))));
         assertTrue(moves.contains(new Move(field, new Field(Line.FIVE, Row.E))));
         assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.E))));
-        assertTrue(moves.contains(new Move(field, new Field(Line.THREE, Row.F))));
-        assertEquals(4, moves.size());
-    }
-
-    @Test
-    void testKingMovesWhenCovered() {
-
-        Board board = Converter.convertStringToBoard("3qk3/8/6p1/3rpn2/4K3/5P2/8/8 w - - 0 1");
-        Field field = new Field(Line.FOUR, Row.E);
-
-        List<Move> moves = pieceRule.getLegalMoves(board, field);
-
-        assertTrue(moves.isEmpty());
-    }
-
-    @Test
-    void testCastleMoves() {
-
-        Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
-
-        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
-        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
-
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A))));
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.A))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.H))));
+        assertEquals(2, moves.size());
     }
 
     @Test
