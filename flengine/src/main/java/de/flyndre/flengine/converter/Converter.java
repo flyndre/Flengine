@@ -60,8 +60,8 @@ public class Converter {
 
             //decode position
             int lineCount = 7;
-            split = pos.split("/");
-            for(String row: split){
+            String[] posSplitted = pos.split("/");
+            for(String row: posSplitted){
                 int rowCount = 0;
 
                 for(char c: row.toCharArray()){
