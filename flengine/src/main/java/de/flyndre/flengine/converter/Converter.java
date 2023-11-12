@@ -129,7 +129,7 @@ public class Converter {
 
             //decode move number
             String moveNumber = split[5];
-            board.setMoveCounter(Integer.getInteger(moveNumber));
+            board.setMoveCounter(Integer.parseInt(moveNumber));
         }
         return board;
     }

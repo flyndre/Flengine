@@ -57,7 +57,7 @@ public class Board {
         setPiece(null,move.getFrom());
 
         //check for castling
-        if(getPiece(move.getFrom()).getTypeOfFigure() == Type.KING){
+        if(getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
             //check for white short castling
             if(move.getFrom().getLine() == Line.ONE
                     && move.getFrom().getRow() == Row.E
@@ -94,16 +94,16 @@ public class Board {
         }
 
         //check whether move affects future castling and set flags accordingly
-        if(getPiece(move.getFrom()).getTypeOfFigure() == Type.KING){
-            if(getPiece(move.getFrom()).getColor() == Color.WHITE){
+        if(getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
+            if(getPiece(move.getTo()).getColor() == Color.WHITE){
                 whiteShortCastling = false;
                 whiteLongCastling = false;
             }else{
                 blackShortCastling = false;
                 blackLongCastling = false;
             }
-        } else if (getPiece(move.getFrom()).getTypeOfFigure() == Type.ROOK) {
-            if(getPiece(move.getFrom()).getColor() == Color.WHITE){
+        } else if (getPiece(move.getTo()).getTypeOfFigure() == Type.ROOK) {
+            if(getPiece(move.getTo()).getColor() == Color.WHITE){
                 if (move.getFrom().getRow() == Row.A){
                     whiteLongCastling = false;
                 }else{
@@ -120,7 +120,7 @@ public class Board {
 
         //check whether move is a promotion
         if(move.getPromoteTo() != null){
-            setPiece(new Piece(move.getPromoteTo(), getPiece(move.getFrom()).getColor()), move.getTo());
+            setPiece(new Piece(move.getPromoteTo(), getPiece(move.getTo()).getColor()), move.getTo());
         }
 
         if(this.nextColor==Color.BLACK){

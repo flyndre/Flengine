@@ -4,16 +4,18 @@ import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
+import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.rules.Rule;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class RuleTest {
 
@@ -34,7 +36,7 @@ public class RuleTest {
     @Test
     void testMovesInCheck() {
 
-        Board board = Converter.convertStringToBoard("6k1/R5b1/4N3/2B5/8/1R4Q1/1KPPP3/8 b - - 0 1");
+        Board board = Converter.convertStringToBoard("6k1/R5b1/4N3/2B5/8/1R4Q1/1KPPP3/8 w - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
@@ -58,7 +60,7 @@ public class RuleTest {
     @Test
     void testMovesWhenPinned() {
 
-        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 b - - 0 1");
+        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 w - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 

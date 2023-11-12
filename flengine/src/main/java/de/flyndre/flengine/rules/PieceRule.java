@@ -248,8 +248,8 @@ public class PieceRule {
         // set the field of the king for future calculations
         kingField = field;
 
-        // castle/rochade TODO echte werte für rochade einbinden
-        moves.addAll(getCastleMoves(board, field, true, true));
+        // castle/rochade
+        moves.addAll(getCastleMoves(board, field));
 
         // set field of king to null
         board.setPiece(null, field);
@@ -291,14 +291,14 @@ public class PieceRule {
      *
      * @param board current chess board
      * @param field current field of a king
-     * @param canQueensideCastle boolean flag if a queenside castle of the given field color is possible
-     * @param canKingsideCastle boolean flag if a kingside castle of the given field color is possible
      * @return list of 0 to 2 possible castle moves
      */
-    private List<Move> getCastleMoves(Board board, Field field, boolean canQueensideCastle, boolean canKingsideCastle) {
+    private List<Move> getCastleMoves(Board board, Field field) {
 
         List<Move> moves = new ArrayList<>();
         Color opponentColor = board.getPiece(field).getColor().equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+        boolean canQueensideCastle = opponentColor.equals(Color.WHITE) ? board.getBlackLongCastling() : board.getWhiteLongCastling();
+        boolean canKingsideCastle = opponentColor.equals(Color.WHITE) ? board.getBlackShortCastling() : board.getWhiteShortCastling();
 
         // king is on its original field
         if (field.getRow().equals(Row.E) && (field.getLine().equals(Line.ONE) && board.getPiece(field).getColor().equals(Color.WHITE) ||
@@ -322,7 +322,7 @@ public class PieceRule {
                     !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
                     !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.A))); // TODO move muss auch turm bewegen
+                moves.add(new Move(field, new Field(field.getLine(), Row.C)));
             }
             // king-side castle
             // there is a rook on row H in the same line of the same color, kingside castle is possible
@@ -338,7 +338,7 @@ public class PieceRule {
                     !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
                     !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.H))); // TODO move muss auch turm bewegen
+                moves.add(new Move(field, new Field(field.getLine(), Row.G)));
             }
         }
         return moves;
