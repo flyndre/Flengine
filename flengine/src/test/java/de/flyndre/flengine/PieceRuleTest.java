@@ -52,7 +52,7 @@ public class PieceRuleTest {
     @Test
     void testEnPassant() {
 
-        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - f6 0 1");
         Field field = new Field(Line.FIVE, Row.E);
 
         List<Move> moves = pieceRule.getLegalMoves(board, field);
