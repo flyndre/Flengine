@@ -151,14 +151,14 @@ public class PieceRuleTest {
 
         Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
 
-        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
-        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
-        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G)));
-
         assertTrue(board.getWhiteLongCastling());
         assertTrue(board.getWhiteShortCastling());
         assertTrue(board.getBlackLongCastling());
         assertTrue(board.getBlackShortCastling());
+
+        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G)));
 
         assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
         assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
@@ -176,14 +176,14 @@ public class PieceRuleTest {
 
         Board board = Converter.convertStringToBoard("r3k3/p6r/7p/8/8/8/P6P/R3K2R w KQ - 0 1");
 
-        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
-        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
-        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C)));
-
         assertTrue(board.getWhiteLongCastling());
         assertTrue(board.getWhiteShortCastling());
         assertFalse(board.getBlackLongCastling());
         assertFalse(board.getBlackShortCastling());
+
+        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C)));
 
         assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
         assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
