@@ -183,7 +183,9 @@ public class Converter {
                 emptyFieldCounter = 0;
             }
 
-            fen += "/";
+            if(a != 0){//check whether it is not the last line and only then add a slash
+                fen += "/";
+            }
         }
 
         //get next move color
