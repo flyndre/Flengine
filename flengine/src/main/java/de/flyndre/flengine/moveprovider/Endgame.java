@@ -55,6 +55,11 @@ public class Endgame implements MoveProvider {
      */
     @Override
     public List<Move> getRecommendedMoves(Board board) {
+        var pieceCount = board.pieceCount();
+        if (board.pieceCount() > 7) {
+            logger.info("The given board has more than 7 pieces left: [" + pieceCount + "]");
+            return new ArrayList<>();
+        }
         //var fenString = "4k1K1/7P/8/8/8/8/7p/8 b - - 0 1"; // for endgame position
         var fenString = Converter.convertBoardToString(board);
         var request = new Request.Builder()
