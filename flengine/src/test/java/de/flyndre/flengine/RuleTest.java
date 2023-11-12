@@ -34,7 +34,7 @@ public class RuleTest {
     @Test
     void testMovesInCheck() {
 
-        Board board = Converter.convertStringToBoard("6k1/R5b1/4N3/2B5/8/1R4Q1/1KPPP3/8 b - - 0 1");
+        Board board = Converter.convertStringToBoard("6k1/R5b1/4N3/2B5/8/1R4Q1/1KPPP3/8 w - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 
@@ -58,7 +58,7 @@ public class RuleTest {
     @Test
     void testMovesWhenPinned() {
 
-        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 b - - 0 1");
+        Board board = Converter.convertStringToBoard("1b5b/4r1R1/3BB3/rP2Kp2/4P3/8/4q3/3k4 w - - 0 1");
 
         List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
 

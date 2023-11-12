@@ -49,6 +49,19 @@ public class PieceRuleTest {
     }
 
     @Test
+    void testEnPassant() {
+
+        Board board = Converter.convertStringToBoard("4k3/8/8/3pPp2/8/8/8/4K3 w - d6 0 1");
+        Field field = new Field(Line.FIVE, Row.E);
+
+        List<Move> moves = pieceRule.getLegalMoves(board, field);
+
+        // TODO zwei en passants sind nicht möglich
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.D))));
+        assertTrue(moves.contains(new Move(field, new Field(Line.SIX, Row.F))));
+    }
+
+    @Test
     void testRookMoves() {
 
         Board board = Converter.convertStringToBoard("4k3/8/1p6/8/1R1P4/1p6/8/4K3 w - - 0 1");
@@ -140,6 +153,20 @@ public class PieceRuleTest {
         List<Move> moves = pieceRule.getLegalMoves(board, field);
 
         assertTrue(moves.isEmpty());
+    }
+
+    @Test
+    void testCastleMoves() {
+
+        Board board = Converter.convertStringToBoard("r3k2r/p6p/8/4B3/8/8/P6P/R3K2R w KQkq - 0 1");
+
+        List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
+        List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.A))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.H))));
     }
 
     @Test
