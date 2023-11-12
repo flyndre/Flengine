@@ -106,13 +106,13 @@ public class Board {
             if(getPiece(move.getTo()).getColor() == Color.WHITE){
                 if (move.getFrom().getRow() == Row.A){
                     whiteLongCastling = false;
-                }else{
+                }else if (move.getFrom().getRow() == Row.H){
                     whiteShortCastling = false;
                 }
             }else{
                 if (move.getFrom().getRow() == Row.A){
                     blackLongCastling = false;
-                }else{
+                }else if (move.getFrom().getRow() == Row.H){
                     blackShortCastling = false;
                 }
             }
