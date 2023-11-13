@@ -54,59 +54,18 @@ public class Board {
         if (getPiece(move.getFrom())==null){
             throw new IllegalArgumentException(String.format("The from field is empty. From field: %s",move.getFrom()));
         }
-        //set piece on to-field
-        setPiece(getPiece(move.getFrom()),move.getTo());
-        //delete piece from from-field
-        setPiece(null,move.getFrom());
-
-        //check for castling
-        if(getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
-            //check for white short castling
-            if(move.getFrom().getLine() == Line.ONE
-                    && move.getFrom().getRow() == Row.E
-                    && move.getTo().getLine() == Line.ONE
-                    && move.getTo().getRow() == Row.G){
-                //move rook
-                setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.F));
-                setPiece(null, new Field(Line.ONE, Row.H));
-
-            } else if (move.getFrom().getLine() == Line.ONE//check for white long castling
-                    && move.getFrom().getRow() == Row.E
-                    && move.getTo().getLine() == Line.ONE
-                    && move.getTo().getRow() == Row.C) {
-                //move rook
-                setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.D));
-                setPiece(null, new Field(Line.ONE, Row.A));
-            } else if (move.getFrom().getLine() == Line.EIGHT
-                    && move.getFrom().getRow() == Row.E
-                    && move.getTo().getLine() == Line.EIGHT
-                    && move.getTo().getRow() == Row.G) {//check for black short castling
-                //move rook
-                setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.F));
-                setPiece(null, new Field(Line.EIGHT, Row.H));
-
-            } else if (move.getFrom().getLine() == Line.EIGHT
-                    && move.getFrom().getRow() == Row.E
-                    && move.getTo().getLine() == Line.EIGHT
-                    && move.getTo().getRow() == Row.C) {//check for black long castling
-                //move rook
-                setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.D));
-                setPiece(null, new Field(Line.EIGHT, Row.A));
-
-            }
-        }
 
         //check whether move affects future castling and set flags accordingly
-        if(getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
-            if(getPiece(move.getTo()).getColor() == Color.WHITE){
+        if(getPiece(move.getFrom()).getTypeOfFigure() == Type.KING){
+            if(getPiece(move.getFrom()).getColor() == Color.WHITE){
                 whiteShortCastling = false;
                 whiteLongCastling = false;
             }else{
                 blackShortCastling = false;
                 blackLongCastling = false;
             }
-        } else if (getPiece(move.getTo()).getTypeOfFigure() == Type.ROOK) {
-            if(getPiece(move.getTo()).getColor() == Color.WHITE){
+        } else if (getPiece(move.getFrom()).getTypeOfFigure() == Type.ROOK) {
+            if(getPiece(move.getFrom()).getColor() == Color.WHITE){
                 if (move.getFrom().getRow() == Row.A){
                     whiteLongCastling = false;
                 }else if (move.getFrom().getRow() == Row.H){
@@ -118,6 +77,56 @@ public class Board {
                 }else if (move.getFrom().getRow() == Row.H){
                     blackShortCastling = false;
                 }
+            }
+        }
+
+        //set piece on to-field
+        setPiece(getPiece(move.getFrom()),move.getTo());
+        //delete piece from from-field
+        setPiece(null,move.getFrom());
+
+        //check for castling
+        if(getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
+            //check for white short castling
+            if(move.getFrom().getLine() == Line.ONE
+                    && move.getFrom().getRow() == Row.E
+                    && move.getTo().getLine() == Line.ONE
+                    && move.getTo().getRow() == Row.H){
+                //updated pieces
+                setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.F));
+                setPiece(null, new Field(Line.ONE, Row.H));
+                setPiece(new Piece(Type.KING, Color.WHITE), new Field(Line.ONE, Row.G));
+                setPiece(null, new Field(Line.ONE, Row.E));
+
+            } else if (move.getFrom().getLine() == Line.ONE//check for white long castling
+                    && move.getFrom().getRow() == Row.E
+                    && move.getTo().getLine() == Line.ONE
+                    && move.getTo().getRow() == Row.A) {
+                //update pieces
+                setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.D));
+                setPiece(null, new Field(Line.ONE, Row.A));
+                setPiece(new Piece(Type.KING, Color.WHITE), new Field(Line.ONE, Row.C));
+                setPiece(null, new Field(Line.ONE, Row.E));
+
+            } else if (move.getFrom().getLine() == Line.EIGHT
+                    && move.getFrom().getRow() == Row.E
+                    && move.getTo().getLine() == Line.EIGHT
+                    && move.getTo().getRow() == Row.H) {//check for black short castling
+                //update pieces
+                setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.F));
+                setPiece(null, new Field(Line.EIGHT, Row.H));
+                setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.G));
+                setPiece(null, new Field(Line.EIGHT, Row.E));
+
+            } else if (move.getFrom().getLine() == Line.EIGHT
+                    && move.getFrom().getRow() == Row.E
+                    && move.getTo().getLine() == Line.EIGHT
+                    && move.getTo().getRow() == Row.A) {//check for black long castling
+                //update pieces
+                setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.D));
+                setPiece(null, new Field(Line.EIGHT, Row.A));
+                setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.C));
+                setPiece(null, new Field(Line.EIGHT, Row.E));
             }
         }
 
