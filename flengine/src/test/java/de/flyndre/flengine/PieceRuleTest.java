@@ -158,17 +158,22 @@ public class PieceRuleTest {
 
         List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
         List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
-        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G)));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H)));
 
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+        assertFalse(board.getWhiteLongCastling());
+        assertFalse(board.getWhiteShortCastling());
+        assertTrue(board.getBlackLongCastling());
+        assertTrue(board.getBlackShortCastling());
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.A))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.H))));
 
         assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
         assertNull(board.getPiece(new Field(Line.ONE, Row.H)));
-        assertEquals(board.getPiece(new Field(Line.ONE, Row.F)), new Piece(Type.ROOK, Color.WHITE));
-        assertEquals(board.getPiece(new Field(Line.ONE, Row.G)), new Piece(Type.KING, Color.WHITE));
+        assertEquals(new Piece(Type.ROOK, Color.WHITE), board.getPiece(new Field(Line.ONE, Row.F)));
+        assertEquals(new Piece(Type.KING, Color.WHITE), board.getPiece(new Field(Line.ONE, Row.G)));
     }
 
     @Test
@@ -183,17 +188,20 @@ public class PieceRuleTest {
 
         List<Move> movesWhite = pieceRule.getLegalMoves(board, new Field(Line.ONE, Row.E));
         List<Move> movesBlack = pieceRule.getLegalMoves(board, new Field(Line.EIGHT, Row.E));
-        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C)));
+        board.playMove(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A)));
 
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.C))));
-        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.G))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.C))));
-        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.G))));
+        assertFalse(board.getWhiteLongCastling());
+        assertFalse(board.getWhiteShortCastling());
+
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.A))));
+        assertTrue(movesWhite.contains(new Move(new Field(Line.ONE, Row.E), new Field(Line.ONE, Row.H))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.A))));
+        assertFalse(movesBlack.contains(new Move(new Field(Line.EIGHT, Row.E), new Field(Line.EIGHT, Row.H))));
 
         assertNull(board.getPiece(new Field(Line.ONE, Row.E)));
         assertNull(board.getPiece(new Field(Line.ONE, Row.A)));
-        assertEquals(board.getPiece(new Field(Line.ONE, Row.C)), new Piece(Type.KING, Color.WHITE));
-        assertEquals(board.getPiece(new Field(Line.ONE, Row.D)), new Piece(Type.ROOK, Color.WHITE));
+        assertEquals(new Piece(Type.KING, Color.WHITE), board.getPiece(new Field(Line.ONE, Row.C)));
+        assertEquals(new Piece(Type.ROOK, Color.WHITE), board.getPiece(new Field(Line.ONE, Row.D)));
     }
 
     @Test
