@@ -97,7 +97,7 @@ public class PieceRule {
 
         boolean canEnPassant = true; // TODO echte werte für en passant einbinden
 
-        // en passant
+        /* en passant
         if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
                 field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
         {
@@ -113,7 +113,7 @@ public class PieceRule {
             {
                 moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
             }
-        }
+        }*/
 
         return moves;
     }
@@ -244,6 +244,7 @@ public class PieceRule {
         int fieldLine = field.getLine().ordinal();
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
+        Color opponentColor = color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
 
         // set the field of the king for future calculations
         kingField = field;
@@ -264,7 +265,9 @@ public class PieceRule {
                         (board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) == null ||
                         !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color)) &&
                         // field must not be covered by opponent
-                        !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
+                        !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), opponentColor) &&
+                        // a field may not be covered by opponent's king (covered by own piece) but king must not move onto field anyway
+                        !isKingInRange(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), opponentColor))
                 {
                     moves.add(new Move(field, new Field(LINES[fieldLine + i], ROWS[fieldRow + j])));
                 }
@@ -342,6 +345,33 @@ public class PieceRule {
             }
         }
         return moves;
+    }
+
+    /**
+     * Returns if a king of given color is in a one-field-radius of the given field.
+     * @param board current chess board
+     * @param field field to check if a king is in range
+     * @param color color of king in range
+     * @return true if a king of given color is in range of the field
+     */
+    private boolean isKingInRange(Board board, Field field, Color color) {
+
+        int fieldLine = field.getLine().ordinal();
+        int fieldRow = field.getRow().ordinal();
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+
+                if (i == 0 && j == 0) continue;
+
+                if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).equals(new Piece(Type.KING, color))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

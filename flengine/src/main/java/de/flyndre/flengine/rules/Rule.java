@@ -96,15 +96,15 @@ public class Rule extends PieceRule {
 
     /**
      * Returns if the given color is in checkmate. <br>
-     * A checkmate occurs if the king can be captured in the current or next move with no possibility to escape. <br>
+     * A checkmate occurs if the king can be captured in the current move with no possibility to escape. <br>
      * If a king is in checkmate, the game is over.
      * @param board current chess board
      * @param color player color to check
-     * @return true if the king is in check
+     * @return true if the king is in checkmate
      */
     public boolean isCheckmated(Board board, Color color) {
 
-        return false; // TODO schachmatt implementieren
+        return isChecked(board, color) && getLegalMoves(board, color).isEmpty();
     }
 
     /**
