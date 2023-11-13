@@ -27,7 +27,7 @@ public class Controller {
      * A lower number makes it less difficult, a higher one more difficult.
      * The value 1 gives all moves the same probability.
      */
-    private static final double DIFFICULTY = 2;
+    private static final double DIFFICULTY = 8;
 
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
