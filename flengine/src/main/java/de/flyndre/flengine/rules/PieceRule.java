@@ -97,7 +97,7 @@ public class PieceRule {
 
         boolean canEnPassant = true; // TODO echte werte für en passant einbinden
 
-        // en passant
+        /* en passant
         if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
                 field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
         {
@@ -113,7 +113,7 @@ public class PieceRule {
             {
                 moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
             }
-        }
+        }*/
 
         return moves;
     }
