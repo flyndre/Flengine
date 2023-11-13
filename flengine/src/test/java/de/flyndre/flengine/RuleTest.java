@@ -83,4 +83,14 @@ public class RuleTest {
 
         assertTrue(moves.isEmpty());
     }
+
+    @Test
+    void testKingMoveToOtherKing() {
+
+        Board board = Converter.convertStringToBoard("8/8/4k3/8/4K3/6N1/8/8 w - - 0 1");
+
+        List<Move> moves = rule.getLegalMoves(board, Color.WHITE);
+
+        assertFalse(moves.contains(new Move(new Field(Line.FOUR, Row.E), new Field(Line.FIVE, Row.F))));
+    }
 }
