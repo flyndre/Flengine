@@ -7,25 +7,10 @@ import java.util.logging.SimpleFormatter;
 
 public class FileLogger extends Logger{
 
-    private final static String pathToFile = ".\\log.log";
+    private final static File logfile = new File(".\\log.log");
 
-    public static Logger getLogger(String name) {
+    private static FileHandler fileHandler;
 
-        Logger logger = Logger.getLogger(name);
-
-        try {
-            FileHandler fh = new FileHandler(new File(pathToFile).getAbsolutePath(), true);
-            logger.addHandler(fh);
-
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-
-            return logger;
-
-        } catch (Exception e) {
-            return Logger.getLogger("DefaultLogger");
-        }
-    }
     /**
      * Protected method to construct a logger for a named subsystem.
      * <p>
@@ -45,7 +30,31 @@ public class FileLogger extends Logger{
         super(name, resourceBundleName);
     }
 
+    public static Logger getLogger(String name) {
 
+        Logger logger = Logger.getLogger(name);
 
+        try {
+            if (fileHandler == null) {
+                removeLockFiles(logfile);
+                fileHandler = new FileHandler(logfile.getAbsolutePath(), true);
+                fileHandler.setFormatter(new SimpleFormatter());
+            }
+            logger.addHandler(fileHandler);
+            return logger;
 
+        } catch (Exception e) {
+            return Logger.getLogger(name);
+        }
+    }
+
+    private static void removeLockFiles(File logfile) {
+        var lockFileRegex = ".lck";
+        var dir = logfile.getParentFile();
+        var files = dir.listFiles();
+        if (files == null) return;
+        for (var file : files) {
+            if (file.getName().contains(lockFileRegex)) file.delete();
+        }
+    }
 }
