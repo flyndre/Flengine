@@ -5,6 +5,9 @@ import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
 import de.flyndre.flengine.datamodel.enums.Type;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * @author Lukas
  * This class represents the chess board in the game logic.
@@ -130,6 +133,15 @@ public class Board {
         }
 
         moveCounter++;
+    }
+
+    public int pieceCount() {
+        return (Arrays.stream(this.pieces).map(
+                l -> Arrays.stream(l)
+                        .filter(Objects::nonNull)
+                        .count()
+        ).reduce(Long::sum)
+        ).map(Long::intValue).orElse(0);
     }
 
     /**
