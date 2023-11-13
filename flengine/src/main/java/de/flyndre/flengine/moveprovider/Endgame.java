@@ -64,9 +64,8 @@ public class Endgame implements MoveProvider {
         var request = new Request.Builder()
                 .url("https://tablebase.lichess.ovh/standard?fen=" + fenString)
                 .build();
-        try {
-            logger.info("Requesting endgame moves for: [" + fenString + "]");
-            var response = new OkHttpClient().newCall(request).execute();
+        logger.info("Requesting endgame moves for: [" + fenString + "]");
+        try (var response = new OkHttpClient().newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected response code: " + response);
             var endgameData = JsonbBuilder.create().fromJson(response.body().string(), EndgameResponse.class);
             logger.info("Received: [" + endgameData.moves.size() + " moves]");

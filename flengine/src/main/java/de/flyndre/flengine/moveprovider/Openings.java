@@ -47,9 +47,8 @@ public class Openings implements MoveProvider {
         var request = new Request.Builder()
                 .url("https://explorer.lichess.ovh/masters?fen=" + fenString + "&topGames=0")
                 .build();
-        try {
-            logger.info("Requesting opening moves for: [" + fenString + "]");
-            var response = new OkHttpClient().newCall(request).execute();
+        logger.info("Requesting opening moves for: [" + fenString + "]");
+        try (var response = new OkHttpClient().newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected response code: " + response);
             var openingData = JsonbBuilder.create().fromJson(response.body().string(), OpeningResponse.class);
             logger.info("Received: [" + openingData.moves.size() + " moves]");
