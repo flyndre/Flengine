@@ -1,7 +1,7 @@
 package de.flyndre.flengine.moveprovider;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
