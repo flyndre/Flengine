@@ -1,8 +1,12 @@
 package de.flyndre.flengine.enginecontroller;
 
 import de.flyndre.flengine.datamodel.Board;
+import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
+import de.flyndre.flengine.datamodel.enums.Line;
+import de.flyndre.flengine.datamodel.enums.Row;
+import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.moveprovider.Endgame;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.moveprovider.Openings;
@@ -47,7 +51,7 @@ public class Controller {
             var moves = moveProvider.getRecommendedMoves(board);
             if (moves != null && !moves.isEmpty()){
                 logger.info("Received: [" + moves.size() + " moves]");
-                return moves.get(
+                Move bestMove =  moves.get(
                         (int) Math.floor(
                                 // Squaring the random number to control which items are more probable:
                                 // (1) A higher exponent makes the front items of the list more probable.
@@ -59,6 +63,19 @@ public class Controller {
                                 Math.pow(Math.random(), DIFFICULTY) % 1 * moves.size()
                     )
                 );
+
+                // convert lichess castle move to uci castle move
+                if (board.getPiece(bestMove.getFrom()).getTypeOfFigure().equals(Type.KING) &&
+                        bestMove.getFrom().getRow().equals(Row.E) &&
+                        (bestMove.getFrom().getLine().equals(Line.ONE) && bestMove.getTo().getLine().equals(Line.ONE) ||
+                        bestMove.getFrom().getLine().equals(Line.EIGHT) && bestMove.getTo().getLine().equals(Line.EIGHT)))
+                {
+                    if (bestMove.getTo().getRow().equals(Row.H)) bestMove.setTo(new Field(bestMove.getTo().getLine(), Row.G));
+                    else if (bestMove.getTo().getRow().equals(Row.A)) bestMove.setTo(new Field(bestMove.getTo().getLine(), Row.C));
+                }
+
+                logger.info("Best move is " + bestMove + " by " + moveProvider.getClass().getName());
+                return bestMove;
             }
         }
         logger.warning("No possible moves were found.");
