@@ -305,13 +305,19 @@ public class Converter {
      * @return the sanitized move
      */
     public static Move sanitizeMove(Board board, Move move) {
-        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.KING) &&
-                move.getFrom().getRow().equals(Row.E) &&
-                (move.getFrom().getLine().equals(Line.ONE) && move.getTo().getLine().equals(Line.ONE) ||
-                        move.getFrom().getLine().equals(Line.EIGHT) && move.getTo().getLine().equals(Line.EIGHT)))
-        {
-            if (move.getTo().getRow().equals(Row.H)) move.setTo(new Field(move.getTo().getLine(), Row.G));
-            else if (move.getTo().getRow().equals(Row.A)) move.setTo(new Field(move.getTo().getLine(), Row.C));
+        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.KING)
+                && move.getFrom().getRow().equals(Row.E)
+                && (
+                        move.getFrom().getLine().equals(Line.ONE)
+                                && move.getTo().getLine().equals(Line.ONE)
+                        || move.getFrom().getLine().equals(Line.EIGHT)
+                                && move.getTo().getLine().equals(Line.EIGHT)
+                )
+        ) {
+            if (move.getTo().getRow().equals(Row.H))
+                move.setTo(new Field(move.getTo().getLine(), Row.G));
+            else if (move.getTo().getRow().equals(Row.A))
+                move.setTo(new Field(move.getTo().getLine(), Row.C));
         }
         return move;
     }
