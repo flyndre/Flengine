@@ -325,7 +325,7 @@ public class PieceRule {
                     !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
                     !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.A)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.C)));
             }
             // king-side castle
             // there is a rook on row H in the same line of the same color, kingside castle is possible
@@ -341,7 +341,7 @@ public class PieceRule {
                     !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
                     !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.H)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.G)));
             }
         }
         return moves;

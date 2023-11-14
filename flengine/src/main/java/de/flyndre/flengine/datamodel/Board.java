@@ -91,42 +91,34 @@ public class Board {
             if(move.getFrom().getLine() == Line.ONE
                     && move.getFrom().getRow() == Row.E
                     && move.getTo().getLine() == Line.ONE
-                    && move.getTo().getRow() == Row.H){
-                //updated pieces
+                    && move.getTo().getRow() == Row.G){
+                //move rook
                 setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.F));
                 setPiece(null, new Field(Line.ONE, Row.H));
-                setPiece(new Piece(Type.KING, Color.WHITE), new Field(Line.ONE, Row.G));
-                setPiece(null, new Field(Line.ONE, Row.E));
 
             } else if (move.getFrom().getLine() == Line.ONE//check for white long castling
                     && move.getFrom().getRow() == Row.E
                     && move.getTo().getLine() == Line.ONE
-                    && move.getTo().getRow() == Row.A) {
-                //update pieces
+                    && move.getTo().getRow() == Row.C) {
+                //move rook
                 setPiece(new Piece(Type.ROOK, Color.WHITE), new Field(Line.ONE, Row.D));
                 setPiece(null, new Field(Line.ONE, Row.A));
-                setPiece(new Piece(Type.KING, Color.WHITE), new Field(Line.ONE, Row.C));
-                setPiece(null, new Field(Line.ONE, Row.E));
 
             } else if (move.getFrom().getLine() == Line.EIGHT
                     && move.getFrom().getRow() == Row.E
                     && move.getTo().getLine() == Line.EIGHT
-                    && move.getTo().getRow() == Row.H) {//check for black short castling
-                //update pieces
+                    && move.getTo().getRow() == Row.G) {//check for black short castling
+                //move rook
                 setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.F));
                 setPiece(null, new Field(Line.EIGHT, Row.H));
-                setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.G));
-                setPiece(null, new Field(Line.EIGHT, Row.E));
 
             } else if (move.getFrom().getLine() == Line.EIGHT
                     && move.getFrom().getRow() == Row.E
                     && move.getTo().getLine() == Line.EIGHT
-                    && move.getTo().getRow() == Row.A) {//check for black long castling
+                    && move.getTo().getRow() == Row.C) {//check for black long castling
                 //update pieces
                 setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.D));
                 setPiece(null, new Field(Line.EIGHT, Row.A));
-                setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.C));
-                setPiece(null, new Field(Line.EIGHT, Row.E));
             }
         }
 
