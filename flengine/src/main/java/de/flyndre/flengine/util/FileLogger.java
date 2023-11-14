@@ -1,13 +1,13 @@
 package de.flyndre.flengine.util;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class FileLogger extends Logger{
-
-    private final static File logfile = new File(".\\log.log");
+public class FileLogger extends Logger {
 
     private static FileHandler fileHandler;
 
@@ -32,29 +32,19 @@ public class FileLogger extends Logger{
 
     public static Logger getLogger(String name) {
 
-        Logger logger = Logger.getLogger(name);
+        var logger = Logger.getLogger(name);
+        var timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
+        var logfile = new File(".\\" + timestamp + ".log");
 
         try {
             if (fileHandler == null) {
-                removeLockFiles(logfile);
                 fileHandler = new FileHandler(logfile.getAbsolutePath(), true);
                 fileHandler.setFormatter(new SimpleFormatter());
             }
             logger.addHandler(fileHandler);
-            return logger;
-
         } catch (Exception e) {
-            return Logger.getLogger(name);
+            // In this case, return the default logger.
         }
-    }
-
-    private static void removeLockFiles(File logfile) {
-        var lockFileRegex = ".lck";
-        var dir = logfile.getParentFile();
-        var files = dir.listFiles();
-        if (files == null) return;
-        for (var file : files) {
-            if (file.getName().contains(lockFileRegex)) file.delete();
-        }
+        return logger;
     }
 }
