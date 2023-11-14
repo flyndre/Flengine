@@ -1,18 +1,13 @@
 package de.flyndre.flengine.enginecontroller;
 
 import de.flyndre.flengine.datamodel.Board;
-import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.datamodel.enums.Line;
-import de.flyndre.flengine.datamodel.enums.Row;
-import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.moveprovider.Endgame;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.moveprovider.Openings;
 import de.flyndre.flengine.moveprovider.Stub;
 import de.flyndre.flengine.rules.Rule;
-import de.flyndre.flengine.util.FileLogger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class Controller {
 
-    private static final Logger logger = FileLogger.getLogger("Controller");
+    private static final Logger logger = Logger.getLogger(Controller.class.getName());
 
     /**
      * This number is used to tweak the difficulty of the engine.

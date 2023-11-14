@@ -1,8 +1,6 @@
 package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.util.FileLogger;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +10,9 @@ import java.util.logging.Logger;
 
 public class RequestHandler {
 
-    private Logger logger = FileLogger.getLogger("RequestHandlerLogger");
-    private String engineName = "Flengine";
-    private String engineAuthor = "TeamFlyndre";
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final String engineName = "Flengine";
+    private final String engineAuthor = "TeamFlyndre";
     private String position = "";
     private String[] moves = {};
     private Scanner systemInScanner;
