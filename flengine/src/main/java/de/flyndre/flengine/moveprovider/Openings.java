@@ -52,7 +52,10 @@ public class Openings implements MoveProvider {
             if (!response.isSuccessful()) throw new IOException("Unexpected response code: " + response);
             var openingData = JsonbBuilder.create().fromJson(response.body().string(), OpeningResponse.class);
             logger.info("Received: [" + openingData.moves.size() + " moves]");
-            return openingData.moves.stream().map(m -> Converter.convertStringToMove(m.uci)).collect(Collectors.toList());
+            return openingData.moves.stream()
+                    .map(m -> Converter.convertStringToMove(m.uci))
+                    .map(m -> Converter.sanitizeMove(board, m))
+                    .toList();
         } catch (IOException e) {
             logger.warning("Request failed: " + e.getMessage());
             return new ArrayList<>();

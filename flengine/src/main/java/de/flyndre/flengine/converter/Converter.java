@@ -297,6 +297,25 @@ public class Converter {
         return move;
     }
 
+    /**
+     * Sanitizes the given {@code Move} to be compatible to the used data format.
+     * For example, the Lichess APIs represent castling in a different format than UCI.
+     * @param board the associated board
+     * @param move the move to sanitize
+     * @return the sanitized move
+     */
+    public static Move sanitizeMove(Board board, Move move) {
+        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.KING) &&
+                move.getFrom().getRow().equals(Row.E) &&
+                (move.getFrom().getLine().equals(Line.ONE) && move.getTo().getLine().equals(Line.ONE) ||
+                        move.getFrom().getLine().equals(Line.EIGHT) && move.getTo().getLine().equals(Line.EIGHT)))
+        {
+            if (move.getTo().getRow().equals(Row.H)) move.setTo(new Field(move.getTo().getLine(), Row.G));
+            else if (move.getTo().getRow().equals(Row.A)) move.setTo(new Field(move.getTo().getLine(), Row.C));
+        }
+        return move;
+    }
+
     private static Line convertIntToLine(int line){
         return Line.values()[line-1];
     }

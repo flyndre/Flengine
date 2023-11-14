@@ -69,7 +69,10 @@ public class Endgame implements MoveProvider {
             if (!response.isSuccessful()) throw new IOException("Unexpected response code: " + response);
             var endgameData = JsonbBuilder.create().fromJson(response.body().string(), EndgameResponse.class);
             logger.info("Received: [" + endgameData.moves.size() + " moves]");
-            return endgameData.moves.stream().map(m -> Converter.convertStringToMove(m.uci)).collect(Collectors.toList());
+            return endgameData.moves.stream()
+                    .map(m -> Converter.convertStringToMove(m.uci))
+                    .map(m -> Converter.sanitizeMove(board, m))
+                    .toList();
         } catch (IOException e) {
             logger.warning("Request failed: " + e.getMessage());
             return new ArrayList<>();

@@ -63,18 +63,7 @@ public class Controller {
                                 Math.pow(Math.random(), DIFFICULTY) % 1 * moves.size()
                     )
                 );
-
-                // convert lichess castle move to uci castle move
-                if (board.getPiece(bestMove.getFrom()).getTypeOfFigure().equals(Type.KING) &&
-                        bestMove.getFrom().getRow().equals(Row.E) &&
-                        (bestMove.getFrom().getLine().equals(Line.ONE) && bestMove.getTo().getLine().equals(Line.ONE) ||
-                        bestMove.getFrom().getLine().equals(Line.EIGHT) && bestMove.getTo().getLine().equals(Line.EIGHT)))
-                {
-                    if (bestMove.getTo().getRow().equals(Row.H)) bestMove.setTo(new Field(bestMove.getTo().getLine(), Row.G));
-                    else if (bestMove.getTo().getRow().equals(Row.A)) bestMove.setTo(new Field(bestMove.getTo().getLine(), Row.C));
-                }
-
-                logger.info("Best move is " + bestMove + " by " + moveProvider.getClass().getName());
+                logger.info("Best move is [" + bestMove + "] by [" + moveProvider.getClass().getName() + "]");
                 return bestMove;
             }
         }
