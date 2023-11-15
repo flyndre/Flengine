@@ -5,13 +5,11 @@ import okhttp3.Request;
 import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
-import de.flyndre.flengine.util.FileLogger;
 import javax.json.bind.JsonbBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * An implementation of {@code MoveProvider} that uses the Lichess Tablebase
@@ -46,7 +44,7 @@ public class Endgame implements MoveProvider {
         }
     }
 
-    private final Logger logger = FileLogger.getLogger("Endgame");
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * Provides a list of recommended {@code Move}s for the given situation on the {@code Board}.
