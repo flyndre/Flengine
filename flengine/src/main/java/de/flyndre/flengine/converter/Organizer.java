@@ -54,6 +54,9 @@ public class Organizer {
         return Converter.convertMoveToString(bestMove);
     }
 
+    /**
+     * stops the executor service with the calculation tasks
+     */
     public void stopCalulations(){
         executor.shutdownNow();
     }
