@@ -53,4 +53,8 @@ public class Organizer {
         //maybe execute the move on the board to provide persistent.
         return Converter.convertMoveToString(bestMove);
     }
+
+    public void stopCalulations(){
+        executor.shutdownNow();
+    }
 }

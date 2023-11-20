@@ -82,6 +82,7 @@ public class RequestHandler {
                         break;
                     case "quit":
                         //shutdown engine
+                        organizer.stopCalulations();
                         isRunning = false;
                         break;
                     default:
