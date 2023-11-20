@@ -36,19 +36,19 @@ public class RequestHandler {
                 switch(splittedInput[0].toLowerCase()){
                     case "uci":
                         //engine name and author
-                        printStdout("id name " + engineName);
-                        printStdout("id author " + engineAuthor);
+                        StdoutWriter.writeToStdout("id name " + engineName);
+                        StdoutWriter.writeToStdout("id author " + engineAuthor);
                         //options if there were any
 
                         //uciok
-                        printStdout("uciok");
+                        StdoutWriter.writeToStdout("uciok");
                         break;
                     case "setoption":
                         //ignore for the moment
                         break;
                     case "isready":
                         //no initialization needed here at the moment so indicate engine is ready
-                        printStdout("readyok");
+                        StdoutWriter.writeToStdout("readyok");
                         break;
                     case "ucinewgame":
                         //ignore
@@ -73,7 +73,7 @@ public class RequestHandler {
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
                         futureMove.thenAccept(s ->
                         {
-                                printStdout("bestmove " + s);
+                            StdoutWriter.writeToStdout("bestmove " + s);
                         });
                         break;
                     case "stop":
@@ -93,12 +93,6 @@ public class RequestHandler {
                 //leave the loop if input is recognized
                 break;
             }
-
         }
     }
-
-    public static synchronized void printStdout(String message){
-        System.out.println(message);
-    }
-
 }

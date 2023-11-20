@@ -1,6 +1,7 @@
 package de.flyndre.flengine.util;
 
 import de.flyndre.flengine.converter.RequestHandler;
+import de.flyndre.flengine.converter.StdoutWriter;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.ErrorManager;
@@ -27,7 +28,7 @@ public class UciHandler extends ConsoleHandler {
         }
 
         try {
-            RequestHandler.printStdout(msg);
+            StdoutWriter.writeToStdout(msg);
         } catch (Exception ex) {
             // We don't want to throw an exception here, but we
             // report the exception to any registered ErrorManager.
