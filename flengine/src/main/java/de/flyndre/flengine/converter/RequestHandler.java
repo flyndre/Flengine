@@ -108,6 +108,19 @@ public class RequestHandler {
                         //not used yet
                         logger.info("Recognized stop command.");
                         break;
+                    case "debug":
+                        //change the debug option
+                        logger.info("Recognized debug command.");
+                        if(splittedInput.length > 1){
+                            if(splittedInput[1].equals("on")){
+                                this.options.setDebugMode(true);
+                                logger.info("Set debug mode to on.");
+                            } else if (splittedInput[1].equals("off")) {
+                                this.options.setDebugMode(false);
+                                logger.info("Set debug mode to off.");
+                            }
+                        }
+                        break;
                     case "quit":
                         //shutdown engine
                         logger.info("Recognized quit command.\nShutting down engine.");
