@@ -4,10 +4,10 @@ import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
 import de.flyndre.flengine.moveprovider.Endgame;
+import de.flyndre.flengine.moveprovider.minmax.MinMax;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.moveprovider.Openings;
-import de.flyndre.flengine.moveprovider.Stub;
-import de.flyndre.flengine.rules.Rule;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,7 +31,7 @@ public class Controller {
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
             new Endgame(),
-            new Stub(new Rule())
+            new MinMax()
     );
 
     /**

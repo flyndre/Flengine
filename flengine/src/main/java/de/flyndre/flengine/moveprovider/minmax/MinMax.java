@@ -1,4 +1,4 @@
-package de.flyndre.flengine.moveprovider.MinMax;
+package de.flyndre.flengine.moveprovider.minmax;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;

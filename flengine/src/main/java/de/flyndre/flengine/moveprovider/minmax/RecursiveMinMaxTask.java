@@ -1,4 +1,4 @@
-package de.flyndre.flengine.moveprovider.MinMax;
+package de.flyndre.flengine.moveprovider.minmax;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 public class RecursiveMinMaxTask extends RecursiveTask<Integer> {

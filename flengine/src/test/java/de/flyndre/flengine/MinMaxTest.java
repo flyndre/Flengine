@@ -3,7 +3,7 @@ package de.flyndre.flengine;
 import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
-import de.flyndre.flengine.moveprovider.MinMax.MinMax;
+import de.flyndre.flengine.moveprovider.minmax.MinMax;
 import de.flyndre.flengine.rules.Rule;
 import org.junit.jupiter.api.Test;
 
