@@ -5,6 +5,7 @@ import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
 import de.flyndre.flengine.datamodel.enums.Type;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -224,5 +225,39 @@ public class Board {
 
     public void setMoveCounter(int moveCounter){
         this.moveCounter = moveCounter;
+    }
+
+    @Override
+    public String toString() {
+        String board = "";
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                board += pieces[i][j] == null? "empty " : pieces[i][j].getTypeOfFigure() + " ";
+            }
+            board += "\n";
+        }
+
+        return board;
+    }
+
+    public Board deepClone(){
+        Board b = new Board();
+
+        final Piece[][] result = new Piece[8][8];
+        for (int i = 0; i < this.pieces.length; i++) {
+            for(int j = 0; j < this.pieces[i].length; j++){
+                result[i][j] = this.pieces[i][j] == null? null : new Piece(this.pieces[i][j].getTypeOfFigure(), this.pieces[i][j].getColor());
+            }
+
+        }
+
+        b.pieces = result;
+        b.moveCounter = this.moveCounter;
+        b.blackLongCastling = this.blackLongCastling;
+        b.whiteLongCastling = this.whiteLongCastling;
+        b.whiteShortCastling = this.whiteShortCastling;
+        b.blackShortCastling = this.blackShortCastling;
+        b.nextColor = this.nextColor;
+        return b;
     }
 }
