@@ -26,7 +26,7 @@ public class Controller {
      * A lower number makes it less difficult, a higher one more difficult.
      * The value 1 gives all moves the same probability.
      */
-    private static final double DIFFICULTY = 8;
+    private static double DIFFICULTY = 8;
 
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
@@ -41,6 +41,7 @@ public class Controller {
      * @return A single {@code Move}, which the engine determined as best possible move or {@code null}, if no move was found.
      */
     public static Move giveMove(Board board, Options options) {
+        DIFFICULTY = options.getEngineDifficulty().getDifficultyValue();
         for (var moveProvider : moveProviderHierarchy) {
             logger.info("Requesting moves from: [" + moveProvider.getClass().getName() + "]");
             var moves = moveProvider.getRecommendedMoves(board);
