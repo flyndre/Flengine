@@ -21,7 +21,7 @@ public class MinMax implements MoveProvider {
         ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
         availableMoves.forEach(move -> {
-            RecursiveMinMaxTask task = new RecursiveMinMaxTask(board, move, 1);
+            RecursiveMinMaxTask task = new RecursiveMinMaxTask(board, move, 1, board.getNextColor());
             ForkJoinTask<Integer> runningTask = forkJoinPool.submit(task);
             taskHashMap.put(move, task);
         });

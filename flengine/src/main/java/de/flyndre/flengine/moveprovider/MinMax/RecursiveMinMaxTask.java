@@ -20,17 +20,16 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
     Board board;
     Move move;
     volatile int currentLevel;
-
     private Color playerColor;
-    private final int MAXLEVEL = 5;
+    private final int MAXLEVEL = 3;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final Rule legalMoveProvider = new Rule();
 
-    public RecursiveMinMaxTask(Board board, Move move, int currentLevel){
+    public RecursiveMinMaxTask(Board board, Move move, int currentLevel, Color playerColor){
         this.board = board;
         this.move = move;
         this.currentLevel = currentLevel;
-        this.playerColor = board.getNextColor();
+        this.playerColor = playerColor;
     }
 
     @Override
@@ -51,13 +50,13 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         HashMap<Move, ForkJoinTask<Integer>> taskHashMap = new HashMap<>();
 
         legalMoves.forEach(move -> {
-            RecursiveMinMaxTask task = new RecursiveMinMaxTask(newBoard, move, currentLevel+1);
+            RecursiveMinMaxTask task = new RecursiveMinMaxTask(newBoard, move, currentLevel+1, playerColor);
             ForkJoinTask<Integer> runningTask = getPool().submit(task);
             taskHashMap.put(move, runningTask);
         });
 
         taskHashMap.forEach((key, value) -> judgedMoves.put(key, value.join()));
-        return judgement + judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
+        return judgement + judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue()).orElseThrow().getValue();
     }
 
     public int judgeMove(Board board, Move move){
