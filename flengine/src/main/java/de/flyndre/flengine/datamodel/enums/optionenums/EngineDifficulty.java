@@ -1,4 +1,4 @@
-package de.flyndre.flengine.datamodel.enums;
+package de.flyndre.flengine.datamodel.enums.optionenums;
 
 public enum EngineDifficulty {
     Easy(1),

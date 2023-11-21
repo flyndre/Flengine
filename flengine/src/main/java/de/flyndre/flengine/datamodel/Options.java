@@ -1,6 +1,6 @@
 package de.flyndre.flengine.datamodel;
 
-import de.flyndre.flengine.datamodel.enums.EngineDifficulty;
+import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
 
 /**
  * This class provides a data model to store options selected over UCI commands.
