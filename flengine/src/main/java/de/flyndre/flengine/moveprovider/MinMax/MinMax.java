@@ -20,26 +20,14 @@ public class MinMax implements MoveProvider {
         HashMap<Move, ForkJoinTask<Integer>> taskHashMap = new HashMap<>();
         ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
-        for(Move move : availableMoves){
+        availableMoves.forEach(move -> {
             RecursiveMinMaxTask task = new RecursiveMinMaxTask(board, move, 1);
             ForkJoinTask<Integer> runningTask = forkJoinPool.submit(task);
             taskHashMap.put(move, task);
-        }
+        });
 
         taskHashMap.forEach((key, value) -> evaluatedMoves.put(key, value.join()));
+        return evaluatedMoves.keySet().stream().sorted(Comparator.comparing(evaluatedMoves::get)).toList();
 
-        List<Move> returnMovesList = new ArrayList<>();
-        for(int i = 0; i < evaluatedMoves.size(); i++){
-            Map.Entry<Move, Integer> bestMove = (Map.Entry<Move, Integer>) evaluatedMoves.entrySet().toArray()[0];
-
-            for(Map.Entry<Move, Integer> selection : evaluatedMoves.entrySet()){
-                if(selection.getValue() > bestMove.getValue() && !returnMovesList.contains(selection.getKey())){
-                    bestMove = selection;
-                }
-            }
-            returnMovesList.add(bestMove.getKey());
-        }
-
-        return returnMovesList;
     }
 }

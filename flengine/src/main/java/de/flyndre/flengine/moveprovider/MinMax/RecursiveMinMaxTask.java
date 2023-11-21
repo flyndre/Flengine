@@ -22,7 +22,7 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
     volatile int currentLevel;
 
     private Color playerColor;
-    private final int MAXLEVEL = 3;
+    private final int MAXLEVEL = 5;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final Rule legalMoveProvider = new Rule();
 
@@ -50,15 +50,13 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         HashMap<Move, Integer> judgedMoves = new HashMap<>();
         HashMap<Move, ForkJoinTask<Integer>> taskHashMap = new HashMap<>();
 
-        for (Move move : legalMoves) {
+        legalMoves.forEach(move -> {
             RecursiveMinMaxTask task = new RecursiveMinMaxTask(newBoard, move, currentLevel+1);
             ForkJoinTask<Integer> runningTask = getPool().submit(task);
             taskHashMap.put(move, runningTask);
-        }
+        });
 
         taskHashMap.forEach((key, value) -> judgedMoves.put(key, value.join()));
-
-        //Eventuell schauen das Gegnerzug Minuszahl hat und nicht addiert wird
         return judgement + judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
     }
 
@@ -68,9 +66,9 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         Piece pieceToHit = board.getPiece(f);
 
         if(board.getNextColor() == playerColor){
-            evaluation += (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue() - board.getPiece(move.getFrom()).getTypeOfFigure().getValue());
+            evaluation += (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
         }else{
-            evaluation -= (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue() - board.getPiece(move.getFrom()).getTypeOfFigure().getValue());
+            evaluation -= (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
         }
         return evaluation;
     }
