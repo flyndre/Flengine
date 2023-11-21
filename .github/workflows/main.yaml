@@ -50,6 +50,7 @@ jobs:
     if: contains('
       refs/heads/dev
       refs/heads/main
+      refs/heads/test/workflow
       ', github.ref)
     
 
