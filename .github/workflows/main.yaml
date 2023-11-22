@@ -3,7 +3,9 @@ name: MainWorkflow
 on:
   push:
     branches: [main, dev,pre,test/workflow]
-  workflow_dispatch:    
+    tags: 'v*'
+  workflow_dispatch: 
+     
 
 jobs:
   unittest:
@@ -127,7 +129,7 @@ jobs:
         tag_name: ${{github.ref}}
         release_name: ${{github.ref}}
         draft: true
-        prerelese: true
+        prerelease: true
     - name: Upload Asset
       id: upload_asset
       uses: actions/upload-release-Asset@v1
