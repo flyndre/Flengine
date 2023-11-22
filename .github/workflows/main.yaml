@@ -115,4 +115,6 @@ jobs:
     - name: Create Release ${{ github.event.pull_request.title }}
       uses: bfren/create-release@v1
       with:
+        repo: L4kiLuk/Flengine
         token: ${{ secrets.PAT }}
+        prerelease: true
