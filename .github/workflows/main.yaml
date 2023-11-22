@@ -106,16 +106,20 @@ jobs:
        with:          
          name: flengine_zip
          path: flengine.zip
+         
   create_release:
     name: Create Release     
     needs: build_backend
     continue-on-error: false
     runs-on: ubuntu-latest
     steps:
-    - name: Create Release ${{ github.event.pull_request.title }}
-      uses: bfren/create-release@v1
+    - name: Download zip
+      uses: actions/download-artifact@v2.1.1
       with:
-        repo: L4kiLuk/Flengine
+       name: flengine_zip
+    - name: Create Release
+      uses: d1ceward/draft-assets-release-action@v2
+      with:
         token: ${{ secrets.PAT }}
-        prerelease: true
-        title: "TestRelease"
+        files: |
+          flengine.zip
