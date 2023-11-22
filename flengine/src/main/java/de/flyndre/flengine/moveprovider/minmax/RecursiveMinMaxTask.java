@@ -45,10 +45,10 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
             return judgement;
         }
 
-        if(legalMoveProvider.isCheckmated(board, playerColor)){
+        if(legalMoveProvider.isCheckmated(newBoard, playerColor)){
             return -100;
         }
-        if(legalMoveProvider.isCheckmated(board, getOpositColor(playerColor))){
+        if(legalMoveProvider.isCheckmated(newBoard, getOpositColor(playerColor))){
             return 100;
         }
 
