@@ -26,3 +26,6 @@ replay_pid*
 /.idea/misc.xml
 /.idea/encodings.xml
 /.idea/jarRepositories.xml
+log.log
+log.log.1
+*.log*

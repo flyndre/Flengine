@@ -5,7 +5,7 @@ on:
     branches: [main, develop,pre,test/workflow]
     tags: 'v*'
   workflow_dispatch: 
-     
+
 
 jobs:
   unittest:
@@ -51,6 +51,7 @@ jobs:
       packages: write
     if: contains('
       refs/heads/develop
+      refs/heads/pre
       refs/heads/main
       refs/heads/test/workflow
       ', github.ref) || startsWith(github.ref, 'refs/tags/v')
@@ -80,7 +81,7 @@ jobs:
         with:
           name: flengine_jar
           path: flengine/target/*.jar
-  
+
   pack_release:
     name: Packing Release     
     needs: build_backend

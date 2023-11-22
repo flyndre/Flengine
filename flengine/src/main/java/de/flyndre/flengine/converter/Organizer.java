@@ -43,6 +43,7 @@ public class Organizer {
     public CompletableFuture<String> calculateNextMoveAsync() {
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
         executor.submit(()->completableFuture.complete(calculateNextMove()));
+        completableFuture.whenCompleteAsync((a, b) -> this.executor.close());
         return completableFuture;
     }
     private String calculateNextMove(){
@@ -51,5 +52,12 @@ public class Organizer {
         Move bestMove = Controller.giveMove(board,options);
         //maybe execute the move on the board to provide persistent.
         return Converter.convertMoveToString(bestMove);
+    }
+
+    /**
+     * stops the executor service with the calculation tasks
+     */
+    public void stopCalulations(){
+        executor.shutdownNow();
     }
 }
