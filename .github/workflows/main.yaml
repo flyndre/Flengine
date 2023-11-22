@@ -93,7 +93,7 @@ jobs:
        with:
         name: flengine_jar
         path: flengine
-     - run: for file in flengine/*.jar; do mv "$file" "flengine.jar"; done
+     - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
 
      - name: test
        run: ls -R
