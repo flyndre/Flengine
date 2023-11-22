@@ -7,12 +7,14 @@ import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.rules.Rule;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static de.flyndre.flengine.datamodel.enums.Color.BLACK;
+import static de.flyndre.flengine.datamodel.enums.Color.WHITE;
 
 public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
 
@@ -43,6 +45,13 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
             return judgement;
         }
 
+        if(legalMoveProvider.isCheckmated(board, playerColor)){
+            return -100;
+        }
+        if(legalMoveProvider.isCheckmated(board, getOpositColor(playerColor))){
+            return 100;
+        }
+
         newBoard.playMove(move);
         List<Move> legalMoves = legalMoveProvider.getLegalMoves(newBoard, board.getNextColor());
         HashMap<Move, Integer> judgedMoves = new HashMap<>();
@@ -55,7 +64,14 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         });
 
         taskHashMap.forEach((key, value) -> judgedMoves.put(key, value.join()));
-        return judgement + judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue()).orElseThrow().getValue();
+        Optional<Map.Entry<Move, Integer>> bestOptionalMove = judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue());
+
+        if(bestOptionalMove.isEmpty()){
+            logger.warning("no best move avaliable.");
+            return -100;
+        }
+
+        return judgement + bestOptionalMove.get().getValue();
     }
 
     public int judgeMove(Board board, Move move){
@@ -69,5 +85,9 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
             evaluation -= (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
         }
         return evaluation;
+    }
+
+    public Color getOpositColor(Color color){
+        return color == BLACK ? WHITE : BLACK;
     }
 }
