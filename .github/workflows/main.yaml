@@ -92,7 +92,9 @@ jobs:
        uses: actions/download-artifact@v2.1.1
        with:
         name: flengine_jar
-        path: flengine/flengine.jar
+        path: flengine
+     - run: ls flengine >> $filename
+     - run: mv filename flengine.jar
      - name: test
        run: ls -R
      - name: create bat
