@@ -43,4 +43,20 @@ public class Piece {
     public void setTypeOfFigure(Type typeOfFigure) {
         this.typeOfFigure = typeOfFigure;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        Piece piece = (Piece) obj;
+        if (piece.getColor() == null || piece.getTypeOfFigure() == null) return false;
+        return color.equals(piece.getColor()) && typeOfFigure.equals(piece.getTypeOfFigure());
+    }
+
+    @Override
+    public int hashCode() { return typeOfFigure.ordinal() * 2 + (color.equals(Color.WHITE) ? 0 : 1); }
+
+    @Override
+    public String toString() { return color.name() + " " + typeOfFigure.toString();}
 }

@@ -10,20 +10,20 @@ public class Move {
     private Field from;
     private Field to;
     /**
-     * Contains the type to switch to if a change should be performed.
+     * Contains the type to switch to if a change should be performed. If this move is no promotion the value is null.
      */
-    private Type changeTo;
+    private Type promoteTo;
 
     /**
      * Creates a new instance.
      * @param from the field from which the move comes
      * @param to the field to which the move goes
-     * @param changeTo the type to which to change after the move is completed
+     * @param promoteTo the type to which to change after the move is completed
      */
-    public Move(Field from, Field to, Type changeTo){
+    public Move(Field from, Field to, Type promoteTo){
         this.from=from;
         this.to=to;
-        this.changeTo=changeTo;
+        this.promoteTo = promoteTo;
     }
     public Move(Field from, Field to){
         this(from,to,null);
@@ -37,8 +37,8 @@ public class Move {
         return to;
     }
 
-    public Type getChangeTo() {
-        return changeTo;
+    public Type getPromoteTo() {
+        return promoteTo;
     }
 
     public void setFrom(Field from) {
@@ -49,10 +49,11 @@ public class Move {
         this.to = to;
     }
 
-    public void setChangeTo(Type changeTo) {
-        this.changeTo = changeTo;
+    public void setPromoteTo(Type promoteTo) {
+        this.promoteTo = promoteTo;
     }
 
+    @Override
     public boolean equals(Object obj) {
 
         if (obj == null) return false;
@@ -60,8 +61,12 @@ public class Move {
         Move move = (Move) obj;
         if (move.getFrom() == null || move.getTo() == null) return false;
         return from.equals(move.getFrom()) && to.equals(move.getTo()) &&
-            (changeTo == null ? changeTo == move.getChangeTo() : changeTo.equals(move.getChangeTo()));
+            (promoteTo == null ? promoteTo == move.getPromoteTo() : promoteTo.equals(move.getPromoteTo()));
     }
 
+    @Override
+    public int hashCode() { return from.hashCode() * 64 + to.hashCode(); }
+
+    @Override
     public String toString() { return from.toString() + "-" + to.toString(); }
 }

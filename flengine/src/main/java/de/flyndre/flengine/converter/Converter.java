@@ -38,37 +38,30 @@ public class Converter {
             board.setPiece(new Piece(Type.PAWN, Color.WHITE), new Field(Line.TWO, Row.H));
 
             //setup black color
-            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.SEVEN, Row.A));
-            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.SEVEN, Row.B));
-            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.SEVEN, Row.C));
-            board.setPiece(new Piece(Type.QUEEN, Color.BLACK), new Field(Line.SEVEN, Row.D));
-            board.setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.SEVEN, Row.E));
-            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.SEVEN, Row.F));
-            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.SEVEN, Row.G));
-            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.SEVEN, Row.H));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.A));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.B));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.C));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.D));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.E));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.F));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.G));
-            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.EIGHT, Row.H));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.A));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.B));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.C));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.D));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.E));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.F));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.G));
+            board.setPiece(new Piece(Type.PAWN, Color.BLACK), new Field(Line.SEVEN, Row.H));
+            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.A));
+            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.EIGHT, Row.B));
+            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.EIGHT, Row.C));
+            board.setPiece(new Piece(Type.QUEEN, Color.BLACK), new Field(Line.EIGHT, Row.D));
+            board.setPiece(new Piece(Type.KING, Color.BLACK), new Field(Line.EIGHT, Row.E));
+            board.setPiece(new Piece(Type.BISHOP, Color.BLACK), new Field(Line.EIGHT, Row.F));
+            board.setPiece(new Piece(Type.KNIGHT, Color.BLACK), new Field(Line.EIGHT, Row.G));
+            board.setPiece(new Piece(Type.ROOK, Color.BLACK), new Field(Line.EIGHT, Row.H));
         }else{//fenstring
             String[] split = input.split(" ");
             String pos = split[0];
 
-            //decode next move color
-            if(split[1].equals("w")){
-                board.setNextColor(Color.WHITE);
-            }else{
-                board.setNextColor(Color.BLACK);
-            }
-
             //decode position
             int lineCount = 7;
-            split = pos.split("/");
-            for(String row: split){
+            String[] posSplitted = pos.split("/");
+            for(String row: posSplitted){
                 int rowCount = 0;
 
                 for(char c: row.toCharArray()){
@@ -78,47 +71,25 @@ public class Converter {
                         rowCount = rowCount + (c - '0');
                     }else{//field is not empty
                         if(Character.isUpperCase(c)){
-                            switch(Character.toLowerCase(c)){//white
-                                case 'r':
-                                    piece = new Piece(Type.ROOK, Color.WHITE);
-                                    break;
-                                case 'n':
-                                    piece = new Piece(Type.KNIGHT, Color.WHITE);
-                                    break;
-                                case 'b':
-                                    piece = new Piece(Type.BISHOP, Color.WHITE);
-                                    break;
-                                case 'q':
-                                    piece = new Piece(Type.QUEEN, Color.WHITE);
-                                    break;
-                                case 'k':
-                                    piece = new Piece(Type.KING, Color.WHITE);
-                                    break;
-                                case 'p':
-                                    piece = new Piece(Type.PAWN, Color.WHITE);
-                                    break;
-                            }
+                            piece = switch (Character.toLowerCase(c)) {//white
+                                case 'r' -> new Piece(Type.ROOK, Color.WHITE);
+                                case 'n' -> new Piece(Type.KNIGHT, Color.WHITE);
+                                case 'b' -> new Piece(Type.BISHOP, Color.WHITE);
+                                case 'q' -> new Piece(Type.QUEEN, Color.WHITE);
+                                case 'k' -> new Piece(Type.KING, Color.WHITE);
+                                case 'p' -> new Piece(Type.PAWN, Color.WHITE);
+                                default -> piece;
+                            };
                         }else{
-                            switch(Character.toLowerCase(c)){//black
-                                case 'r':
-                                    piece = new Piece(Type.ROOK, Color.BLACK);
-                                    break;
-                                case 'n':
-                                    piece = new Piece(Type.KNIGHT, Color.BLACK);
-                                    break;
-                                case 'b':
-                                    piece = new Piece(Type.BISHOP, Color.BLACK);
-                                    break;
-                                case 'q':
-                                    piece = new Piece(Type.QUEEN, Color.BLACK);
-                                    break;
-                                case 'k':
-                                    piece = new Piece(Type.KING, Color.BLACK);
-                                    break;
-                                case 'p':
-                                    piece = new Piece(Type.PAWN, Color.BLACK);
-                                    break;
-                            }
+                            piece = switch (Character.toLowerCase(c)) {//black
+                                case 'r' -> new Piece(Type.ROOK, Color.BLACK);
+                                case 'n' -> new Piece(Type.KNIGHT, Color.BLACK);
+                                case 'b' -> new Piece(Type.BISHOP, Color.BLACK);
+                                case 'q' -> new Piece(Type.QUEEN, Color.BLACK);
+                                case 'k' -> new Piece(Type.KING, Color.BLACK);
+                                case 'p' -> new Piece(Type.PAWN, Color.BLACK);
+                                default -> piece;
+                            };
                         }
                         board.setPiece(piece, new Field(Line.values()[lineCount],Row.values()[rowCount]));
                         rowCount++;
@@ -127,8 +98,143 @@ public class Converter {
                 }
                 lineCount--;
             }
+
+            //decode next move color
+            if(split[1].equals("w")){
+                board.setNextColor(Color.WHITE);
+            }else{
+                board.setNextColor(Color.BLACK);
+            }
+
+            //decode castling
+            String castling = split[2];
+
+            board.setWhiteShortCastling(false);
+            board.setWhiteLongCastling(false);
+            board.setBlackShortCastling(false);
+            board.setBlackLongCastling(false);
+
+            for(int i = 0; i < castling.length(); i++){
+                switch(castling.charAt(i)){
+                    case 'K' -> board.setWhiteShortCastling(true);
+                    case 'Q' -> board.setWhiteLongCastling(true);
+                    case 'k' -> board.setBlackShortCastling(true);
+                    case 'q' -> board.setBlackLongCastling(true);
+                }
+            }
+
+            //decode en passant
+
+            //decode half moves
+
+            //decode move number
+            String moveNumber = split[5];
+            board.setMoveCounter(Integer.parseInt(moveNumber));
         }
         return board;
+    }
+
+    /**
+     * converts the given board object into a fen string
+     * @param board the board object to be converted
+     * @return the fen string
+     */
+    public static String convertBoardToString(Board board){
+        String fen = "";
+        int emptyFieldCounter = 0;
+        boolean isCastlingPossible = false;
+
+        //get pieces
+        for(int a = 7; a >= 0; a--){
+            for(int b = 0; b < 8; b++){
+                Piece currentPiece = board.getPiece(new Field(Line.values()[a], Row.values()[b]));
+
+                if(currentPiece != null){//check for empty field
+                    String currentPieceFenRepresentation = "";
+
+                    switch (currentPiece.getTypeOfFigure()){//get piece
+                        case ROOK -> currentPieceFenRepresentation = "r";
+                        case KNIGHT -> currentPieceFenRepresentation = "n";
+                        case BISHOP -> currentPieceFenRepresentation = "b";
+                        case QUEEN -> currentPieceFenRepresentation = "q";
+                        case KING -> currentPieceFenRepresentation = "k";
+                        case PAWN -> currentPieceFenRepresentation = "p";
+                    }
+                    if(currentPiece.getColor() == Color.WHITE){//set piece color
+                        currentPieceFenRepresentation = currentPieceFenRepresentation.toUpperCase();
+                    }
+
+                    //add piece to fen string
+                    if(emptyFieldCounter > 0){
+                        fen += emptyFieldCounter;
+                        fen += currentPieceFenRepresentation;
+
+                        emptyFieldCounter = 0;
+                    }else{
+                        fen += currentPieceFenRepresentation;
+                    }
+                }else{
+                    emptyFieldCounter++;
+                }
+            }
+            //after row is finished
+            if(emptyFieldCounter > 0){
+                fen += emptyFieldCounter;
+                emptyFieldCounter = 0;
+            }
+
+            if(a != 0){//check whether it is not the last line and only then add a slash
+                fen += "/";
+            }
+        }
+
+        //get next move color
+        if(board.getNextColor() == Color.WHITE){
+            fen += " w";
+        }else{
+            fen += " b";
+        }
+
+        //get castling information
+        fen += " ";
+
+        if(board.getWhiteShortCastling()){
+            isCastlingPossible = true;
+            fen += "K";
+        }
+
+        if(board.getWhiteLongCastling()){
+            isCastlingPossible = true;
+            fen += "Q";
+        }
+
+        if(board.getBlackShortCastling()){
+            isCastlingPossible = true;
+            fen += "k";
+        }
+
+        if(board.getBlackLongCastling()){
+            isCastlingPossible = true;
+            fen += "q";
+        }
+        //check whether no castling is possible
+        if(!isCastlingPossible){
+            fen += "-";
+        }
+
+        //get en passant information
+        //not implemented yet, hardcoded dummy value
+        fen += " -";
+
+        //get half moves information
+        //not implemented yet, hardcoded dummy value
+        fen += " 0";
+
+        //get number of move
+        //not implemented yet, hardcoded dummy value
+        fen += (" " + board.getMoveCounter());
+
+        return fen;
     }
 
     /**
@@ -179,8 +285,8 @@ public class Converter {
         move += convertRowToChar(to.getRow());
         move += convertLineToInt(to.getLine());
 
-        if(input.getChangeTo() != null){
-            switch (input.getChangeTo()){
+        if(input.getPromoteTo() != null){
+            switch (input.getPromoteTo()){
                 case QUEEN -> move += 'q';
                 case BISHOP -> move += 'b';
                 case KNIGHT -> move += 'n';
@@ -188,6 +294,31 @@ public class Converter {
             }
         }
 
+        return move;
+    }
+
+    /**
+     * Sanitizes the given {@code Move} to be compatible to the used data format.
+     * For example, the Lichess APIs represent castling in a different format than UCI.
+     * @param board the associated board
+     * @param move the move to sanitize
+     * @return the sanitized move
+     */
+    public static Move sanitizeMove(Board board, Move move) {
+        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.KING)
+                && move.getFrom().getRow().equals(Row.E)
+                && (
+                        move.getFrom().getLine().equals(Line.ONE)
+                                && move.getTo().getLine().equals(Line.ONE)
+                        || move.getFrom().getLine().equals(Line.EIGHT)
+                                && move.getTo().getLine().equals(Line.EIGHT)
+                )
+        ) {
+            if (move.getTo().getRow().equals(Row.H))
+                move.setTo(new Field(move.getTo().getLine(), Row.G));
+            else if (move.getTo().getRow().equals(Row.A))
+                move.setTo(new Field(move.getTo().getLine(), Row.C));
+        }
         return move;
     }
 
