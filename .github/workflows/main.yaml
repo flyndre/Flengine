@@ -114,6 +114,7 @@ jobs:
     needs: pack_release
     continue-on-error: false
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && contains('refs/heads/develop refs/heads/main refs/heads/test/workflow ', github.ref)
     steps:
     - name: Download zip
       uses: actions/download-artifact@v2.1.1
