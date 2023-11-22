@@ -93,8 +93,8 @@ jobs:
        with:
         name: flengine_jar
         path: flengine
-     - run: ls flengine >> $filename
-     - run: mv filename flengine.jar
+     - run: for file in flengine/*.jar; do mv "$file" "flengine.jar"; done
+
      - name: test
        run: ls -R
      - name: create bat
