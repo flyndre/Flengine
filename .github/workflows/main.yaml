@@ -53,7 +53,7 @@ jobs:
       refs/heads/dev
       refs/heads/main
       refs/heads/test/workflow
-      ', github.ref)
+      ', github.ref) || startsWith(github.ref, 'refs/tags/v')
     
 
     steps:
