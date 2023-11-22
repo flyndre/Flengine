@@ -99,7 +99,7 @@ jobs:
      - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
 
      - name: test
-       run: echo ${{steps.getversion..outputs.version }}
+       run: echo "${{steps.getversion..outputs.version }}"
      - name: create bat
        run: echo "java -jar flengine.jar" >> flengine/flengine.bat
      - name: zip release
