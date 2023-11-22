@@ -17,7 +17,7 @@ public class MinMaxTest {
     @Test
     void testPawnMoves() throws ExecutionException, InterruptedException {
 
-        Board board = Converter.convertStringToBoard("r1bnkbnr/pp2pppp/8/1Bpp4/1P1PP3/8/P1P2PPP/R2NKBNR b KQkq - 0 1");
+        Board board = Converter.convertStringToBoard("4k3/8/8/8/8/8/8/3QK3 w - - 0 1");
         MinMax minmax = new MinMax();
         Rule rule = new Rule();
         List<Move> moves = minmax.getRecommendedMoves(board);
