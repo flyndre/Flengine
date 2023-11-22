@@ -118,3 +118,4 @@ jobs:
         repo: L4kiLuk/Flengine
         token: ${{ secrets.PAT }}
         prerelease: true
+        title: "TestRelease"
