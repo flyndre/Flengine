@@ -63,9 +63,6 @@ jobs:
         with:
           java-version: '20'
       #Set up Maven cache
-      - name: Get Version
-        uses: smacdonald-parallelz/github-action-get-pom-version@v1.0.3
-        id: getVersion
       - name: Cache Maven packages
         #This action allows caching dependencies and build outputs to improve workflow execution time.
         uses: actions/cache@v1
@@ -97,9 +94,6 @@ jobs:
         name: flengine_jar
         path: flengine
      - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
-
-     - name: test
-       run: echo "The version we just got is ${{ steps.getVersion.outputs.version }}"
      - name: create bat
        run: echo "java -jar flengine.jar" >> flengine/flengine.bat
      - name: zip release
@@ -112,3 +106,13 @@ jobs:
        with:          
          name: flengine_zip
          path: flengine.zip
+  create_release:
+    name: Create Release     
+    needs: build_backend
+    continue-on-error: false
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Release ${{ github.event.pull_request.title }}
+      uses: bfren/create-release@v1
+      with:
+        token: ${{ secrets.PAT }}
