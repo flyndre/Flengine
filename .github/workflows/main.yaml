@@ -76,7 +76,34 @@ jobs:
         #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
         uses: actions/upload-artifact@v2
         with:
-          name: flengine
+          name: flengine_jar
           path: flengine/target/*.jar
   
-   
+  pack_release:
+    name: Packing Release     
+    needs: build_backend
+    continue-on-error: false
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: create release dir
+       run: mkdir flengine
+     - name: Download jar
+       uses: actions/download-artifact@v2.1.1
+       with:
+        name: flengine_jar
+        path: flengine/flengine.jar
+     - name: test
+       run: ls -r
+     - name: create bat
+       run: echo "java -jar flengine.jar" >> /flengine/flengine.bat
+     - name: zip release
+       uses: montudor/action-zip@v1
+       with:
+        args: zip -qq -r flengine.zip flengine
+     - name: Upload JAR
+        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+       uses: actions/upload-artifact@v2
+       with:          
+         name: flengine_zip
+         path: flengine.zip
