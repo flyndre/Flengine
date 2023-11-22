@@ -118,8 +118,9 @@ jobs:
       with:
        name: flengine_zip
     - name: Create Release
-      uses: d1ceward/draft-assets-release-action@v2
+      uses: actions/create-release@v1
+      env: 
+        GITHUB_TOKEN: ${{secrets.PAT}}
       with:
-        token: ${{ secrets.PAT }}
-        files: |
-          flengine.zip
+        tag_name: test
+        release_name: testtest
