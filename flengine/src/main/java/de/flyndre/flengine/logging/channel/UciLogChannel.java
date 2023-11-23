@@ -1,4 +1,4 @@
-package de.flyndre.flengine.logging.config;
+package de.flyndre.flengine.logging.channel;
 
 import de.flyndre.flengine.logging.ControllableFormatter;
 import de.flyndre.flengine.logging.UciHandler;
@@ -6,20 +6,20 @@ import de.flyndre.flengine.logging.UciHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-public class UciLoggingConfig implements LoggingConfig {
+public class UciLogChannel implements LogChannel {
 
     private final String loggerName;
     private final String loggerFormat;
-    private boolean isActive = false;
+    private boolean isOpen = false;
 
-    public UciLoggingConfig(String loggerName, String loggerFormat) {
+    public UciLogChannel(String loggerName, String loggerFormat) {
         this.loggerName = loggerName;
         this.loggerFormat = loggerFormat;
     }
 
-    public void setActive(boolean active) {
-        if (isActive == active) return;
-        if (active) {
+    public void setOpen(boolean open) {
+        if (isOpen == open) return;
+        if (open) {
             var handler = new UciHandler();
             handler.setFormatter(new ControllableFormatter(loggerFormat));
             Logger.getLogger(loggerName).addHandler(handler);
@@ -30,10 +30,10 @@ public class UciLoggingConfig implements LoggingConfig {
                     logger.removeHandler(h);
             }
         }
-        isActive = active;
+        isOpen = open;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isOpen() {
+        return isOpen;
     }
 }

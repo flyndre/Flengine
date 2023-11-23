@@ -2,8 +2,8 @@ package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
 import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
-import de.flyndre.flengine.logging.LoggingConfigManager;
-import de.flyndre.flengine.logging.LoggingType;
+import de.flyndre.flengine.logging.LogChannelManager;
+import de.flyndre.flengine.logging.LogChannelType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,10 +121,10 @@ public class RequestHandler {
                         logger.info("Recognized debug command.");
                         if (splittedInput.length > 1) {
                             if (splittedInput[1].equals("on")) {
-                                LoggingConfigManager.setActive(LoggingType.UCI, true);
+                                LogChannelManager.setOpen(LogChannelType.UCI, true);
                                 logger.info("Set debug mode to [on].");
                             } else if (splittedInput[1].equals("off")) {
-                                LoggingConfigManager.setActive(LoggingType.UCI, false);
+                                LogChannelManager.setOpen(LogChannelType.UCI, false);
                                 logger.info("Set debug mode to [off].");
                             } else {
                                 logger.warning("The value [" + splittedInput[1] + "] is not a valid value for debug.");

@@ -1,7 +1,7 @@
 package de.flyndre.flengine;
 
 import de.flyndre.flengine.converter.RequestHandler;
-import de.flyndre.flengine.logging.LoggingConfigManager;
+import de.flyndre.flengine.logging.LogChannelManager;
 
 /**
  * Flengine chess engine by Team Flyndre @ DHBW Stuttgart Campus Horb
@@ -11,7 +11,7 @@ import de.flyndre.flengine.logging.LoggingConfigManager;
 public class Flengine {
 
     static {
-        LoggingConfigManager.setup();
+        LogChannelManager.setup();
     }
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package de.flyndre.flengine.logging.config;
+package de.flyndre.flengine.logging.channel;
 
 import de.flyndre.flengine.logging.ControllableFormatter;
 
@@ -10,24 +10,24 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-public class FileLoggingConfig implements LoggingConfig {
+public class FileLogChannel implements LogChannel {
 
     private final String loggerName;
     private final String loggerFormat;
     private final String dateFormat;
     private final String filePrefix;
-    private boolean isActive = false;
+    private boolean isOpen = false;
 
-    public FileLoggingConfig(String loggerName, String loggerFormat, String dateFormat, String filePrefix) {
+    public FileLogChannel(String loggerName, String loggerFormat, String dateFormat, String filePrefix) {
         this.loggerName = loggerName;
         this.loggerFormat = loggerFormat;
         this.dateFormat = dateFormat;
         this.filePrefix = filePrefix;
     }
 
-    public void setActive(boolean active) {
-        if (isActive == active) return;
-        if (active) {
+    public void setOpen(boolean open) {
+        if (isOpen == open) return;
+        if (open) {
             activate();
         } else {
             deactivate();
@@ -40,7 +40,7 @@ public class FileLoggingConfig implements LoggingConfig {
             var handler = new FileHandler(new File(filePrefix + timestamp + ".log").getAbsolutePath());
             handler.setFormatter(new ControllableFormatter(loggerFormat));
             Logger.getLogger(loggerName).addHandler(handler);
-            isActive = true;
+            isOpen = true;
         } catch (IOException e) {
             //
         }
@@ -52,10 +52,10 @@ public class FileLoggingConfig implements LoggingConfig {
             if (h instanceof FileHandler)
                 logger.removeHandler(h);
         }
-        isActive = false;
+        isOpen = false;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isOpen() {
+        return isOpen;
     }
 }
