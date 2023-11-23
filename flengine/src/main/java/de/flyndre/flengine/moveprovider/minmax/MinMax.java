@@ -8,11 +8,25 @@ import de.flyndre.flengine.rules.Rule;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
+import java.util.logging.Logger;
 
+/**
+ * An implementation of {@code MoveProvider} that uses the Minimax-Algorithm to calculate the best move.
+ * The calculation is being calculated by multithreading.
+ * @author Ruben
+ */
 public class MinMax implements MoveProvider {
     Rule legalMoveProvider = new Rule();
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
+    /**
+     * Provides a list of recommended {@code Move}s for the given situation on the {@code Board}.
+     * @param board The current board.
+     * @return A list of recommended moves in this situation which may be empty if none were found.
+     */
     @Override
     public List<Move> getRecommendedMoves(Board board) {
+        logger.info("Starting Calculation of Minimax.");
         List<Move> availableMoves = legalMoveProvider.getLegalMoves(board, board.getNextColor());
 
 

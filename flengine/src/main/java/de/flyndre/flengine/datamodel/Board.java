@@ -232,7 +232,7 @@ public class Board {
         String board = "";
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
-                board += pieces[i][j] == null? "empty " : pieces[i][j].getTypeOfFigure() + " ";
+                board += pieces[i][j] == null? "____ " : pieces[i][j].getTypeOfFigure() + " ";
             }
             board += "\n";
         }
@@ -250,14 +250,13 @@ public class Board {
             }
 
         }
-
+        b.nextColor = this.getNextColor();
         b.pieces = result;
         b.moveCounter = this.moveCounter;
         b.blackLongCastling = this.blackLongCastling;
         b.whiteLongCastling = this.whiteLongCastling;
         b.whiteShortCastling = this.whiteShortCastling;
         b.blackShortCastling = this.blackShortCastling;
-        b.nextColor = this.nextColor;
         return b;
     }
 }

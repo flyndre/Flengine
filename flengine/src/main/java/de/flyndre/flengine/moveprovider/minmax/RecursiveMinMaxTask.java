@@ -5,23 +5,29 @@ import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
+import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.rules.Rule;
 
 import java.util.*;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static de.flyndre.flengine.datamodel.enums.Color.BLACK;
 import static de.flyndre.flengine.datamodel.enums.Color.WHITE;
 
+/**
+ * An implementation of {@code RecursiveTask} that calculates the best move for a given Position.
+ * The Class uses a ForkJoinPool to handle multiple Threads.
+ * The Maximum Depth of the Minimax Algorithm is 3. It can be changed by editing the Variable {@code MAXLEVEL}
+ * @author Ruben
+ */
 public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
 
     Board board;
     Move move;
     volatile int currentLevel;
-    private Color playerColor;
+    private final Color playerColor;
     private final int MAXLEVEL = 3;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final Rule legalMoveProvider = new Rule();
@@ -33,28 +39,33 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         this.playerColor = playerColor;
     }
 
+    /**
+     * Implementation of the {@code compute}-Method which provides the Rating of a given {@code Move} on a {@code Board}.
+     * @return the Rating of the Move.
+     */
     @Override
     protected Integer compute() {
-
         Board newBoard = board.deepClone();
-        int judgement = judgeMove(board, move);
 
-        logger.info(String.format("Computing move [%s]. Level of Minimax: [%d]. Judgement of Move: [%d]", move.toString(), currentLevel, judgement));
+        if(board.getPiece(move.getTo()) != null && board.getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
+            return -100000;
+        }
+        if(legalMoveProvider.isCheckmated(newBoard, playerColor)){
+            return -10000;
+        }
+        if(legalMoveProvider.isCheckmated(newBoard, getOppositeColor(playerColor))){
+            return 10000;
+        }
+
+        int rating = rateMove(newBoard, move);
+        newBoard.playMove(move);
 
         if(currentLevel == MAXLEVEL){
-            return judgement;
+            return rating;
         }
 
-        if(legalMoveProvider.isCheckmated(newBoard, playerColor)){
-            return -100;
-        }
-        if(legalMoveProvider.isCheckmated(newBoard, getOpositColor(playerColor))){
-            return 100;
-        }
-
-        newBoard.playMove(move);
         List<Move> legalMoves = legalMoveProvider.getLegalMoves(newBoard, board.getNextColor());
-        HashMap<Move, Integer> judgedMoves = new HashMap<>();
+        HashMap<Move, Integer> ratedMoves = new HashMap<>();
         HashMap<Move, ForkJoinTask<Integer>> taskHashMap = new HashMap<>();
 
         legalMoves.forEach(move -> {
@@ -63,31 +74,49 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
             taskHashMap.put(move, runningTask);
         });
 
-        taskHashMap.forEach((key, value) -> judgedMoves.put(key, value.join()));
-        Optional<Map.Entry<Move, Integer>> bestOptionalMove = judgedMoves.entrySet().stream().max(Map.Entry.comparingByValue());
-
-        if(bestOptionalMove.isEmpty()){
-            logger.warning("no best move avaliable.");
-            return -100;
-        }
-
-        return judgement + bestOptionalMove.get().getValue();
+        taskHashMap.forEach((key, value) -> ratedMoves.put(key, value.join()));
+        Optional<Map.Entry<Move, Integer>> bestOptionalMove = ratedMoves.entrySet().stream().max(Map.Entry.comparingByValue());
+        return bestOptionalMove.map(moveIntegerEntry -> rating + moveIntegerEntry.getValue()).orElse(-100);
     }
 
-    public int judgeMove(Board board, Move move){
+    /**
+     * Helper-Method that actually calculates the Rating of the Move.
+     * @return the Rating of the Move.
+     */
+    public int rateMove(Board board, Move move){
+
+        Board deepCopiedBoard = board.deepClone();
+
         int evaluation = 0;
         Field f = move.getTo();
-        Piece pieceToHit = board.getPiece(f);
+        Piece pieceToHit = deepCopiedBoard.getPiece(f);
 
-        if(board.getNextColor() == playerColor){
-            evaluation += (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
-        }else{
+        if(deepCopiedBoard.getNextColor() == playerColor){
             evaluation -= (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
+        }else{
+            evaluation += (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
         }
+        if(legalMoveProvider.isChecked(deepCopiedBoard, playerColor)) {
+            evaluation += 1;
+        }
+        if(legalMoveProvider.isChecked(deepCopiedBoard, getOppositeColor(playerColor))) {
+            evaluation -= 1;
+        }
+        if(legalMoveProvider.isCheckmated(deepCopiedBoard, playerColor)){
+                evaluation += 100;
+        }
+        if(legalMoveProvider.isCheckmated(deepCopiedBoard, getOppositeColor(playerColor))){
+                evaluation -= 100;
+        }
+
         return evaluation;
     }
 
-    public Color getOpositColor(Color color){
+    /**
+     * Helper-Method returns the opposite Color of which it was given.
+     * @return the opposite Color.
+     */
+    public Color getOppositeColor(Color color){
         return color == BLACK ? WHITE : BLACK;
     }
 }
