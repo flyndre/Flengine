@@ -1,4 +1,4 @@
-package de.flyndre.flengine.util;
+package de.flyndre.flengine.logging;
 
 import de.flyndre.flengine.converter.StdoutWriter;
 import java.util.logging.ConsoleHandler;
