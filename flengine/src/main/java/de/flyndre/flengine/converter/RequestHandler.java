@@ -59,12 +59,18 @@ public class RequestHandler {
                     case "setoption":
                         //read the given option and change the value in the options object accordingly
                         logger.info("Recognized setoption command from gui.");
-                        if(splittedInput.length > 4){
+                        if (splittedInput.length > 4) {
                             switch (splittedInput[2]) {
                                 case "Difficulty" -> {
-                                    this.options.setEngineDifficulty(EngineDifficulty.valueOf(splittedInput[3]));
-                                    logger.info("Changed option difficulty to " + splittedInput[3] + ".");
+                                    try {
+                                        var difficulty = EngineDifficulty.valueOf(splittedInput[4]);
+                                        this.options.setEngineDifficulty(difficulty);
+                                        logger.info("Changed option difficulty to [" + difficulty + "].");
+                                    } catch (IllegalArgumentException e) {
+                                        logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");
+                                    }
                                 }
+                                default -> logger.warning("The value [" + splittedInput[2] + "] is not a supported option.");
                             }
                         }
                         break;

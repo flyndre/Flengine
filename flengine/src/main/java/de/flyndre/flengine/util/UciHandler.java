@@ -1,8 +1,6 @@
 package de.flyndre.flengine.util;
 
-import de.flyndre.flengine.converter.RequestHandler;
 import de.flyndre.flengine.converter.StdoutWriter;
-
 import java.util.logging.ConsoleHandler;
 import java.util.logging.ErrorManager;
 import java.util.logging.LogRecord;

@@ -40,7 +40,7 @@ public class Flengine {
                     //
                 }
             }
-            case "console" -> System.setProperty(loggingFormatKey, loggingFormat);
+            case "console" -> System.setProperty(loggingFormatKey, loggingFormat + "%n");
             default -> LogManager.getLogManager().reset();
         }
     }
