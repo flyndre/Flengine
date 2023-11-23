@@ -2,13 +2,15 @@ name: MainWorkflow
 
 on:
   push:
-    branches: [main, develop,prod,test/workflow]
-  workflow_dispatch:    
+    branches: [main, develop,pre,test/workflow]
+    tags: 'v*'
+  workflow_dispatch: 
+
 
 jobs:
   unittest:
     name: Unittest
-    continue-on-error: true
+    continue-on-error: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,9 +50,11 @@ jobs:
       contents: read
       packages: write
     if: contains('
-      refs/heads/dev
+      refs/heads/develop
+      refs/heads/pre
       refs/heads/main
-      ', github.ref)
+      refs/heads/test/workflow
+      ', github.ref) || startsWith(github.ref, 'refs/tags/v')
     
 
     steps:
@@ -75,7 +79,65 @@ jobs:
         #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
         uses: actions/upload-artifact@v2
         with:
-          name: flengine
+          name: flengine_jar
           path: flengine/target/*.jar
-  
-   
+
+  pack_release:
+    name: Packing Release     
+    needs: build_backend
+    continue-on-error: false
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: create release dir
+       run: mkdir flengine
+     - name: Download jar
+       uses: actions/download-artifact@v2.1.1
+       with:
+        name: flengine_jar
+        path: flengine
+     - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
+     - name: create bat
+       run: echo "java -jar flengine.jar" >> flengine/flengine.bat
+     - name: zip release
+       uses: montudor/action-zip@v1
+       with:
+        args: zip -qq -r flengine.zip flengine
+     - name: Upload JAR
+        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+       uses: actions/upload-artifact@v2
+       with:          
+         name: flengine_zip
+         path: flengine.zip
+         
+  create_release:
+    name: Create Release     
+    needs: pack_release
+    continue-on-error: false
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+    - name: Download zip
+      uses: actions/download-artifact@v2.1.1
+      with:
+       name: flengine_zip
+    - name: Create Release
+      uses: actions/create-release@v1
+      id: create_release
+      env: 
+        GITHUB_TOKEN: ${{secrets.PAT}}
+      with:
+        tag_name: ${{github.ref}}
+        release_name: Release ${{github.ref}}
+        draft: true
+    - name: Upload Asset
+      id: upload_asset
+      uses: actions/upload-release-Asset@v1
+      env: 
+        GITHUB_TOKEN: ${{secrets.PAT}}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: flengine.zip
+          asset_name: flengine-${{github.ref.tag_name}}.zip
+          asset_content_type: application/zip
+

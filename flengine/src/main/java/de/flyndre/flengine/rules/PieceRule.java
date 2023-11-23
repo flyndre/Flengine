@@ -3,6 +3,7 @@ package de.flyndre.flengine.rules;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Field;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Piece;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Line;
 import de.flyndre.flengine.datamodel.enums.Row;
@@ -21,6 +22,11 @@ public class PieceRule {
 
     protected final Line[] LINES = Line.values();
     protected final Row[] ROWS = Row.values();
+
+    /**
+     * Contains the current field of the king for future calculations.
+     */
+    protected Field kingField = null;
 
     /**
      * Returns all possible moves of a piece on the given field.
@@ -68,32 +74,47 @@ public class PieceRule {
         // the field straight ahead has to be unoccupied to move
         if (board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow])) == null)
         {
-            moves.add(new Move(
-                new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + direction], ROWS[fieldRow]), type));
+            moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow]), type));
         }
         // the fields diagonal have to be occupied by opponent
-        if (fieldRow > 0 &&
-                board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1])) != null &&
+        if (fieldRow > 0 && board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1])) != null &&
                 !board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1])).getColor().equals(color))
         {
-            moves.add(new Move(
-                new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]), type));
+            moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]), type));
         }
-        if (fieldRow < 7 &&
-                board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1])) != null &&
+        if (fieldRow < 7 && board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1])) != null &&
                 !board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1])).getColor().equals(color))
         {
-            moves.add(new Move(
-                new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]), type));
+            moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]), type));
         }
         // the two fields ahead of the start line have to be unoccupied
         if ((field.getLine() == Line.TWO && color.equals(Color.WHITE) || field.getLine() == Line.SEVEN && color.equals(Color.BLACK)) &&
                 board.getPiece(new Field(LINES[fieldLine + direction], ROWS[fieldRow])) == null &&
                 board.getPiece(new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])) == null)
         {
-            moves.add(new Move(
-                new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])));
+            moves.add(new Move(field, new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])));
         }
+
+        boolean canEnPassant = true; // TODO echte werte für en passant einbinden
+
+        /* en passant
+        if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
+                field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
+        {
+            if (canEnPassant && fieldRow > 0 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])) != null &&
+                    board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                    !board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getColor().equals(color))
+            {
+                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]))); // TODO move muss bauern schmeissen
+            }
+            if (canEnPassant && fieldRow < 8 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])) != null &&
+                    board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                    !board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getColor().equals(color))
+            {
+                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
+            }
+        }*/
+
         return moves;
     }
 
@@ -121,14 +142,12 @@ public class PieceRule {
                 {
                     l += direction[0];
                     r += direction[1];
-                    moves.add(new Move(
-                        new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[l], ROWS[r])));
+                    moves.add(new Move(field, new Field(LINES[l], ROWS[r])));
                 }
                 // next field in direction is occupied by opponent
                 else if (!board.getPiece(new Field(LINES[l + direction[0]], ROWS[r + direction[1]])).getColor().equals(board.getPiece(field).getColor()))
                 {
-                    moves.add(new Move(
-                        new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[l + direction[0]], ROWS[r + direction[1]])));
+                    moves.add(new Move(field, new Field(LINES[l + direction[0]], ROWS[r + direction[1]])));
                     break;
                 }
                 // next field in direction is occupied by own piece
@@ -158,9 +177,7 @@ public class PieceRule {
                     (board.getPiece(new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])) == null ||
                     !board.getPiece(new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])).getColor().equals(board.getPiece(field).getColor())))
             {
-                moves.add(new Move(
-                    new Field(LINES[fieldLine], ROWS[fieldRow]),
-                    new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])));
+                moves.add(new Move(field,new Field(LINES[fieldLine + direction[0]], ROWS[fieldRow + direction[1]])));
             }
         }
         return moves;
@@ -190,14 +207,12 @@ public class PieceRule {
                 {
                     l += direction[0];
                     r += direction[1];
-                    moves.add(new Move(new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[l], ROWS[r])));
+                    moves.add(new Move(field, new Field(LINES[l], ROWS[r])));
                 }
                 // next field in direction is occupied by opponent
                 else if (!board.getPiece(new Field(LINES[l + direction[0]], ROWS[r + direction[1]])).getColor().equals(board.getPiece(field).getColor()))
                 {
-                    moves.add(new Move(
-                        new Field(LINES[fieldLine], ROWS[fieldRow]),
-                        new Field(LINES[l + direction[0]], ROWS[r + direction[1]])));
+                    moves.add(new Move(field, new Field(LINES[l + direction[0]], ROWS[r + direction[1]])));
                     break;
                 }
                 // next field in direction is occupied by own piece
@@ -214,9 +229,7 @@ public class PieceRule {
      * @return list of possible queen moves
      */
     private List<Move> getLegalMovesQueen(Board board, Field field) {
-        return Stream.concat(
-            getLegalMovesBishop(board, field).stream(), getLegalMovesRook(board, field).stream()
-        ).toList();
+        return Stream.concat(getLegalMovesBishop(board, field).stream(), getLegalMovesRook(board, field).stream()).toList();
     }
 
     /**
@@ -231,26 +244,39 @@ public class PieceRule {
         int fieldLine = field.getLine().ordinal();
         int fieldRow = field.getRow().ordinal();
         Color color = board.getPiece(field).getColor();
+        Color opponentColor = color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+
+        // set the field of the king for future calculations
+        kingField = field;
+
+        // castle/rochade
+        moves.addAll(getCastleMoves(board, field));
+
+        // set field of king to null
+        board.setPiece(null, field);
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
 
                 if (i == 0 && j == 0) continue;
 
-                // TODO steht der König im Schach, muss der nächste Zug das ändern
-
                 // field has to be unoccupied or occupied by an opponent
                 if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
                         (board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) == null ||
-                        !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(board.getPiece(field).getColor())) &&
+                        !board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color)) &&
                         // field must not be covered by opponent
-                        !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
+                        !isFieldCovered(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), opponentColor) &&
+                        // a field may not be covered by opponent's king (covered by own piece) but king must not move onto field anyway
+                        !isKingInRange(board, new Field(LINES[fieldLine + i], ROWS[fieldRow + j]), opponentColor))
                 {
-                    moves.add(new Move(
-                        new Field(LINES[fieldLine], ROWS[fieldRow]), new Field(LINES[fieldLine + i], ROWS[fieldRow + j])));
+                    moves.add(new Move(field, new Field(LINES[fieldLine + i], ROWS[fieldRow + j])));
                 }
             }
         }
+
+        // re-set king field of the chess board
+        board.setPiece(new Piece(Type.KING, color), field);
+
         return moves;
     }
 
@@ -268,60 +294,84 @@ public class PieceRule {
      *
      * @param board current chess board
      * @param field current field of a king
-     * @param canQueensideCastle boolean flag if a queenside castle of the given field color is possible
-     * @param canKingsideCastle boolean flag if a kingside castle of the given field color is possible
      * @return list of 0 to 2 possible castle moves
      */
-    private List<Move> getCastleMoves(Board board, Field field, boolean canQueensideCastle, boolean canKingsideCastle) {
+    private List<Move> getCastleMoves(Board board, Field field) {
 
         List<Move> moves = new ArrayList<>();
         Color opponentColor = board.getPiece(field).getColor().equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+        boolean canQueensideCastle = opponentColor.equals(Color.WHITE) ? board.getBlackLongCastling() : board.getWhiteLongCastling();
+        boolean canKingsideCastle = opponentColor.equals(Color.WHITE) ? board.getBlackShortCastling() : board.getWhiteShortCastling();
 
         // king is on its original field
-        if (field.getRow().equals(Row.E) && (field.getLine().equals(Line.ONE) &&
-            board.getPiece(field).getColor().equals(Color.WHITE) || field.getLine().equals(Line.EIGHT) &&
-            board.getPiece(field).getColor().equals(Color.BLACK)) &&
-            // king is not in check
-            !isFieldCovered(board, field, opponentColor) &&
-            // king- or queenside castle is possible
-            (canQueensideCastle || canKingsideCastle))
+        if (field.getRow().equals(Row.E) && (field.getLine().equals(Line.ONE) && board.getPiece(field).getColor().equals(Color.WHITE) ||
+                field.getLine().equals(Line.EIGHT) && board.getPiece(field).getColor().equals(Color.BLACK)) &&
+                // king is not in check and king- or queenside castle is possible
+                !isFieldCovered(board, field, opponentColor) && (canQueensideCastle || canKingsideCastle))
         {
             // queen-side castle
             // there is a rook on row A in the same line of the same color, queenside castle is possible
             if (canQueensideCastle && board.getPiece(new Field(field.getLine(), Row.A)) != null &&
-                board.getPiece(new Field(field.getLine(), Row.A)).getTypeOfFigure().equals(Type.ROOK) &&
-                board.getPiece(new Field(field.getLine(), Row.A)).getColor().equals(board.getPiece(field).getColor()) &&
-                // the rook is not covered by an opponents piece
-                !isFieldCovered(board, new Field(field.getLine(), Row.A), opponentColor) &&
-                // there are no pieces between
-                board.getPiece(new Field(field.getLine(), Row.B)) == null &&
-                board.getPiece(new Field(field.getLine(), Row.C)) == null &&
-                board.getPiece(new Field(field.getLine(), Row.D)) == null &&
-                // there are no field covered by the opponent between
-                !isFieldCovered(board, new Field(field.getLine(), Row.D), opponentColor) &&
-                !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
-                !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
+                    board.getPiece(new Field(field.getLine(), Row.A)).getTypeOfFigure().equals(Type.ROOK) &&
+                    board.getPiece(new Field(field.getLine(), Row.A)).getColor().equals(board.getPiece(field).getColor()) &&
+                    // the rook is not covered by an opponents piece
+                    !isFieldCovered(board, new Field(field.getLine(), Row.A), opponentColor) &&
+                    // there are no pieces between
+                    board.getPiece(new Field(field.getLine(), Row.B)) == null &&
+                    board.getPiece(new Field(field.getLine(), Row.C)) == null &&
+                    board.getPiece(new Field(field.getLine(), Row.D)) == null &&
+                    // there are no field covered by the opponent between
+                    !isFieldCovered(board, new Field(field.getLine(), Row.D), opponentColor) &&
+                    !isFieldCovered(board, new Field(field.getLine(), Row.C), opponentColor) &&
+                    !isFieldCovered(board, new Field(field.getLine(), Row.B), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.A)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.C)));
             }
             // king-side castle
             // there is a rook on row H in the same line of the same color, kingside castle is possible
             if (canKingsideCastle && board.getPiece(new Field(field.getLine(), Row.H)) != null &&
-                board.getPiece(new Field(field.getLine(), Row.H)).getTypeOfFigure().equals(Type.ROOK) &&
-                board.getPiece(new Field(field.getLine(), Row.H)).getColor().equals(board.getPiece(field).getColor()) &&
-                // the rook is not covered by an opponents piece
-                !isFieldCovered(board, new Field(field.getLine(), Row.H), opponentColor) &&
-                // there are no pieces between
-                board.getPiece(new Field(field.getLine(), Row.F)) == null &&
-                board.getPiece(new Field(field.getLine(), Row.G)) == null &&
-                // there are no field covered by the opponent between
-                !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
-                !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
+                    board.getPiece(new Field(field.getLine(), Row.H)).getTypeOfFigure().equals(Type.ROOK) &&
+                    board.getPiece(new Field(field.getLine(), Row.H)).getColor().equals(board.getPiece(field).getColor()) &&
+                    // the rook is not covered by an opponents piece
+                    !isFieldCovered(board, new Field(field.getLine(), Row.H), opponentColor) &&
+                    // there are no pieces between
+                    board.getPiece(new Field(field.getLine(), Row.F)) == null &&
+                    board.getPiece(new Field(field.getLine(), Row.G)) == null &&
+                    // there are no field covered by the opponent between
+                    !isFieldCovered(board, new Field(field.getLine(), Row.F), opponentColor) &&
+                    !isFieldCovered(board, new Field(field.getLine(), Row.G), opponentColor))
             {
-                moves.add(new Move(field, new Field(field.getLine(), Row.H)));
+                moves.add(new Move(field, new Field(field.getLine(), Row.G)));
             }
         }
         return moves;
+    }
+
+    /**
+     * Returns if a king of given color is in a one-field-radius of the given field.
+     * @param board current chess board
+     * @param field field to check if a king is in range
+     * @param color color of king in range
+     * @return true if a king of given color is in range of the field
+     */
+    private boolean isKingInRange(Board board, Field field, Color color) {
+
+        int fieldLine = field.getLine().ordinal();
+        int fieldRow = field.getRow().ordinal();
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+
+                if (i == 0 && j == 0) continue;
+
+                if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).equals(new Piece(Type.KING, color))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -344,14 +394,14 @@ public class PieceRule {
         // field is covered by pawn
         if (color.equals(Color.WHITE) && fieldLine > 0 || color.equals(Color.BLACK) && fieldLine < 7) {
             if (fieldRow > 0 && board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])) != null &&
-                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getColor().equals(color))
+                    board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                    board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow - 1])).getColor().equals(color))
             {
                 return true;
             }
             if (fieldRow < 7 && board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])) != null &&
-                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getColor().equals(color))
+                    board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
+                    board.getPiece(new Field(LINES[fieldLine + pawnDirection], ROWS[fieldRow + 1])).getColor().equals(color))
             {
                 return true;
             }
@@ -360,9 +410,9 @@ public class PieceRule {
         // field is covered by knight
         for (int[] knightMove : knightMoves) {
             if (fieldLine + knightMove[0] >= 0 && fieldLine + knightMove[0] < 8 && fieldRow + knightMove[1] >= 0 && fieldRow + knightMove[1] < 8 &&
-                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])) != null &&
-                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getTypeOfFigure().equals(Type.KNIGHT) &&
-                board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getColor().equals(color))
+                    board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])) != null &&
+                    board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getTypeOfFigure().equals(Type.KNIGHT) &&
+                    board.getPiece(new Field(LINES[fieldLine + knightMove[0]], ROWS[fieldRow + knightMove[1]])).getColor().equals(color))
             {
                 return true;
             }
@@ -378,8 +428,8 @@ public class PieceRule {
             {
                 if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
                     if ((board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.ROOK) ||
-                        board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
-                        board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
                     {
                         return true;
                     }
@@ -400,8 +450,8 @@ public class PieceRule {
             {
                 if (board.getPiece(new Field(LINES[l], ROWS[r])) != null) {
                     if ((board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.BISHOP) ||
-                        board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
-                        board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getTypeOfFigure().equals(Type.QUEEN)) &&
+                            board.getPiece(new Field(LINES[l], ROWS[r])).getColor().equals(color))
                     {
                         return true;
                     }
@@ -419,72 +469,15 @@ public class PieceRule {
                 if (i == 0 && j == 0) continue;
 
                 if (fieldLine + i >= 0 && fieldLine + i < 8 && fieldRow + j >= 0 && fieldRow + j < 8 &&
-                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
-                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getTypeOfFigure().equals(Type.KING) &&
-                    board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color) &&
-                    !isFieldCovered(board, new Field(LINES[fieldLine], ROWS[fieldRow]), color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE)) // TODO mögliche endlosschleife?
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])) != null &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getTypeOfFigure().equals(Type.KING) &&
+                        board.getPiece(new Field(LINES[fieldLine + i], ROWS[fieldRow + j])).getColor().equals(color) &&
+                        !isFieldCovered(board, field, color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE))
                 {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    /**
-     * Returns if the given move is legal.
-     * @param board current chess board
-     * @param move move to check
-     * @return true if the given move is legal
-     */
-    public boolean isLegalMove(Board board, Move move) {
-
-        // move object contains null attributes
-        if (move.getFrom() == null || move.getTo() == null || move.getFrom().getLine() == null ||
-                move.getFrom().getRow() == null || move.getTo().getLine() == null || move.getTo().getRow() == null)
-        {
-            return false;
-        }
-
-        // from field is empty / has no type
-        if (board.getPiece(move.getFrom()) == null || board.getPiece(move.getFrom()).getTypeOfFigure() == null) return false;
-
-        // from & to field are the same color
-        if (board.getPiece(move.getFrom()).getColor().equals(board.getPiece(move.getTo()).getColor())) return false;
-
-        // pawn move from the second to last line has to be promoted
-        if (board.getPiece(move.getFrom()).getTypeOfFigure().equals(Type.PAWN) &&
-                (board.getPiece(move.getFrom()).getColor().equals(Color.WHITE) && move.getFrom().getLine().equals(Line.SEVEN) ||
-                board.getPiece(move.getFrom()).getColor().equals(Color.BLACK) && move.getFrom().getLine().equals(Line.TWO)))
-        {
-            if (move.getPromoteTo() == null) return false;
-        }
-        else if (move.getPromoteTo() != null) return false;
-
-        // move does not equal to figure type of the chess piece
-        switch (board.getPiece(move.getFrom()).getTypeOfFigure()) {
-            case PAWN:
-                if (!getLegalMovesPawn(board, move.getFrom()).contains(move)) return false;
-                break;
-            case ROOK:
-                if (!getLegalMovesRook(board, move.getFrom()).contains(move)) return false;
-                break;
-            case KNIGHT:
-                if (!getLegalMovesKnight(board, move.getFrom()).contains(move)) return false;
-                break;
-            case BISHOP:
-                if (!getLegalMovesBishop(board, move.getFrom()).contains(move)) return false;
-                break;
-            case QUEEN:
-                if (!getLegalMovesQueen(board, move.getFrom()).contains(move)) return false;
-                break;
-            case KING:
-                if (!getLegalMovesKing(board, move.getFrom()).contains(move)) return false;
-                break;
-            default:
-                throw new IllegalArgumentException(String.format(
-                "Couldn't read field %s with piece of type %s", move.getFrom(), board.getPiece(move.getFrom()).getTypeOfFigure()));
-        }
-        return true;
     }
 }
