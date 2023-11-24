@@ -3,8 +3,7 @@ package de.flyndre.flengine.datamodel;
 import de.flyndre.flengine.datamodel.enums.Difficulty;
 
 /**
- * This class provides a data model to store options selected over UCI commands.
- * It's currently not implemented and only there to be built in the functions to add later these options.
+ * This class provides a data model to store options specified via UCI commands.
  * @author Lukas
  */
 public class Options {
