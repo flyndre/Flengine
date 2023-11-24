@@ -20,17 +20,26 @@ public class UciLogChannel implements LogChannel {
     public void setOpen(boolean open) {
         if (isOpen == open) return;
         if (open) {
-            var handler = new UciHandler();
-            handler.setFormatter(new ControllableFormatter(loggerFormat));
-            Logger.getLogger(loggerName).addHandler(handler);
+            open();
         } else {
-            var logger = Logger.getLogger(loggerName);
-            for (Handler h : logger.getHandlers()) {
-                if (h instanceof UciHandler)
-                    logger.removeHandler(h);
-            }
+            close();
         }
-        isOpen = open;
+    }
+
+    private void open() {
+        var handler = new UciHandler();
+        handler.setFormatter(new ControllableFormatter(loggerFormat));
+        Logger.getLogger(loggerName).addHandler(handler);
+        isOpen = true;
+    }
+
+    private void close() {
+        var logger = Logger.getLogger(loggerName);
+        for (Handler h : logger.getHandlers()) {
+            if (h instanceof UciHandler)
+                logger.removeHandler(h);
+        }
+        isOpen = false;
     }
 
     public boolean isOpen() {

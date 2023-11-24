@@ -28,13 +28,13 @@ public class FileLogChannel implements LogChannel {
     public void setOpen(boolean open) {
         if (isOpen == open) return;
         if (open) {
-            activate();
+            open();
         } else {
-            deactivate();
+            close();
         }
     }
 
-    private void activate() {
+    private void open() {
         var timestamp = new SimpleDateFormat(dateFormat).format(new Date());
         try {
             var handler = new FileHandler(new File(filePrefix + timestamp + ".log").getAbsolutePath());
@@ -46,7 +46,7 @@ public class FileLogChannel implements LogChannel {
         }
     }
 
-    private void deactivate() {
+    private void close() {
         var logger = Logger.getLogger(loggerName);
         for (Handler h : logger.getHandlers()) {
             if (h instanceof FileHandler)

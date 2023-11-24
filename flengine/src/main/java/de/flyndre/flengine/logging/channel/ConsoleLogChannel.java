@@ -20,20 +20,20 @@ public class ConsoleLogChannel implements LogChannel {
     public void setOpen(boolean open) {
         if (isOpen == open) return;
         if (open) {
-            activate();
+            open();
         } else {
-            deactivate();
+            close();
         }
     }
 
-    private void activate() {
+    private void open() {
         var handler = new ConsoleHandler();
         handler.setFormatter(new ControllableFormatter(loggerFormat));
         Logger.getLogger(loggerName).addHandler(handler);
         isOpen = true;
     }
 
-    private void deactivate() {
+    private void close() {
         var logger = Logger.getLogger(loggerName);
         for (Handler h : logger.getHandlers()) {
             if (h instanceof ConsoleHandler)

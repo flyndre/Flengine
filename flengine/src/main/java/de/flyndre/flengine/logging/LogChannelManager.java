@@ -30,8 +30,8 @@ public abstract class LogChannelManager {
         var packageName = LogChannelManager.class.getPackageName();
         for (var type : channels.keySet()) {
             try {
-                var active = System.getProperty(packageName + "." + type.name().toLowerCase());
-                if (Objects.equals(active, "true"))
+                var open = System.getProperty(packageName + "." + type.name().toLowerCase());
+                if (Objects.equals(open, "true"))
                     setOpen(type, true);
             } catch (Exception e) {
                 // ignore
@@ -39,8 +39,8 @@ public abstract class LogChannelManager {
         }
     }
 
-    public static void setOpen(LogChannelType type, boolean active) {
-        channels.get(type).setOpen(active);
+    public static void setOpen(LogChannelType type, boolean open) {
+        channels.get(type).setOpen(open);
     }
 
     public static boolean isOpen(LogChannelType type) {
