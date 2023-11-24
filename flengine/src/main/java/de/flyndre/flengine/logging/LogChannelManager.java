@@ -11,10 +11,6 @@ import java.util.logging.*;
 
 public abstract class LogChannelManager {
 
-    static {
-        LogManager.getLogManager().reset();
-    }
-
     private static final String CONFIG_SCOPE = "de.flyndre.flengine";
     private static final String LOG_FORMAT = "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s - %5$s%6$s";
     private static final String DATE_FORMAT = "yyyyMMdd-HHmmss-SSS";
@@ -27,6 +23,7 @@ public abstract class LogChannelManager {
     );
 
     public static void setup() {
+        LogManager.getLogManager().reset();
         var packageName = LogChannelManager.class.getPackageName();
         for (var type : channels.keySet()) {
             try {
