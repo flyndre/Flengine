@@ -1,4 +1,4 @@
-package de.flyndre.flengine.enginecontroller;
+package de.flyndre.flengine.controller;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
