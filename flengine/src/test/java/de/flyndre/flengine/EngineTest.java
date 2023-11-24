@@ -4,7 +4,7 @@ import de.flyndre.flengine.converter.Converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.enginecontroller.Controller;
+import de.flyndre.flengine.controller.Controller;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

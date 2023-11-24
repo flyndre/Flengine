@@ -98,7 +98,7 @@ jobs:
         path: flengine
      - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
      - name: create bat
-       run: echo "java -jar flengine.jar" >> flengine/flengine.bat
+       run: echo "java -jar -Dde.flyndre.flengine.logging.uci=true flengine.jar" >> flengine/flengine.bat
      - name: zip release
        uses: montudor/action-zip@v1
        with:

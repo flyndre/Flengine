@@ -1,7 +1,9 @@
 package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
+import de.flyndre.flengine.datamodel.enums.Difficulty;
+import de.flyndre.flengine.logging.LogChannelManager;
+import de.flyndre.flengine.logging.LogChannelType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,9 +47,9 @@ public class RequestHandler {
                         logger.info("Sent name and author to gui.");
                         //options
                         ////difficulty value
-                        StringBuilder difficultyOptions = new StringBuilder("option name Difficulty type combo default Normal");
-                        for(EngineDifficulty e: EngineDifficulty.values()){
-                            difficultyOptions.append(" var ").append(e.name());
+                        StringBuilder difficultyOptions = new StringBuilder("option name Difficulty type combo default " + Difficulty.NORMAL.toReadableString());
+                        for(Difficulty e: Difficulty.values()){
+                            difficultyOptions.append(" var ").append(e.toReadableString());
                         }
                         StdoutWriter.writeToStdout(difficultyOptions.toString());
                         logger.info("Indicated difficulty option to gui: " + difficultyOptions.toString());
@@ -59,12 +61,18 @@ public class RequestHandler {
                     case "setoption":
                         //read the given option and change the value in the options object accordingly
                         logger.info("Recognized setoption command from gui.");
-                        if(splittedInput.length > 4){
+                        if (splittedInput.length > 4) {
                             switch (splittedInput[2]) {
                                 case "Difficulty" -> {
-                                    this.options.setEngineDifficulty(EngineDifficulty.valueOf(splittedInput[3]));
-                                    logger.info("Changed option difficulty to " + splittedInput[3] + ".");
+                                    try {
+                                        var difficulty = Difficulty.valueOf(splittedInput[4].toUpperCase());
+                                        this.options.setDifficulty(difficulty);
+                                        logger.info("Changed option difficulty to [" + difficulty + "].");
+                                    } catch (IllegalArgumentException e) {
+                                        logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");
+                                    }
                                 }
+                                default -> logger.warning("The value [" + splittedInput[2] + "] is not a supported option.");
                             }
                         }
                         break;
@@ -111,20 +119,23 @@ public class RequestHandler {
                     case "debug":
                         //change the debug option
                         logger.info("Recognized debug command.");
-                        if(splittedInput.length > 1){
-                            if(splittedInput[1].equals("on")){
-                                this.options.setDebugMode(true);
-                                logger.info("Set debug mode to on.");
+                        if (splittedInput.length > 1) {
+                            if (splittedInput[1].equals("on")) {
+                                LogChannelManager.setOpen(LogChannelType.UCI, true);
+                                logger.info("Set debug mode to [on].");
                             } else if (splittedInput[1].equals("off")) {
-                                this.options.setDebugMode(false);
-                                logger.info("Set debug mode to off.");
+                                LogChannelManager.setOpen(LogChannelType.UCI, false);
+                                logger.info("Set debug mode to [off].");
+                            } else {
+                                logger.warning("The value [" + splittedInput[1] + "] is not a valid value for debug.");
                             }
                         }
                         break;
                     case "quit":
                         //shutdown engine
                         logger.info("Recognized quit command.\nShutting down engine.");
-                        organizer.stopCalulations();
+                        if (organizer != null)
+                            organizer.stopCalulations();
                         isRunning = false;
                         break;
                     default:

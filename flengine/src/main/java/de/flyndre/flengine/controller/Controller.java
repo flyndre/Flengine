@@ -1,4 +1,4 @@
-package de.flyndre.flengine.enginecontroller;
+package de.flyndre.flengine.controller;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
@@ -22,12 +22,9 @@ public class Controller {
     private static final Logger logger = Logger.getLogger(Controller.class.getName());
 
     /**
-     * This number is used to tweak the difficulty of the engine.
-     * A lower number makes it less difficult, a higher one more difficult.
-     * The value 1 gives all moves the same probability.
+     * A list of {@code MoveProviders} which the engine consults when finding moves.
+     * In this process, the {@code MoveProviders} are consulted in the given order.
      */
-    private static double DIFFICULTY = 8;
-
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
             new Endgame(),
@@ -41,7 +38,6 @@ public class Controller {
      * @return A single {@code Move}, which the engine determined as best possible move or {@code null}, if no move was found.
      */
     public static Move giveMove(Board board, Options options) {
-        DIFFICULTY = options.getEngineDifficulty().getDifficultyValue();
         for (var moveProvider : moveProviderHierarchy) {
             logger.info("Requesting moves from: [" + moveProvider.getClass().getName() + "]");
             var moves = moveProvider.getRecommendedMoves(board);
@@ -56,8 +52,11 @@ public class Controller {
                                 //
                                 // (*) The modulo 1 is needed to prevent values greater than 1 if
                                 //     the difficulty is less than 0.
-                                Math.pow(Math.random(), DIFFICULTY) % 1 * moves.size()
-                    )
+                                Math.pow(
+                                        Math.random(),
+                                        options.getDifficulty().getValue()
+                                ) % 1 * moves.size()
+                        )
                 );
                 logger.info("Best move is [" + bestMove + "] by [" + moveProvider.getClass().getName() + "]");
                 return bestMove;

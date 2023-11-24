@@ -29,7 +29,6 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
     volatile int currentLevel;
     private final Color playerColor;
     private final int MAXLEVEL = 3;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final Rule legalMoveProvider = new Rule();
 
     public RecursiveMinMaxTask(Board board, Move move, int currentLevel, Color playerColor){
@@ -49,12 +48,6 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
 
         if(board.getPiece(move.getTo()) != null && board.getPiece(move.getTo()).getTypeOfFigure() == Type.KING){
             return -100000;
-        }
-        if(legalMoveProvider.isCheckmated(newBoard, playerColor)){
-            return -10000;
-        }
-        if(legalMoveProvider.isCheckmated(newBoard, getOppositeColor(playerColor))){
-            return 10000;
         }
 
         int rating = rateMove(newBoard, move);
@@ -96,6 +89,7 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         }else{
             evaluation += (pieceToHit == null) ? 0 : (pieceToHit.getTypeOfFigure().getValue());
         }
+
         if(legalMoveProvider.isChecked(deepCopiedBoard, playerColor)) {
             evaluation += 1;
         }
