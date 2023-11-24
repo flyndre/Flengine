@@ -1,6 +1,6 @@
 package de.flyndre.flengine.datamodel;
 
-import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
+import de.flyndre.flengine.datamodel.enums.Difficulty;
 
 /**
  * This class provides a data model to store options selected over UCI commands.
@@ -13,7 +13,7 @@ public class Options {
      * Used to tweak the difficulty of the engine.
      * Values are specified in the enum {@code EngineDifficulty}.
      */
-    private EngineDifficulty engineDifficulty = EngineDifficulty.Normal;
+    private Difficulty difficulty = Difficulty.NORMAL;
 
     /**
      * Specifies whether UCI Debug Mode is activated.
@@ -22,12 +22,12 @@ public class Options {
      */
     private boolean debugMode = false;
 
-    public EngineDifficulty getEngineDifficulty() {
-        return engineDifficulty;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setEngineDifficulty(EngineDifficulty engineDifficulty) {
-        this.engineDifficulty = engineDifficulty;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public boolean isDebugMode() {

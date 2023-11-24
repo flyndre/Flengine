@@ -1,7 +1,7 @@
 package de.flyndre.flengine.converter;
 
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
+import de.flyndre.flengine.datamodel.enums.Difficulty;
 import de.flyndre.flengine.logging.LogChannelManager;
 import de.flyndre.flengine.logging.LogChannelType;
 
@@ -47,9 +47,9 @@ public class RequestHandler {
                         logger.info("Sent name and author to gui.");
                         //options
                         ////difficulty value
-                        StringBuilder difficultyOptions = new StringBuilder("option name Difficulty type combo default Normal");
-                        for(EngineDifficulty e: EngineDifficulty.values()){
-                            difficultyOptions.append(" var ").append(e.name());
+                        StringBuilder difficultyOptions = new StringBuilder("option name Difficulty type combo default " + Difficulty.NORMAL.toReadableString());
+                        for(Difficulty e: Difficulty.values()){
+                            difficultyOptions.append(" var ").append(e.toReadableString());
                         }
                         StdoutWriter.writeToStdout(difficultyOptions.toString());
                         logger.info("Indicated difficulty option to gui: " + difficultyOptions.toString());
@@ -65,8 +65,8 @@ public class RequestHandler {
                             switch (splittedInput[2]) {
                                 case "Difficulty" -> {
                                     try {
-                                        var difficulty = EngineDifficulty.valueOf(splittedInput[4]);
-                                        this.options.setEngineDifficulty(difficulty);
+                                        var difficulty = Difficulty.valueOf(splittedInput[4].toUpperCase());
+                                        this.options.setDifficulty(difficulty);
                                         logger.info("Changed option difficulty to [" + difficulty + "].");
                                     } catch (IllegalArgumentException e) {
                                         logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");

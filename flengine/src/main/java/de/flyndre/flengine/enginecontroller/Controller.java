@@ -54,7 +54,7 @@ public class Controller {
                                 //     the difficulty is less than 0.
                                 Math.pow(
                                         Math.random(),
-                                        options.getEngineDifficulty().getDifficultyValue()
+                                        options.getDifficulty().getValue()
                                 ) % 1 * moves.size()
                         )
                 );
