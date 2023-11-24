@@ -15,13 +15,6 @@ public class Options {
      */
     private Difficulty difficulty = Difficulty.NORMAL;
 
-    /**
-     * Specifies whether UCI Debug Mode is activated.
-     * DOES NOT NEED TO BE SPECIFIED BY GUI WITH OPTION COMMAND!
-     * Gets set with the debug command
-     */
-    private boolean debugMode = false;
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
@@ -30,11 +23,4 @@ public class Options {
         this.difficulty = difficulty;
     }
 
-    public boolean isDebugMode() {
-        return debugMode;
-    }
-
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
-    }
 }
