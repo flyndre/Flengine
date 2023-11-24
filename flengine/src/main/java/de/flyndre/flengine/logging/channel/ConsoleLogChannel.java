@@ -6,14 +6,23 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+/**
+ * An implementation of the {@code LogChannel} interface to log to the console.
+ * @author David
+ */
 public class ConsoleLogChannel implements LogChannel {
 
-    private final String loggerName;
+    private final Logger logger;
     private final String loggerFormat;
     private boolean isOpen = false;
 
-    public ConsoleLogChannel(String loggerName, String loggerFormat) {
-        this.loggerName = loggerName;
+    /**
+     * Constructs a new instance of {@code ConsoleLogChannel}.
+     * @param logger the {@code Logger} on which the {@code Channel} should be attached to
+     * @param loggerFormat the format to log in
+     */
+    public ConsoleLogChannel(Logger logger, String loggerFormat) {
+        this.logger = logger;
         this.loggerFormat = loggerFormat;
     }
 
@@ -29,12 +38,11 @@ public class ConsoleLogChannel implements LogChannel {
     private void open() {
         var handler = new ConsoleHandler();
         handler.setFormatter(new ControllableFormatter(loggerFormat));
-        Logger.getLogger(loggerName).addHandler(handler);
+        logger.addHandler(handler);
         isOpen = true;
     }
 
     private void close() {
-        var logger = Logger.getLogger(loggerName);
         for (Handler h : logger.getHandlers()) {
             if (h instanceof ConsoleHandler)
                 logger.removeHandler(h);

@@ -6,14 +6,23 @@ import de.flyndre.flengine.logging.UciHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+/**
+ * An implementation of the {@code LogChannel} interface to log to UCI.
+ * @author David
+ */
 public class UciLogChannel implements LogChannel {
 
-    private final String loggerName;
+    private final Logger logger;
     private final String loggerFormat;
     private boolean isOpen = false;
 
-    public UciLogChannel(String loggerName, String loggerFormat) {
-        this.loggerName = loggerName;
+    /**
+     * Constructs a new instance of {@code UciLogChannel}.
+     * @param logger the {@code Logger} on which the {@code Channel} should be attached to
+     * @param loggerFormat the format to log in
+     */
+    public UciLogChannel(Logger logger, String loggerFormat) {
+        this.logger = logger;
         this.loggerFormat = loggerFormat;
     }
 
@@ -29,12 +38,11 @@ public class UciLogChannel implements LogChannel {
     private void open() {
         var handler = new UciHandler();
         handler.setFormatter(new ControllableFormatter(loggerFormat));
-        Logger.getLogger(loggerName).addHandler(handler);
+        logger.addHandler(handler);
         isOpen = true;
     }
 
     private void close() {
-        var logger = Logger.getLogger(loggerName);
         for (Handler h : logger.getHandlers()) {
             if (h instanceof UciHandler)
                 logger.removeHandler(h);

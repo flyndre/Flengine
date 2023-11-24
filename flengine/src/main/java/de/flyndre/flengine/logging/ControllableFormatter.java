@@ -7,6 +7,11 @@ import java.time.ZonedDateTime;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * A derivative of {@code SimpleFormatter} that ignores the global logging format
+ * so that it can be set in the constructor and be different for each formatter instance.
+ * @author David
+ */
 public class ControllableFormatter extends SimpleFormatter {
     private final String format;
 
