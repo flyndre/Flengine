@@ -140,7 +140,7 @@ public class RequestHandler {
                         break;
                     default:
                         if(splittedInput.length > 1){
-                            logger.info("Unrecognized command " + splittedInput[0] + ".\nTrying to parse next input.");
+                            logger.info("Unrecognized command " + splittedInput[0] + ", trying to parse next input.");
                             splittedInput = Arrays.copyOfRange(splittedInput, 1, splittedInput.length);
                             continue;
                         }
