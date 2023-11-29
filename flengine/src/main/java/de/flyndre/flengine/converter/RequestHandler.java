@@ -78,7 +78,7 @@ public class RequestHandler {
                         break;
                     case "isready":
                         //no initialization needed here at the moment so indicate engine is ready
-                        logger.info("Recognized isready from gui.\nSending readyok for synchronizing.");
+                        logger.info("Recognized isready from gui, sending readyok for synchronizing.");
                         StdoutWriter.writeToStdout("readyok");
                         break;
                     case "ucinewgame":
@@ -102,12 +102,12 @@ public class RequestHandler {
                         break;
                     case "go":
                         //ignore params for the moment, start computing async by creating organizer with given values
-                        logger.info("Recognized go command.\nStarting calculation...");
+                        logger.info("Recognized go command. Starting calculation...");
                         organizer = new Organizer(this.options, position, new ArrayList<String>(List.of(moves)));
                         CompletableFuture<String> futureMove = organizer.calculateNextMoveAsync();
                         futureMove.thenAccept(s ->
                         {
-                            logger.info("Calculation finished.\nBest move: " + s);
+                            logger.info("Calculation finished. Best move: " + s);
                             StdoutWriter.writeToStdout("bestmove " + s);
                         });
                         break;
@@ -133,7 +133,7 @@ public class RequestHandler {
                         break;
                     case "quit":
                         //shutdown engine
-                        logger.info("Recognized quit command.\nShutting down engine.");
+                        logger.info("Recognized quit command. Shutting down engine.");
                         if (organizer != null)
                             organizer.stopCalulations();
                         isRunning = false;
