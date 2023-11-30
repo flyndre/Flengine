@@ -40,7 +40,7 @@ public class Controller {
     public static Move giveMove(Board board, Options options) {
         for (var moveProvider : moveProviderHierarchy) {
             logger.info("Requesting moves from: [" + moveProvider.getClass().getName() + "]");
-            var moves = moveProvider.getRecommendedMoves(board);
+            var moves = moveProvider.getRecommendedMoves(board, options);
             if (moves != null && !moves.isEmpty()){
                 logger.info("Received: [" + moves.size() + " moves]");
                 Move bestMove =  moves.get(

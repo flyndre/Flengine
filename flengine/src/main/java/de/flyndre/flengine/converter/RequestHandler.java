@@ -53,7 +53,10 @@ public class RequestHandler {
                         }
                         StdoutWriter.writeToStdout(difficultyOptions.toString());
                         logger.info("Indicated difficulty option to gui: " + difficultyOptions.toString());
-
+                        ////recursion depth
+                        StringBuilder recursiveDepthOptions = new StringBuilder("option name RecursiveDepth type spin default " + this.options.getRecursionDepth() + " min 1 max 10");
+                        StdoutWriter.writeToStdout(recursiveDepthOptions.toString());
+                        logger.info("Indicated recursive depth option to gui: " + recursiveDepthOptions.toString());
                         //uciok
                         StdoutWriter.writeToStdout("uciok");
                         logger.info("Finished initial communication with gui.");
@@ -71,6 +74,11 @@ public class RequestHandler {
                                     } catch (IllegalArgumentException e) {
                                         logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");
                                     }
+                                }
+                                case "RecursiveDepth" -> {
+                                    int recursiveDepth = Integer.parseInt(splittedInput[4]);
+                                    this.options.setRecursionDepth(recursiveDepth);
+                                    logger.info("Changed option recursiveDepth to [" + recursiveDepth + "].");
                                 }
                                 default -> logger.warning("The value [" + splittedInput[2] + "] is not a supported option.");
                             }
