@@ -64,23 +64,23 @@ public class RequestHandler {
                     case "setoption":
                         //read the given option and change the value in the options object accordingly
                         logger.info("Recognized setoption command from gui.");
-                        if (splittedInput.length > 4) {
+                        if (splittedInput.length > 3) {
                             switch (splittedInput[2]) {
                                 case "Difficulty" -> {
                                     try {
-                                        var difficulty = Difficulty.valueOf(splittedInput[4].toUpperCase());
+                                        var difficulty = Difficulty.valueOf(splittedInput[3].toUpperCase());
                                         this.options.setDifficulty(difficulty);
                                         logger.info("Changed option difficulty to [" + difficulty + "].");
                                     } catch (IllegalArgumentException e) {
-                                        logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");
+                                        logger.warning("The value [" + splittedInput[3] + "] is not a valid difficulty.");
                                     }
                                 }
                                 case "RecursiveDepth" -> {
-                                    int recursiveDepth = Integer.parseInt(splittedInput[4]);
+                                    int recursiveDepth = Integer.parseInt(splittedInput[3]);
                                     this.options.setRecursionDepth(recursiveDepth);
                                     logger.info("Changed option recursiveDepth to [" + recursiveDepth + "].");
                                 }
-                                default -> logger.warning("The value [" + splittedInput[2] + "] is not a supported option.");
+                                default -> logger.warning("The value [" + splittedInput[3] + "] is not a supported option.");
                             }
                         }
                         break;
