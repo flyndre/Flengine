@@ -35,8 +35,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/flengine/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       #Test the application using Maven
-      #- name: Test with Maven
-       # run: mvn -Dtest=FleventsBackendApplicationTests test --file flengine/pom.xml
+      - name: Test with Maven
+        run: mvn -Dtest=FleventsBackendApplicationTests test --file flengine/pom.xml
       #Test the application using Maven - all Tests
       - name: Test with Maven - all
         run: mvn test --file flengine/pom.xml
