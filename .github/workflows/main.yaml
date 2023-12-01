@@ -64,7 +64,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '20'
+          java-version: '21'
       #Set up Maven cache
       - name: Cache Maven packages
         #This action allows caching dependencies and build outputs to improve workflow execution time.
@@ -98,7 +98,7 @@ jobs:
         path: flengine
      - run: for file in flengine/*.jar; do mv "$file" "flengine/flengine.jar"; done
      - name: create bat
-       run: echo "java -jar flengine.jar" >> flengine/flengine.bat
+       run: echo "java -jar -Dde.flyndre.flengine.logging.uci=true flengine.jar" >> flengine/flengine.bat
      - name: zip release
        uses: montudor/action-zip@v1
        with:
@@ -115,7 +115,7 @@ jobs:
     needs: pack_release
     continue-on-error: false
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v') && contains('refs/heads/develop refs/heads/main refs/heads/test/workflow ', github.ref)
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
     - name: Download zip
       uses: actions/download-artifact@v2.1.1

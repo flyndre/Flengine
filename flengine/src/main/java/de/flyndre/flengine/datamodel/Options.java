@@ -1,39 +1,36 @@
 package de.flyndre.flengine.datamodel;
 
-import de.flyndre.flengine.datamodel.enums.optionenums.EngineDifficulty;
+import de.flyndre.flengine.datamodel.enums.Difficulty;
 
 /**
- * This class provides a data model to store options selected over UCI commands.
- * It's currently not implemented and only there to be build in the functions to add later these options.
+ * This class provides a data model to store options specified via UCI commands.
  * @author Lukas
  */
 public class Options {
 
     /**
-     * Represents the difficulty of the engine.
-     * Values are specified in the enum EngineDifficulty ranging from 1 (easiest) to 100 (hardest).
+     * Used to tweak the difficulty of the engine.
+     * Values are specified in the enum {@code EngineDifficulty}.
      */
-    private EngineDifficulty engineDifficulty = EngineDifficulty.Normal;
+    private Difficulty difficulty = Difficulty.NORMAL;
     /**
-     * Specifies whether UCI Debug Mode is activated.
-     * DOES NOT NEED TO BE SPECIFIED BY GUI WITH OPTION COMMAND!
-     * Gets set with the debug command
+     * Used to tweak the max recursive depth of the MiniMax-Algorithm
      */
-    private boolean debugMode = false;
+    private int recursionDepth = 3;
 
-    public EngineDifficulty getEngineDifficulty() {
-        return engineDifficulty;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setEngineDifficulty(EngineDifficulty engineDifficulty) {
-        this.engineDifficulty = engineDifficulty;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public boolean isDebugMode() {
-        return debugMode;
+    public int getRecursionDepth() {
+        return recursionDepth;
     }
 
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
+    public void setRecursionDepth(int recursionDepth) {
+        this.recursionDepth = recursionDepth;
     }
 }

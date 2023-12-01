@@ -4,7 +4,7 @@ package de.flyndre.flengine.converter;
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
 import de.flyndre.flengine.datamodel.Options;
-import de.flyndre.flengine.enginecontroller.Controller;
+import de.flyndre.flengine.controller.Controller;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

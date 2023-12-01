@@ -1,5 +1,6 @@
 package de.flyndre.flengine.moveprovider;
 
+import de.flyndre.flengine.datamodel.Options;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import de.flyndre.flengine.converter.Converter;
@@ -40,7 +41,7 @@ public class Openings implements MoveProvider {
      * @return A list of recommended moves in this situation which may be empty if none were found.
      */
     @Override
-    public List<Move> getRecommendedMoves(Board board) {
+    public List<Move> getRecommendedMoves(Board board, Options options) {
         var fenString = Converter.convertBoardToString(board);
         var request = new Request.Builder()
                 .url("https://explorer.lichess.ovh/masters?fen=" + fenString + "&topGames=0")

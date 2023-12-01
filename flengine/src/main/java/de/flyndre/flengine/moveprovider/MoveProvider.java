@@ -2,6 +2,8 @@ package de.flyndre.flengine.moveprovider;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Options;
+
 import java.util.List;
 
 /**
@@ -14,5 +16,5 @@ public interface MoveProvider {
      * @param board The current board.
      * @return A list of recommended moves in this situation which may be empty if none were found.
      */
-    List<Move> getRecommendedMoves(Board board);
+    List<Move> getRecommendedMoves(Board board, Options options);
 }
