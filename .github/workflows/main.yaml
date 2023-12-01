@@ -26,8 +26,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '21'
-      - run: ls -R
-      - run: cd flengine/flengine
       - name: Test with Maven - all
         run: mvn test --file flengine/pom.xml
 
