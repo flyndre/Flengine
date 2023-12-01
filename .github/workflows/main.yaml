@@ -26,9 +26,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '21'
-      - name: Build and test
-        shell: bash
-        run: sbt -v +test
+      - name: Test with Maven - all
+        run: mvn '-Dtest=de.flyndre.flengine.*Test' test
 
 
   build_backend:
