@@ -1,9 +1,6 @@
 package de.flyndre.flengine.moveprovider.minmax;
 
-import de.flyndre.flengine.datamodel.Board;
-import de.flyndre.flengine.datamodel.Field;
-import de.flyndre.flengine.datamodel.Move;
-import de.flyndre.flengine.datamodel.Piece;
+import de.flyndre.flengine.datamodel.*;
 import de.flyndre.flengine.datamodel.enums.Color;
 import de.flyndre.flengine.datamodel.enums.Type;
 import de.flyndre.flengine.rules.Rule;
@@ -28,14 +25,15 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
     Move move;
     volatile int currentLevel;
     private final Color playerColor;
-    private final int MAXLEVEL = 3;
+    private final int MAXLEVEL;
     private final Rule legalMoveProvider = new Rule();
 
-    public RecursiveMinMaxTask(Board board, Move move, int currentLevel, Color playerColor){
+    public RecursiveMinMaxTask(Board board, Move move, int currentLevel, Color playerColor, int recursiveLevel){
         this.board = board;
         this.move = move;
         this.currentLevel = currentLevel;
         this.playerColor = playerColor;
+        this.MAXLEVEL = recursiveLevel;
     }
 
     /**
@@ -62,7 +60,7 @@ public class RecursiveMinMaxTask extends RecursiveTask<Integer> {
         HashMap<Move, ForkJoinTask<Integer>> taskHashMap = new HashMap<>();
 
         legalMoves.forEach(move -> {
-            RecursiveMinMaxTask task = new RecursiveMinMaxTask(newBoard, move, currentLevel+1, playerColor);
+            RecursiveMinMaxTask task = new RecursiveMinMaxTask(newBoard, move, currentLevel+1, playerColor, MAXLEVEL);
             ForkJoinTask<Integer> runningTask = getPool().submit(task);
             taskHashMap.put(move, runningTask);
         });

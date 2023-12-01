@@ -13,6 +13,10 @@ public class Options {
      * Values are specified in the enum {@code EngineDifficulty}.
      */
     private Difficulty difficulty = Difficulty.NORMAL;
+    /**
+     * Used to tweak the max recursive depth of the MiniMax-Algorithm
+     */
+    private int recursionDepth = 3;
 
     public Difficulty getDifficulty() {
         return difficulty;
@@ -22,4 +26,11 @@ public class Options {
         this.difficulty = difficulty;
     }
 
+    public int getRecursionDepth() {
+        return recursionDepth;
+    }
+
+    public void setRecursionDepth(int recursionDepth) {
+        this.recursionDepth = recursionDepth;
+    }
 }

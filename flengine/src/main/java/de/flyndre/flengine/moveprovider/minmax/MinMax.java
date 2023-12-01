@@ -2,6 +2,7 @@ package de.flyndre.flengine.moveprovider.minmax;
 
 import de.flyndre.flengine.datamodel.Board;
 import de.flyndre.flengine.datamodel.Move;
+import de.flyndre.flengine.datamodel.Options;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.rules.Rule;
 
@@ -25,7 +26,7 @@ public class MinMax implements MoveProvider {
      * @return A list of recommended moves in this situation which may be empty if none were found.
      */
     @Override
-    public List<Move> getRecommendedMoves(Board board) {
+    public List<Move> getRecommendedMoves(Board board, Options options) {
         logger.info("Starting Calculation of Minimax.");
         List<Move> availableMoves = legalMoveProvider.getLegalMoves(board, board.getNextColor());
 
@@ -35,7 +36,7 @@ public class MinMax implements MoveProvider {
         ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors()-2);
 
         availableMoves.forEach(move -> {
-            RecursiveMinMaxTask task = new RecursiveMinMaxTask(board, move, 1, board.getNextColor());
+            RecursiveMinMaxTask task = new RecursiveMinMaxTask(board, move, 1, board.getNextColor(), options.getRecursionDepth());
             ForkJoinTask<Integer> runningTask = forkJoinPool.submit(task);
             taskHashMap.put(move, task);
         });

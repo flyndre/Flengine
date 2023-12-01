@@ -1,5 +1,6 @@
 package de.flyndre.flengine.moveprovider;
 
+import de.flyndre.flengine.datamodel.Options;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import de.flyndre.flengine.converter.Converter;
@@ -52,7 +53,7 @@ public class Endgame implements MoveProvider {
      * @return A list of recommended moves in this situation which may be empty if none were found.
      */
     @Override
-    public List<Move> getRecommendedMoves(Board board) {
+    public List<Move> getRecommendedMoves(Board board, Options options) {
         var pieceCount = board.pieceCount();
         if (board.pieceCount() > 7) {
             logger.info("The given board has more than 7 pieces left: [" + pieceCount + "]");
