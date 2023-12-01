@@ -29,7 +29,6 @@ public class EngineTest {
 
         boards.forEach(board -> {
             Move move = Controller.giveMove(board, new Options());
-            move = null;
             assertNotNull(move);
         });
     }
