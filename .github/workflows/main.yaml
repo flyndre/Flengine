@@ -29,7 +29,7 @@ jobs:
       - run: ls -R
       - run: cd flengine/flengine
       - name: Test with Maven - all
-        run: mvn '-Dtest=de.flyndre.flengine.*Test' test
+        run: mvn test --file flengine/pom.xml
 
 
   build_backend:
