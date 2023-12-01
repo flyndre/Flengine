@@ -7,6 +7,7 @@ import de.flyndre.flengine.moveprovider.Endgame;
 import de.flyndre.flengine.moveprovider.minmax.MinMax;
 import de.flyndre.flengine.moveprovider.MoveProvider;
 import de.flyndre.flengine.moveprovider.Openings;
+import de.flyndre.flengine.moveprovider.minmaxvirtual.VirtualMinMax;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Controller {
     private static final List<MoveProvider> moveProviderHierarchy = Arrays.asList(
             new Openings(),
             new Endgame(),
-            new MinMax()
+            new VirtualMinMax()
     );
 
     /**
