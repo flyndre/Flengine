@@ -28,10 +28,7 @@ public class Board {
      * Stores the color of the next on turn player.
      */
     private Color nextColor = Color.WHITE;
-    /**
-     * Stores the en passantable field, if the opponent moved his pawn in the previous turn by two fields.
-     */
-    private Field enPassantField = null;
+    
     /**
      * Number of the next move to be done on the board. This is important for fen string support.
      */
