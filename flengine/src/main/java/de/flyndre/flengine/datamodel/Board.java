@@ -15,6 +15,11 @@ import java.util.Objects;
  */
 public class Board {
     /**
+     * Represents the en passant field.
+     * If not existing the value is null.
+     */
+    private Field enPassantField = null;
+    /**
      * Represents the chess board with all figures on it.
      * First line second row
      */
@@ -139,6 +144,27 @@ public class Board {
         //check whether move is a promotion
         if(move.getPromoteTo() != null){
             setPiece(new Piece(move.getPromoteTo(), getPiece(move.getTo()).getColor()), move.getTo());
+        }
+
+        //check for en passant
+        if(getPiece(move.getTo()).getTypeOfFigure() == Type.PAWN){
+            if(move.getFrom().getLine() == Line.TWO){
+                if(move.getTo().getLine() == Line.FOUR){
+                    this.enPassantField = new Field(Line.THREE, move.getFrom().getRow());
+                }else{
+                    this.enPassantField = null;
+                }
+            }else if(move.getFrom().getLine() == Line.SEVEN){
+                if(move.getTo().getLine() == Line.FIVE){
+                    this.enPassantField = new Field(Line.SIX, move.getFrom().getRow());
+                }else{
+                    this.enPassantField = null;
+                }
+            }else{
+                this.enPassantField = null;
+            }
+        }else {
+            this.enPassantField = null;
         }
 
         if(this.nextColor==Color.BLACK){
@@ -288,5 +314,13 @@ public class Board {
         b.whiteShortCastling = this.whiteShortCastling;
         b.blackShortCastling = this.blackShortCastling;
         return b;
+    }
+
+    public Field getEnPassantField() {
+        return enPassantField;
+    }
+
+    public void setEnPassantField(Field enPassantField) {
+        this.enPassantField = enPassantField;
     }
 }
