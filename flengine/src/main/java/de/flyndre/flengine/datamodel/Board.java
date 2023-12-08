@@ -24,6 +24,10 @@ public class Board {
      */
     private Color nextColor = Color.WHITE;
     /**
+     * Stores the en passantable field, if the opponent moved his pawn in the previous turn by two fields.
+     */
+    private Field enPassantField = null;
+    /**
      * Number of the next move to be done on the board. This is important for fen string support.
      */
     private int moveCounter = 1;
@@ -81,6 +85,15 @@ public class Board {
             }
         }
 
+        // check if the move to play is an en passant move
+        if ((getPiece(move.getFrom()).equals(new Piece(Type.PAWN, Color.WHITE)) || getPiece(move.getFrom()).equals(new Piece(Type.PAWN, Color.BLACK))) &&
+                (!move.getTo().getLine().equals(move.getFrom().getLine()) && !move.getTo().getRow().equals(move.getFrom().getRow())) &&
+                getPiece(move.getTo()) == null) {
+
+            // remove the indirectly captured pawn
+            setPiece(null, new Field(move.getFrom().getLine(), move.getTo().getRow()));
+        }
+
         //set piece on to-field
         setPiece(getPiece(move.getFrom()),move.getTo());
         //delete piece from from-field
@@ -134,6 +147,15 @@ public class Board {
             this.nextColor = Color.BLACK;
         }
 
+        // set en passant field
+        if (getPiece(move.getTo()).equals(new Piece(Type.PAWN, Color.WHITE)) && move.getFrom().getLine() == Line.TWO && move.getTo().getLine() == Line.FOUR) {
+            enPassantField = new Field(Line.THREE, move.getTo().getRow());
+        } else if (getPiece(move.getTo()).equals(new Piece(Type.PAWN, Color.BLACK)) && move.getFrom().getLine() == Line.SEVEN && move.getTo().getLine() == Line.FIVE) {
+            enPassantField = new Field(Line.SIX, move.getTo().getRow());
+        } else {
+            enPassantField = null;
+        }
+
         moveCounter++;
     }
 
@@ -179,6 +201,14 @@ public class Board {
         this.nextColor = nextColor;
     }
 
+
+    public Field getEnPassantField() {
+        return enPassantField;
+    }
+
+    public void setEnPassantField(Field enPassantField) {
+        this.enPassantField = enPassantField;
+    }
 
     public boolean getWhiteShortCastling(){
         return this.whiteShortCastling;

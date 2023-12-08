@@ -95,25 +95,19 @@ public class PieceRule {
             moves.add(new Move(field, new Field(LINES[fieldLine + 2*direction], ROWS[fieldRow])));
         }
 
-        boolean canEnPassant = true; // TODO echte werte für en passant einbinden
-
-        /* en passant
-        if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) ||
-                field.getLine().equals(Line.FOUR) && board.getPiece(field).getColor().equals(Color.BLACK)))
+        if (board.getEnPassantField() != null)
         {
-            if (canEnPassant && fieldRow > 0 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])) != null &&
-                    board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                    !board.getPiece(new Field(field.getLine(), ROWS[fieldRow - 1])).getColor().equals(color))
-            {
-                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow - 1]))); // TODO move muss bauern schmeissen
+            if ((board.getPiece(field).getColor().equals(Color.WHITE) && field.getLine().equals(Line.FIVE) &&
+                    board.getEnPassantField().getLine().equals(Line.SIX) &&
+                    Math.abs(field.getRow().ordinal() - board.getEnPassantField().getRow().ordinal()) == 1)) {
+                moves.add(new Move(field, board.getEnPassantField()));
             }
-            if (canEnPassant && fieldRow < 8 && board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])) != null &&
-                    board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getTypeOfFigure().equals(Type.PAWN) &&
-                    !board.getPiece(new Field(field.getLine(), ROWS[fieldRow + 1])).getColor().equals(color))
-            {
-                moves.add(new Move(field, new Field(LINES[fieldLine + direction], ROWS[fieldRow + 1]))); // TODO move muss bauern schmeissen
+            if ((board.getPiece(field).getColor().equals(Color.BLACK) && field.getLine().equals(Line.FOUR) &&
+                    board.getEnPassantField().getLine().equals(Line.THREE) &&
+                    Math.abs(field.getRow().ordinal() - board.getEnPassantField().getRow().ordinal()) == 1)) {
+                moves.add(new Move(field, board.getEnPassantField()));
             }
-        }*/
+        }
 
         return moves;
     }
