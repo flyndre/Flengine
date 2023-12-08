@@ -28,7 +28,7 @@ public class Board {
      * Stores the color of the next on turn player.
      */
     private Color nextColor = Color.WHITE;
-    
+
     /**
      * Number of the next move to be done on the board. This is important for fen string support.
      */
@@ -223,15 +223,7 @@ public class Board {
     public void setNextColor(Color nextColor) {
         this.nextColor = nextColor;
     }
-
-
-    public Field getEnPassantField() {
-        return enPassantField;
-    }
-
-    public void setEnPassantField(Field enPassantField) {
-        this.enPassantField = enPassantField;
-    }
+    
 
     public boolean getWhiteShortCastling(){
         return this.whiteShortCastling;
