@@ -70,17 +70,17 @@ public class RequestHandler {
                                     try {
                                         var difficulty = Difficulty.valueOf(splittedInput[4].toUpperCase());
                                         this.options.setDifficulty(difficulty);
-                                        logger.info("Changed option difficulty to [" + difficulty + "].");
+                                        logger.info("Changed option difficulty to [" + difficulty.toReadableString() + "].");
                                     } catch (IllegalArgumentException e) {
-                                        logger.warning("The value [" + splittedInput[3] + "] is not a valid difficulty.");
+                                        logger.warning("The value [" + splittedInput[4] + "] is not a valid difficulty.");
                                     }
                                 }
                                 case "RecursiveDepth" -> {
-                                    int recursiveDepth = Integer.parseInt(splittedInput[3]);
+                                    int recursiveDepth = Integer.parseInt(splittedInput[4]);
                                     this.options.setRecursionDepth(recursiveDepth);
                                     logger.info("Changed option recursiveDepth to [" + recursiveDepth + "].");
                                 }
-                                default -> logger.warning("The value [" + splittedInput[3] + "] is not a supported option.");
+                                default -> logger.warning("The value [" + splittedInput[4] + "] is not a supported option.");
                             }
                         }
                         break;
