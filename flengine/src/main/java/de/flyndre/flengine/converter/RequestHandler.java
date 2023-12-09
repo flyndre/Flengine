@@ -68,7 +68,7 @@ public class RequestHandler {
                             switch (splittedInput[2]) {
                                 case "Difficulty" -> {
                                     try {
-                                        var difficulty = Difficulty.valueOf(splittedInput[3].toUpperCase());
+                                        var difficulty = Difficulty.valueOf(splittedInput[4].toUpperCase());
                                         this.options.setDifficulty(difficulty);
                                         logger.info("Changed option difficulty to [" + difficulty + "].");
                                     } catch (IllegalArgumentException e) {
