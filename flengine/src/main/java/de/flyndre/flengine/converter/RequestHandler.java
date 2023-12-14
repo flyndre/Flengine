@@ -143,7 +143,7 @@ public class RequestHandler {
                         //shutdown engine
                         logger.info("Recognized quit command. Shutting down engine.");
                         if (organizer != null)
-                            organizer.stopCalulations();
+                            organizer.stopCalculations();
                         isRunning = false;
                         break;
                     default:

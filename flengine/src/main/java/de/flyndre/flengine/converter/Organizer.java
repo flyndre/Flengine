@@ -57,7 +57,7 @@ public class Organizer {
     /**
      * stops the executor service with the calculation tasks
      */
-    public void stopCalulations(){
+    public void stopCalculations(){
         executor.shutdownNow();
     }
 }
