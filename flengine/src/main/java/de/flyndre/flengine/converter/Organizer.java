@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class organizes the calculation of a next best move to a given cess board.
+ * This class organizes the calculation of a next best move to a given chess board.
  * It converts the string representation to the engine data model and provides a method to calculate a next move.
  * @author Lukas
  */
@@ -57,7 +57,7 @@ public class Organizer {
     /**
      * stops the executor service with the calculation tasks
      */
-    public void stopCalulations(){
+    public void stopCalculations(){
         executor.shutdownNow();
     }
 }

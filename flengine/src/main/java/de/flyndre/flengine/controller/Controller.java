@@ -45,9 +45,9 @@ public class Controller {
                 logger.info("Received: [" + moves.size() + " moves]");
                 Move bestMove =  moves.get(
                         (int) Math.floor(
-                                // Squaring the random number to control which items are more probable:
+                                // Squaring the difficulty's int value to control which items are more probable:
                                 // (1) A higher exponent makes the front items of the list more probable.
-                                // (2) Because the front moves should be the better ones, this makes
+                                // (2) Because the front moves are expected to be the better ones, this makes
                                 //     the engine more difficult.
                                 //
                                 // (*) The modulo 1 is needed to prevent values greater than 1 if
