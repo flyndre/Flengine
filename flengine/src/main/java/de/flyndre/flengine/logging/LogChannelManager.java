@@ -58,7 +58,7 @@ public abstract class LogChannelManager {
     }
 
     /**
-     * States wheter the {@code LogChannel} of the given {@code LogChannelType} is currently open.
+     * States whether the {@code LogChannel} of the given {@code LogChannelType} is currently open.
      * @param type the {@code LogChannelType} of the channel
      * @return the current <i>open</i> status
      */
