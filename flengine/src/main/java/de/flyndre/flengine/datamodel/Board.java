@@ -170,15 +170,6 @@ public class Board {
             this.nextColor = Color.BLACK;
         }
 
-        // set en passant field
-        /*if (getPiece(move.getTo()).equals(new Piece(Type.PAWN, Color.WHITE)) && move.getFrom().getLine() == Line.TWO && move.getTo().getLine() == Line.FOUR) {
-            enPassantField = new Field(Line.THREE, move.getTo().getRow());
-        } else if (getPiece(move.getTo()).equals(new Piece(Type.PAWN, Color.BLACK)) && move.getFrom().getLine() == Line.SEVEN && move.getTo().getLine() == Line.FIVE) {
-            enPassantField = new Field(Line.SIX, move.getTo().getRow());
-        } else {
-            enPassantField = null;
-        }*/
-
         moveCounter++;
     }
 
