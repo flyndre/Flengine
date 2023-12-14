@@ -126,8 +126,6 @@ public class Rule extends PieceRule {
      */
     public boolean isRemis(Board board) {
 
-        // TODO weitere remis-regeln implementieren
-
         return (getLegalMoves(board, Color.WHITE).isEmpty() || getLegalMoves(board, Color.BLACK).isEmpty());
     }
 
