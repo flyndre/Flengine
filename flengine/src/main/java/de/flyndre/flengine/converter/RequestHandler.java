@@ -12,19 +12,41 @@ import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+/**
+ * This class is the startup point of the chess engine.
+ * It handles the uci communication between the organizer class and the chess gui.
+ */
 public class RequestHandler {
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
+    /**
+     * Specifies the engine name which will be used in uci communication.
+     */
     private final String engineName = "Flengine";
+    /**
+     * Specifies the engine author which will be used in uci communication.
+     */
     private final String engineAuthor = "TeamFlyndre";
     private String position = "";
     private String[] moves = {};
+    /**
+     * Scanner object for reading the input from the gui.
+     */
     private Scanner systemInScanner;
+    /**
+     * Organizer object used for the engine calculations.
+     * Will be newly created for every calculation to be done.
+     */
     private Organizer organizer;
+    /**
+     * The option object which is used by the engine.
+     * It stores the values of all options currently set over uci and is given to the organizer objects on creation.
+     */
     private Options options;
 
     /**
-     * Startup for the chess engine
+     * Startup for the chess engine.
+     * Handles the uci communication with the engine and the organizer.
      */
     public void startUp(){
         systemInScanner = new Scanner(System.in);
