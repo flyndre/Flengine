@@ -126,7 +126,7 @@ public class Converter {
             //decode en passant
             String enPassant = split[3];
             if(!enPassant.equals("-")){
-                Field enPassantField = new Field(convertIntToLine(enPassant.charAt(1)), convertCharToRow(enPassant.charAt(0)));
+                Field enPassantField = new Field(convertIntToLine(enPassant.charAt(1) - '0'), convertCharToRow(enPassant.charAt(0)));
                 board.setEnPassantField(enPassantField);
             }else{
                 board.setEnPassantField(null);
