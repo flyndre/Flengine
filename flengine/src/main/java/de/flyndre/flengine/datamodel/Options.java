@@ -16,7 +16,7 @@ public class Options {
     /**
      * Used to tweak the max recursive depth of the MiniMax-Algorithm
      */
-    private int recursionDepth = 3;
+    private int recursionDepth = 4;
 
     public Difficulty getDifficulty() {
         return difficulty;
