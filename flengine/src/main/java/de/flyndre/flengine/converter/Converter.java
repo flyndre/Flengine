@@ -124,6 +124,13 @@ public class Converter {
             }
 
             //decode en passant
+            String enPassant = split[3];
+            if(!enPassant.equals("-")){
+                Field enPassantField = new Field(convertIntToLine(enPassant.charAt(1) - '0'), convertCharToRow(enPassant.charAt(0)));
+                board.setEnPassantField(enPassantField);
+            }else{
+                board.setEnPassantField(null);
+            }
 
             //decode half moves
 
@@ -224,7 +231,14 @@ public class Converter {
 
         //get en passant information
         //not implemented yet, hardcoded dummy value
-        fen += " -";
+        if(!(board.getEnPassantField()==null)){
+            String enPassantString = "";
+            enPassantString += convertRowToChar(board.getEnPassantField().getRow());
+            enPassantString += convertLineToInt(board.getEnPassantField().getLine());
+            fen += (" " + enPassantString);
+        }else{
+            fen += " -";
+        }
 
         //get half moves information
         //not implemented yet, hardcoded dummy value

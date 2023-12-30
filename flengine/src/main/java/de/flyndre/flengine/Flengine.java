@@ -15,7 +15,6 @@ public class Flengine {
     }
 
     public static void main(String[] args) {
-        var handler = new RequestHandler();
-        handler.startUp();
+        new RequestHandler().startUp();
     }
 }
