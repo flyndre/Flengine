@@ -6,10 +6,10 @@ Wie in folgender Abbildung dargestellt, wird Flengine als JAR-Datei ausgeliefert
 
 Wie genau die Installation und Verwendung funktioniert wird in den folgenden Abschnitten erklärt:
 
-*   [Voraussetzungen](#voraussetzungen)
-*   [Installation](#installation)
-*   [Konfiguration](#konfiguration)
-*   [Verwendung](#verwendung)
+-   [Voraussetzungen](#voraussetzungen)
+-   [Installation](#installation)
+-   [Konfiguration](#konfiguration)
+-   [Verwendung](#verwendung)
 
 # Voraussetzungen
 
@@ -18,26 +18,22 @@ Um die Flengine nutzen zu können muss mindestens die JRE 21 installiert sein. H
 # Installation
 
 1.  **Installation von Cutechess**
-    
 
 Cutechess kann auf Github heruntergeladen werden. Cutechess ist das verwendete Frontend und wird von den Entwicklern empfohlen. Unter folgendem Link kann der Release 1.3.1 heruntergeladen werden:
 
 [https://github.com/cutechess/cutechess/releases/tag/v1.3.1](https://github.com/cutechess/cutechess/releases/tag/v1.3.1)
 
 2.  **Herunterladen der Flengine**
-    
 
 Die Flengine kann ebenfalls über den Github Release heruntergeladen werden. Wir empfehlen dabei den neusten Release zu verwenden um mögliche Bugs, Fehlern oder falschen Spielzügen vorzubeugen.
 
 [https://github.com/L4kiLuk/Flengine](https://github.com/L4kiLuk/Flengine)
 
 3.  **Entpacken der Flengine**
-    
 
 Die heruntergeladene Zip-Datei muss jetzt entpackt werden. Alle Inhalte des Ordners müssen im selben Ordner liegen. Im Ordner müssen sich nach dem Entpacken also eine JAR-Datei sowie aus ein BAT-Skript befinden.
 
 4.  **Hinzufügen der Engine in Cutechess**
-    
 
 Dieser Schritt ist von Schach-UI zu Schach-UI anders. Da anhand von Cutechess getestet wird, wird dieser Vorgang daher hier erklärt. Wenn ein anderes UI verwendet wird muss sichergestellt werden, das es das UCI-Protokoll unterstützt und dieses auch ausgewählt ist.
 
@@ -69,7 +65,7 @@ Klickt man nun auf “OK”, ist die Engine im UI hinzugefügt.
 
 # Konfiguration
 
-Wie in [Optionen](../../flengine/querschnittliche-konzeption/optionen.md) beschrieben, unterstützt Flengine das Anpassen über UCI-Options. Um in Cutechess diese Einstellungen vorzunehmen, muss wie im vorherigen Schritt beschrieben, die Engine-Liste geöffnet werden. Dort muss dann “Flengine” ausgewählt und auf das Schraubenschlüssel-Icon am unteren Fensterrand geklickt werden:
+Wie in [Optionen](../../docs/querschnittliche-konzeption/optionen.md) beschrieben, unterstützt Flengine das Anpassen über UCI-Options. Um in Cutechess diese Einstellungen vorzunehmen, muss wie im vorherigen Schritt beschrieben, die Engine-Liste geöffnet werden. Dort muss dann “Flengine” ausgewählt und auf das Schraubenschlüssel-Icon am unteren Fensterrand geklickt werden:
 
 ![](./attachments/image-20231230-111635.png)
 

@@ -12,6 +12,8 @@
 
 # Docs
 
+The docs for Flengine are based on the [arc42 documentation format](https://arc42.org/).
+
 > [!NOTE]  
 > Since this project has been conducted in German, the docs were created in German.
 
