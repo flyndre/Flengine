@@ -1,4 +1,4 @@
-![Flengine Logo](docs/flengine.png)
+![design_flat_wide](https://github.com/flyndre/Flengine/assets/20287307/cb89cee6-2313-4096-be63-cb9483648b2d)
 
 # Flengine
 A chess engine.
