@@ -18,7 +18,7 @@ Man erkennt schnell einen rekursiven Aufruf und eine sehr schlechte Laufzeit (ex
 
 Die maximale Tiefe des Rekursionsbaums wird über die UCI-Option `RecursiveDepth` eingestellt.
 
-Im folgenden kann der Ablauf des Minimax-Algorithmus nachvollzogen werden. Hierbei sind alle Komponenten dargestellt, die der Minmax benötigt, um zu funktionieren. Wichtig ist hier zu erwähnen, das der Algorithmus hier als eine Komponente dargestellt wird, sich jedoch in Minmax-Klasse sowie in die Klasse für den rekursiven Aufruf aufteilt. (Siehe [Subsystem MinMax](../../../flengine/bausteinsicht/ebene-2/subsystem-minmax.md))
+Im folgenden kann der Ablauf des Minimax-Algorithmus nachvollzogen werden. Hierbei sind alle Komponenten dargestellt, die der Minmax benötigt, um zu funktionieren. Wichtig ist hier zu erwähnen, das der Algorithmus hier als eine Komponente dargestellt wird, sich jedoch in Minmax-Klasse sowie in die Klasse für den rekursiven Aufruf aufteilt. (Siehe [Subsystem MinMax](../../../docs/bausteinsicht/ebene-2/subsystem-minmax.md))
 
 Das Diagramm zeigt nur einen Auszug des Ablaufes. Zurückgegeben wird eine sortierte Liste, wobei das erste Element den besten Zug beinhaltet.
 

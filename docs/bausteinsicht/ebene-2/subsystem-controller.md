@@ -6,4 +6,4 @@ Der statische `Controller` orchestriert die Anfragen der Zuggeber und selektiert
 
 Die statische Methode `giveMove(board: Board, options: Options): Move` nutzt die Zuggeber, um den für das aktuelle Board besten (bzw. passendsten) `Move` zu ermitteln.
 
-Der Schwierigkeitsgrad der Engine lässt sich über die Option `difficulty` einstellen (Dazu siehe auch [Options](../../../flengine/querschnittliche-konzeption/optionen.md)). Der Konkrete Umgang mit der Schwierigkeit ist in [Zugermittlung Controller](../../../flengine/laufzeitsicht/zugermittlung/zugermittlung-controller.md) nachzulesen.
+Der Schwierigkeitsgrad der Engine lässt sich über die Option `difficulty` einstellen (Dazu siehe auch [Options](../../../docs/querschnittliche-konzeption/optionen.md)). Der Konkrete Umgang mit der Schwierigkeit ist in [Zugermittlung Controller](../../../docs/laufzeitsicht/zugermittlung/zugermittlung-controller.md) nachzulesen.

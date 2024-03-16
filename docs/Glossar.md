@@ -12,13 +12,13 @@ Ein virtueller Gegner, der durch einen Computer simuliert wird. Die Flengine agi
 
 Teil der Architektur von Flengine. Agiert als Schnittstelle zwischen den verschiedenen Komponenten.
 
-[Subsystem Controller](../flengine/bausteinsicht/ebene-2/subsystem-controller.md)
+[Subsystem Controller](../docs/bausteinsicht/ebene-2/subsystem-controller.md)
 
 ### Converter
 
 Teil der Architektur von Flengine. Konvertiert die Eingabe zum Datenmodell der Flengine.
 
-[Subsystem Converter](../flengine/bausteinsicht/ebene-2/subsystem-converter.md)
+[Subsystem Converter](../docs/bausteinsicht/ebene-2/subsystem-converter.md)
 
 ### CuteChess
 
@@ -74,16 +74,16 @@ Univerlas Chess Interface. Ein Protokoll zur Kommunikation mit eine Engine
 
 ### Zugermittlung
 
-Das ermitteln eines Zuges für ein gegebenes Schachbrett.[Zugermittlung](../flengine/laufzeitsicht/zugermittlung.md)
+Das ermitteln eines Zuges für ein gegebenes Schachbrett.[Zugermittlung](../docs/laufzeitsicht/zugermittlung.md)
 
 ### Zuggeber
 
 Der Teil der Engine, welcher die Zugermittlung durchführt.
 
-[Interface MoveProvider](../flengine/bausteinsicht/ebene-2/interface-moveprovider.md)
+[Interface MoveProvider](../docs/bausteinsicht/ebene-2/interface-moveprovider.md)
 
 ### Zugüberprüfung
 
 Überprüfung auf Legalität des Zuges.
 
-[Subsystem Rules](../flengine/bausteinsicht/ebene-2/subsystem-rules.md)
+[Subsystem Rules](../docs/bausteinsicht/ebene-2/subsystem-rules.md)

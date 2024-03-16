@@ -1,6 +1,6 @@
 # Zugermittlung Converter
 
-Innerhalb des [Subsystems Converter](../../../flengine/bausteinsicht/ebene-2/subsystem-converter.md) startet eine vom GUI angefragte Zugermittlung. Der Ablauf ist folgendermaßen:
+Innerhalb des [Subsystems Converter](../../../docs/bausteinsicht/ebene-2/subsystem-converter.md) startet eine vom GUI angefragte Zugermittlung. Der Ablauf ist folgendermaßen:
 
 Die GUI sendet mit “position“ die Ausgangsposition und optional mit seitdem gespielten Zügen (dazu siehe [UCI-Ablauf](../../laufzeitsicht/uci-ablauf.md)). Auf das Kommando “go” startet der `RequestHandler` einen neuen `Organizer` mit den angegebenen Daten.
 
