@@ -1,4 +1,4 @@
-# Logging
+# Logging 🪵
 
 Für die Fehlersuche und Verbesserung der Engine ist Logging nützlich - insbesondere weil während der Nutzung mit einem GUI nicht in einer IDE gedebuggt werden kann.
 

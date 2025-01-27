@@ -32,4 +32,4 @@ Wie kann das Logging konfiguriert werden?
 
 ## Entscheidung:
 
--   Konfiguration programmatisch (via `LogChannelManager`, sh. [Logging](../../docs/querschnittliche-konzeption/logging.md))
+-   Konfiguration programmatisch (via `LogChannelManager`, sh. [Logging 🪵](../../docs/querschnittliche-konzeption/logging.md))

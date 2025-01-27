@@ -15,6 +15,6 @@ Die unterstützten Einstellungen können in der folgenden Tabelle eingesehen wer
 
 Wenn eine neue Berechnung gestartet wird übergibt das `RequestHandler`\-Objekt dem `Controller` einen Verweis auf das `Options`\-Objekt. Die Implementierung des Algorithmus für die Zugberechnung greift hierüber auf die aktuellen Einstellungen zu.
 
-Die Debug-Einstellung der Engine kann ebenfalls von der GUI über UCI geändert werden. Dies ist separat unter [Logging](../querschnittliche-konzeption/logging.md) dokumentiert.
+Die Debug-Einstellung der Engine kann ebenfalls von der GUI über UCI geändert werden. Dies ist separat unter [Logging 🪵](../querschnittliche-konzeption/logging.md) dokumentiert.
 
 Wie die Optionen im Schach-UI konfiguriert werden können, ist in [https://flengine.atlassian.net/wiki/spaces/SD/pages/9240577/Deployment#Konfiguration](https://flengine.atlassian.net/wiki/spaces/SD/pages/9240577/Deployment#Konfiguration) erklärt.
